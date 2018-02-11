@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>个人中心</title>
+	<link rel="stylesheet" type="text/css" href="css/myAlert.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		<div class="personalHead">
+			<a href="personalInfo.html">
+				<img src="images/img1.jpg" alt="" />
+				<p>昵称</p>
+				<i></i>
+			</a>
+		</div>
+		
+		<div class="bg_block"></div>
+		
+		<div class="personalList">
+			<div><a href="myCode.html"><img src="images/3-0ewma.png" alt="" /><span>我的二维码</span><i></i></a></div>
+			<div><a href="myRelease.html"><img src="images/3-0xsuo.png" alt="" /><span>我发布的线索</span><i></i></a></div>
+			<div><a href="mySales.html"><img src="images/3-0fxiao.png" alt="" /><span>我的分销</span><i></i></a></div>
+			<div><a href="myAccount.html"><img src="images/3-0zhu.png" alt="" /><span>我的账户</span><i></i></a></div>
+			<div><a href="systemMessages.html"><img src="images/3-0xtxxi.png" alt="" /><span>系统消息</span><i></i></a></div>
+		</div>
+		
+		<div class="bg_block"></div>
+		
+		<div class="personalList">
+			<div><a href="setting.html"><img src="images/3-0szhi.png" alt="" /><span>设置</span><i></i></a></div>
+		</div>
+		
+		<!--底部-->
+		<footer>
+			<div class="bottom">
+				<div>
+					<a href="index.html">
+						<img src="images/1-1swrz1.png" alt="" />
+						<p>商务入驻</p>
+					</a>
+				</div>
+				<div>
+					<a href="cluesRelease.html">
+						<img src="images/1-1xauo1.png" alt="" />
+						<p>发布线索</p>
+					</a>
+				</div>
+				<div class="active">
+					<a href="#">
+						<img src="images/1-1grzxin2.png" alt="" />
+						<p>个人中心</p>
+					</a>
+				</div>
+			</div>
+		</footer>
+	<script type="text/javascript">
+		$.ajax({
+	        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
+	        type:'get',
+	        dataType:'json',
+	        xhrFields:{  
+				withCredentials:true  
+			},  
+	        success:function(data){
+	        	if(isLogin(data)){
+	        		var data=data.data;
+	            	$('.personalHead img').attr('src',data.wximage)
+	            	$('.personalHead p').text(data.wxname)
+	        	}
+	        }
+	    });
+	</script>
+	</body>
+</html>

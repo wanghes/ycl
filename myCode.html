@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>我的二维码</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+	
+</head>
+	<body>
+		<div class="fixed-bg"></div>
+		<div class="perfectCode myCode">
+			<div>个人二维码：<span>分享二维码发展属于个人的二级分销商</span></div>
+			<img src="images/code.png" alt="" />
+		</div>
+		<div class="m-img-tip"><img src="images/3-3cabcun.png" alt="" /></div>
+		<div class="myCode-btn"><button>发展二级分销商</button></div>
+	</body>
+	<script type="text/javascript">
+
+		function fenxiang() {
+			$('#myCode-btn').click(function(){
+				wx.ready(function(){
+				    // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+				    var link = window.location.href;
+        			var protocol = window.location.protocol;
+        			var host = window.location.host;
+
+        			//分享朋友圈
+			        wx.onMenuShareTimeline({
+			            title: '这是一个自定义的标题！',
+			            link: link,
+			            imgUrl: protocol+'//'+host+'/resources/images/icon.jpg',// 自定义图标
+			            trigger: function (res) {
+			                // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回.
+			                alert('click shared');
+			            },
+			            success: function (res) {
+			                //alert('shared success');
+			                //some thing you should do
+			            },
+			            cancel: function (res) {
+			                alert('shared cancle');
+			            },
+			            fail: function (res) {
+			                //alert(JSON.stringify(res));
+			            }
+			        });
+
+			        //分享给好友
+			        wx.onMenuShareAppMessage({
+			            title: '这是一个自定义的标题！', // 分享标题
+			            desc: '这是一个自定义的描述！', // 分享描述
+			            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			            imgUrl: protocol+'//'+host+'/resources/images/icon.jpg', // 自定义图标
+			            type: 'link', // 分享类型,music、video或link，不填默认为link
+			            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			            success: function () {
+			                // 用户确认分享后执行的回调函数
+			            },
+			            cancel: function () {
+			            	alert('shared cancle');
+			                // 用户取消分享后执行的回调函数
+			            }
+			        });
+				});
+			});	
+		}
+
+		$.ajax({
+	        url: 'http://yichuanglian.huimor.com/index/development',
+	        type:'get',
+	        dataType:'json',
+	        xhrFields:{  
+				withCredentials:true  
+			},  
+	        success:function(data){
+	        	try{
+		        	var appId  = data.data.appId;
+		        	var nonceStr  = data.data.nonceStr;
+		        	var timestamp  = data.data.timestamp;
+		        	var signature  = data.data.signature;
+
+		    		wx.config({
+					    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					    appId: appId, // 必填，公众号的唯一标识     
+					　　timestamp: timestamp, // 必填，生成签名的时间戳
+					    nonceStr: nonceStr, // 必填，生成签名的随机串
+					    signature: signature,// 必填，签名，见附录1
+					    jsApiList: [
+					    	'onMenuShareTimeline',
+					    	'onMenuShareAppMessage',
+					    	'onMenuShareQQ'
+				    	] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+					});
+
+		    		fenxiang();
+	    		}catch(e){
+	    			alert(e)
+	    		}
+	        }
+	    });
+	</script>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>忘记密码</title>
+	<link rel="stylesheet" type="text/css" href="css/myAlert.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		
+		<div class="fixed-bg"></div>
+		<div class="enter-form">
+			<dl>
+				<dd><img src="images/1-1sjhao.png" alt="" /><input type="tel" name="tel" maxlength="11" placeholder="请输入11位有效手机号" /></dd>
+				<dd><img src="images/1-1mma.png" alt="" /><input type="password" placeholder="请输入6-12位数字+字母组成的密码" /></dd>
+				<dd><img src="images/1-1yzma.png" alt="" /><input type="tel" name="code" placeholder="请输入所获验证码" /><button class="code">获取验证码</button></dd>
+				<dd><button class="forgetBtn">保存</button></dd>
+			</dl>
+		</div>
+		<script type="text/javascript">
+			//倒计时
+			var codeTime = {
+			    node:null,
+			    count:60,
+			    start:function(){
+				    if(this.count > 0){
+				        this.node.innerHTML = this.count--+"秒后发送";
+				    	var _this = this;
+					    setTimeout(function(){
+					        _this.start();
+					    },1000);
+					}else{
+					    this.node.removeAttribute("disabled");
+					 	this.node.innerHTML = "再次发送";
+					    this.count = 60;
+					}
+				},
+				//初始化
+			   init:function(node){
+			      this.node = node;
+			      this.node.setAttribute("disabled",true);
+			      this.start();
+			   }
+			};
+			
+			//  验证码
+			$('.code').click(function(){
+				var tel=$('input[name="tel"]').val();
+				var _this=this;
+				$.ajax({
+			        url: 'http://yichuanglian.huimor.com/index/getsms',
+			        type:'post',
+			        data:{
+			        	mobile:tel,
+			            type:'2',
+			        },
+			        xhrFields:{  
+						withCredentials:true  
+					},  
+			        dataType:'json',
+			        success:function(data){
+			        	if(isLogin(data)){
+		        			codeTime.init(_this);
+			           	}	
+			        }
+			    });
+			});
+			
+			//忘记密码
+			$('.forgetBtn').click(function(){
+				var tel=$('input[name="tel"]').val();
+				var pwd=$('input[type="password"]').val();
+				var code=$('input[name="code"]').val();
+				if(pwd==''){
+					$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['密码不正确']
+					});
+					return false;
+				}
+				if(code==''){
+					$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['验证码不正确']
+					});
+					return false;
+				}
+				$.ajax({
+			        url: '://yichuanglian.huimor.com/index/forgetpwd',
+			        type:'post',
+			        data:{
+			        	mobile:tel,
+			            pwd:pwd,
+			            smscode:code
+			        },
+			        dataType:'json',
+			        success:function(data){
+			        	if(data.code==1){
+			           		window.location.href='login.html'
+			            }else{
+			            	$.toastTip({
+								img:'images/4-3gxfkui.png',
+								imgW:'1.56rem',
+								imgH:'1.5rem',
+								text:[data.msg]
+							});
+			            }
+			        }
+			    });
+		    });
+
+		</script>
+	</body>
+</html>

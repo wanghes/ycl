@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>我发布的线索</title>
+	<link rel="stylesheet" type="text/css" href="css/myAlert.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		<div class="tab_nav">
+			<div class="active"><span>对接中</span></div>
+			<div><span>对接成功</span></div>
+			<div><span>对接失败</span></div>
+		</div>
+		<div class="model" style="display: block;">
+			<!-- div class="list">
+				<div><span>项目名称111</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div>
+			<div class="list">
+				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div>
+			<div class="list">
+				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div> -->
+		</div>
+		<div class="model">
+			<!-- <div class="list">
+				<div><span>项目名称222</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div>
+			<div class="list">
+				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div>
+			<div class="list">
+				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div> -->
+		</div>
+		<div class="model">
+			<!-- <div class="list">
+				<div><span>项目名称333</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div>
+			<div class="list">
+				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div>
+			<div class="list">
+				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
+				<div><span>行业：</span>教育</div>
+				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
+				<div><span>期望提成比例：</span><em>10%</em></div>
+			</div> -->
+		</div>
+		
+		<!--没有线索-->
+		<div class="nothing">
+			<img src="images/3-10myxxi.png" alt="" />
+			<p>很抱歉，您还没有发布任何线索信息</p>
+			<a href="">立即发布</a>
+		</div>
+		<script type="text/javascript">
+
+			function jumpPage(clue_id, status){
+				var query = '?clues_id='+clue_id+'&status='+status;
+				var str = "";
+				switch(status){
+					case 1:
+					str = 'buttJointDetails.html'
+					break;
+					case 2:
+					str = 'buttJointSuccess.html'
+					break;
+					default:
+					str = 'buttJointError.html'
+				}
+				window.location.href = str+query;
+			}
+
+			function excuteAjax(index){
+				var status = index+1;
+				$.ajax({
+			        url: 'http://yichuanglian.huimor.com/index/cluemessage',
+			        type:'post',
+			        data:{
+			        	status:status,
+			        },
+			        dataType:'json',
+			        xhrFields:{  
+						withCredentials:true  
+					},  
+			        success:function(data){
+			        	if(isLogin(data)){
+			        		var str='';
+			        		var data=data.data;
+			        		for (i=0;i<data.length;i++) {
+			        			if(!isNaN(data[i].budget)){
+			        				data[i].budget = '￥'+data[i].budget
+			        			}
+			        			data[i].cate_name = data[i].cate_name.join(',');
+			        			data[i].addtime = data[i].addtime.slice(0,-3); //格式化日期
+		        				str+='<div class="list" data-id="'+data[i].id+'" onclick="jumpPage('+data[i].id+','+status+')">\
+										<div><span>'+data[i].projectname+'</span><span class="fr">'+data[i].addtime+'</span></div>\
+										<div><span>行业：</span>'+data[i].cate_name+'</div>\
+										<div><span>项目预算：</span><strong>￥'+data[i].budget+'</strong></div>\
+										<div><span>期望提成比例：</span><em>'+data[i].proportion+'%</em></div>\
+									</div>';
+		        			}
+			        	}
+			        	$('.model').eq(index).html(str);
+						$('.model').hide().eq(index).show();
+			        }
+				});
+			}
+
+			$('.tab_nav div').click(function(){
+				var index=$(this).index();
+				$(this).addClass('active').siblings().removeClass('active');
+				excuteAjax(index);
+			})
+
+			excuteAjax(0);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>登录</title>
+	<link rel="stylesheet" type="text/css" href="css/myAlert.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		
+		<!--头部-->
+		<div class="g-head">
+			<h3>易创链</h3>
+			<p>链接IT商务线索</p>
+			<div class="banner"></div>
+		</div>
+		
+		<div class="enter-form login-form">
+			<dl>
+				<dd><img src="images/1-1sjhao.png" alt="" /><input type="tel" name='tel' maxlength="11" placeholder="请输入11位有效手机号" /></dd>
+				<dd><img src="images/1-1mma.png" alt="" /><input type="password" name="password" placeholder="请输入6-12位数字+字母组成的密码" /></dd>
+				<dd><a href="enter.html">立即入驻</a><a href="forgetPwd.html">忘记密码</a></dd>
+			</dl>
+		</div>
+		
+		<div class="login-btn">
+			<button>登录</button>
+		</div>
+	<script src="js/t3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/home.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+			$('.login-btn button').click(function(){
+				var tel=$('input[name="tel"]').val();
+				var pwd=$('input[name="password"]').val();
+				if((tel=='')||(tel.length!=11)){
+					$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['手机号码不正确']
+					});
+					return false;
+				}
+				if(pwd==''){
+					$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['密码不能为空']
+					});
+					return false;
+				}
+				$.ajax({
+			        url: 'http://yichuanglian.huimor.com/index/login',
+			        type:'post',
+			        data:{
+			            mobile:tel,
+			            password:pwd,
+			        },
+			        dataType:'json',
+			        xhrFields:{  
+						withCredentials:true  
+					},  
+			        success:function(data){
+			            if(data.code==1){
+			           		window.location.href='index.html'
+			            }else{
+			            	$.toastTip({
+								img:'images/4-3gxfkui.png',
+								imgW:'1.56rem',
+								imgH:'1.5rem',
+								text:[data.msg]
+							});
+			            }
+			        }
+			    });
+		    });
+	</script>
+	</body>
+</html>

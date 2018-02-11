@@ -1,0 +1,20 @@
+* { margin: 0; padding: 0 }
+.clearfix:after { content: ''; display: table; width: 100%; clear: both }
+.myModa { position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.2); z-index: 5000 }
+.myModa .myAlertBox { width: 5.4rem; border-radius: .15rem; background: #fff; overflow: hidden; margin: 0 auto;box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.2);}
+.myModa .myAlertBox h6 {line-height: 1; font-size: .36rem; text-align: center;color: #333;margin: .3rem 0;}
+.myModa .myAlertBox h6 img{width: 1.53rem;height: 1.47rem;}
+.myModa .myAlertBox p { padding: 0 .25rem; line-height: .42rem; font-size: .28rem; color: #555;text-align: center;}
+.myModa .myAlertBox .col2{overflow: hidden;margin-top: .4rem;}
+.myModa .myAlertBox .col1{overflow: hidden;margin-top: .4rem;border-top: 1px solid #e4e5eb;}
+.myModa .myAlertBox .col1 .btn{font-size: .3rem;height: .8rem;line-height: .8rem;color: #666;width: 100%;}
+.myModa .myAlertBox .btn { cursor: pointer; width: 50%;text-align: center; font-size: .3rem; margin: 0 auto; }
+.myModa .myAlertBox .col2 .col { width: 50%; float: left;color: #fff;border-top: 1px solid #e4e5eb;height: .8rem;line-height: .8rem;}
+.myModa .myAlertBox .col2 .col .btn { width: 100% }
+.col2 .col .exit{color:#666;}
+.col2 .col .sure{color: #2e8cee;position: relative;}
+.col2 .col .sure:before{content: '';position: absolute;height: 100%;width: 1px;background: #e4e5eb;top: 0;left: 0;}
+.myToast { position: fixed; display: inline-block;font-size: .3rem; color: #fff; background:rgba(0,0,0,.6); max-width: 400px;border-radius: .12rem;z-index: 999;}
+.myToast p{color: #fff;padding:.3rem .4rem;}
+.myLoadding { border-radius: 8px; position: fixed; max-width: 280px; _width: expression(this.offsetWidth > 280 ? '280px':'auto'); *width: expression(this.offsetWidth > 280 ? '280px':'auto'); padding: 10px; background: #8e8e8e; text-align: center; color: #323232 }
+.myLoadding .loaddingImg { width: 50px; height: 50px; margin: 0 auto; display: block }

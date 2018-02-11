@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>发布线索</title>
+	<link rel="stylesheet" type="text/css" href="css/myAlert.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		<!--内容-->
+		<div class="g-content mb12">
+			<!--发布线索流程-->
+			<div class="subTitle">
+				<h3>发布线索流程</h3>
+				<span></span>
+			</div>
+			<div class="flow">
+				<img src="images/2-1lct.png" alt="" />
+			</div>
+			
+			<div class="m-img"><img src="images/1-fgx.png" alt="" /></div>
+			
+			<div class="subTitle">
+				<h3>填写线索信息</h3>
+				<span></span>
+			</div>
+			<div class="releaseInfo releaseInfoLastdd">
+				<dl>
+					<dd><span>项目名称：</span><div><input type="text" name="projectName" placeholder="请输入项目名称" /></div></dd>
+					<dd class="selectBusiness"><span>业务类型：</span><div><p>请选择业务类型</p><i></i></div></dd>
+					<dd class="industryAdd"><span>行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</span><div><p></p><a>+ 添加</a></div></dd>
+					<dd class="selectBudget"><span>项目预算：</span><div><p>请选择项目预算</p><i></i></div></dd>
+					<dd><span>期望提成比例：</span><div style="width: 4.2rem;"><input type="text" name="proportion" placeholder="提成比例10%~30%" /></div></dd>
+					<dd><span>项目描述：</span><div><textarea></textarea></div></dd>
+				</dl>
+			</div>
+			<div class="release-btn"><button>立即发布</button></div>
+		</div>
+		<!--底部-->
+		<footer>
+			<div class="bottom">
+				<div>
+					<a href="index.html">
+						<img src="images/1-1swrz1.png" alt="" />
+						<p>商务入驻</p>
+					</a>
+				</div>
+				<div class="active">
+					<a href="#">
+						<img src="images/1-1xauo2.png" alt="" />
+						<p>发布线索</p>
+					</a>
+				</div>
+				<div>
+					<a href="personalCenter.html">
+						<img src="images/1-1grzxin1.png" alt="" />
+						<p>个人中心</p>
+					</a>
+				</div>
+			</div>
+		</footer>
+		
+		<!--行业弹出-->
+		<div class="industryTanchu">
+			<div class="industryBox">
+				<h3><span>请选择行业</span></h3>
+				<div class="industryContent">
+				</div>
+				<div class="industryBtn">确定</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			//	获取行业
+			$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/getIndustry',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+		        success:function(data){
+		        	if(data.code==1){
+			        	var data=data.data;
+			        	var str='';
+			        	for (var i=0;i<data.length;i++) {
+			        		str+='<span data-id='+data[i].id+'><i></i>'+data[i].name+'</span>'
+			        	}
+			        	$('.industryContent').append(str)
+			        }else{
+			        	$.toastTip({
+							img:'images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:[data.msg]
+						});
+			        }
+		        }
+			});
+		</script>
+	</body>
+</html>

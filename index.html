@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>易创链</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		
+		<!--头部-->
+		<div class="g-head">
+			<h3>易创链</h3>
+			<p>链接IT商务线索</p>
+			<div class="banner"></div>
+		</div>
+		
+		<!--内容-->
+		<div class="g-content">
+			<!--商务入驻有哪些好处-->
+			<div class="subTitle">
+				<h3>商务入驻有哪些好处？</h3>
+				<span></span>
+			</div>
+			<div class="m-section">
+				<div>
+					<img src="images/1-0-1.png" alt="" />
+					<h3>权益保障</h3>
+					<p>入驻及签署线上合同</p>
+				</div>
+				<div>
+					<img src="images/1-0-2.png" alt="" />
+					<h3>高分配提成</h3>
+					<p>提成10%~30%</p>
+				</div>
+				<div>
+					<img src="images/1-0-3.png" alt="" />
+					<h3>专业的质量保障</h3>
+					<p>超一流专业人士护航 </p>
+				</div>
+				<div>
+					<img src="images/1-0-4.png" alt="" />
+					<h3>及时商务跟踪</h3>
+					<p>商务人员一对一服务</p>
+				</div>
+			</div>
+			<div class="m-img"><img src="images/1-fgx.png" alt="" /></div>
+			<!--公司介绍-->
+			<div class="subTitle">
+				<h3>公司介绍</h3>
+				<span></span>
+			</div>
+			<div class="m-article">
+				<img src="images/1-t1.png" alt="" />
+				<h3>专注于"企业+互联网"战略升级首选IT服务商</h3>
+				<p>通过管理咨询、互联网产品、技术以及人才服务与金融服务促进企业战略升级以及创新创业，并且首创技术VC模式，通过技术服务入股优质创业项目。</p>
+				<img src="images/1-t2.png" alt="" />
+				<h3>公司业务覆盖全国市场，总体服务客户200+，上线项目400+</h3>
+				<p>团队目前全国有100多人，均为5~10年工作经验，并且有来自于BAT、和君咨询等一些有逼格的咨询顾问、技术大牛和追求完美无暇的产品怪兽，我们只为提供优质的服务。</p>
+			</div>
+		</div>
+		<!--底部-->
+		<footer>
+			<div class="enter"><a href="enter.html"><span><img src="images/1-0ljrzhu.png" alt="" /><p>立即入驻</p></span></a></div>
+			<div class="bottom">
+				<div class="active">
+					<a href="#">
+						<img src="images/1-1swrz2.png" alt="" />
+						<p>商务入驻</p>
+					</a>
+				</div>
+				<div>
+					<a href="cluesRelease.html">
+						<img src="images/1-1xauo1.png" alt="" />
+						<p>发布线索</p>
+					</a>
+				</div>
+				<div>
+					<a href="personalCenter.html">
+						<img src="images/1-1grzxin1.png" alt="" />
+						<p>个人中心</p>
+					</a>
+				</div>
+			</div>
+		</footer>
+	<script src="js/t3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/home.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/getWxMsg',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+		        success:function(data){
+		        	console.log(data)
+		        	alert(JSON.stringify(data))
+		        }
+			});
+	</script>
+	</body>
+</html>

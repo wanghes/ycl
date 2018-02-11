@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>我的分销详细信息</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		<div class="higherup" id="upperLevel">
+			<div class="fl">我的上级：</div>
+			<div class="fr"><img src="images/img1.jpg" alt="" /><span>这是昵称很长</span></div>
+		</div>
+		<div class="bg_block"></div>
+		<div class="subordinate">
+			<div class="subordinateTitle">我的下级：</div>
+			<ul id="lowerLevel" style="display: none;">
+				<!-- <li>
+					<div class="fl"><img src="images/img1.jpg" alt="" /><span>微信昵称微信昵称微信昵称微信昵称</span></div>
+					<div class="fr">入驻时间：2017-12-21</div>
+				</li>
+				<li>
+					<div class="fl"><img src="images/img1.jpg" alt="" /><span>微信昵称微信</span></div>
+					<div class="fr">入驻时间：2017-12-21</div>
+				</li>
+				<li>
+					<div class="fl"><img src="images/img1.jpg" alt="" /><span>微信昵称微信</span></div>
+					<div class="fr">入驻时间：2017-12-21</div>
+				</li>
+				<li>
+					<div class="fl"><img src="images/img1.jpg" alt="" /><span>微信昵称微信</span></div>
+					<div class="fr">入驻时间：2017-12-21</div>
+				</li>
+				<li>
+					<div class="fl"><img src="images/img1.jpg" alt="" /><span>微信昵称微信</span></div>
+					<div class="fr">入驻时间：2017-12-21</div>
+				</li>
+				<li>
+					<div class="fl"><img src="images/img1.jpg" alt="" /><span>微信昵称微信</span></div>
+					<div class="fr">入驻时间：2017-12-21</div>
+				</li> -->
+			</ul>
+		</div>
+		
+		<footer>
+			<div class="enter bottom0"><a href="enter.html"><span>发展<p>二级分销商</p></span></a></div>
+		</footer>
+		
+		<!--没有线索-->
+		<div class="nothing" style="display: none;">
+			<img src="images/3-10myxxi.png" alt="" />
+			<p>很抱歉，您还没有下级分销商信息</p>
+			<a href="">立即发展</a>
+		</div>
+		
+
+		<script type="text/javascript">
+			function createLowerLevel(list){
+				var lowerLevel = $('#lowerLevel');
+				var html = "",temp='';
+				$.each(list,function(index, item){
+					item.wximage = item.wximage ? item.wximage : '';
+					item.username = item.username ? item.username : '';
+					item.create_date = item.create_date.slice(0,10);
+					temp = [
+						'<li>',
+						'<div class="fl"><img src="'+item.wximage+'" alt="" /><span>'+item.username+'</span></div>',
+						'<div class="fr">入驻时间：'+item.create_date+'</div>',
+						'</li>'
+					].join('');
+					html += temp;
+				});
+
+				lowerLevel.html(html);
+				lowerLevel.show();
+			}
+			function createUpperLevel(list){
+				var upperLevel = $('#upperLevel');
+				
+				var result = list.pop();
+				var html = [
+					'<div class="fl">我的上级：</div>',
+					'<div class="fr">',
+					'<img src="'+result.wximage+'" alt="" />',
+					'<span>'+reuslt.username+'</span>',
+					'</div>'
+				].join('');
+				upperLevel.html(html);
+			}
+
+			function noUpperLevel(){
+				var upperLevel = $('#upperLevel');
+				var html = [
+					'<div class="fl">我的上级：</div>',
+					'<div class="fr">',
+					'<img src="images/img1.jpg" alt="" /><span>还没有上级</span>',
+					'</div>'
+				].join('');
+				upperLevel.html(html);
+			}
+
+			function noLowerLevel(){
+				$('.nothing').hide();
+			}
+			//	获取行业
+			$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/getlevelmessage',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+		        success:function(data){
+		        	if(data.code==1){
+		        		var data = data.data;
+		        		var lowerList = data.lower;
+		        		var upperList = data.upper;
+		        		lowerList && lowerList.length ? createLowerLevel(lowerList) : noLowerLevel();
+		        		upperList && upperList.length ? createUpperLevel(upperList): noUpperLevel();
+
+		        	}else{
+        		      	$.toastTip({
+							img:'images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:[data.msg]
+						});
+		        	}
+		        	
+		        }
+			});
+		</script>
+	</body>
+</html>

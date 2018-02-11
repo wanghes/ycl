@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>成功发布线索</title>
+	<link rel="stylesheet" type="text/css" href="css/myAlert.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		<div class="fixed-bg"></div>
+		<div class="tipShow releaseShow">
+			<img src="images/2-6fbucg.png"/>
+			<p>恭喜您成功发布线索</p>
+			<div id="transformImg">
+				<div class="subTitle">
+					<h3>商务对接人信息</h3>
+					<span></span>
+				</div>
+				<dl>
+					<dd><span>对接人姓名：</span><div class="realname"></div></dd>
+					<dd><span>联系电话：</span><div class="username"></div></dd>
+					<dd><span>微信号码：</span><div class="wxnumber"></div></dd>
+					<dd><span>微信昵称：</span><div class="wxname"></div></dd>
+					<dd><span>微信头像：</span><div class="avator"><img src="images/img1.jpg" alt="" /></div></dd>
+				</dl>
+			</div>
+			<div class="m-img-tip"><img src="images/3-7cabcun.png"/></div>
+			<div class="btn"><a href="">确定</a><a href="myCode.html">发展二级分销商</a></div>
+		</div>
+		<script type="text/javascript">
+			$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/dockerMessage',
+		        type:'post',
+		        dataType:'json',
+		        data:{
+		        	admin_id:getQueryString("adminId"),
+		        },
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+		        success:function(data){
+		        	if(isLogin(data)){
+		        		console.log(data)
+		        		var data=data.data;
+		        		$('.realname').text(data.realname)
+		        		$('.username').text(data.username)
+		        		$('.wxname').text(data.wxname)
+		        		$('.wxnumber').text(data.wxnumber)
+		        		$('.avator img').attr('src',data.avator)
+		        	}
+		        }
+		    });
+		    function getQueryString(name) {
+	    		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+	    		var r = window.location.search.substr(1).match(reg);
+	    		if (r != null) return unescape(r[2]);
+	    		return null;
+			}
+		</script>
+	</body>
+</html>

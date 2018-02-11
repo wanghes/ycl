@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>个人信息</title>
+	<link rel="stylesheet" type="text/css" href="css/myAlert.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<script src="js/jquery.1.11.3.min.js"></script>
+	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+</head>
+	<body>
+		<div class="fixed-bg"></div>
+		<div class="personalInfo">
+			<dl>
+				<dd><span>微信昵称：</span><div class="wxname">不忘初心</div></dd>
+				<dd><span>微信头像：</span><div class="wximg"><img src="images/img1.jpg" alt="" /></div></dd>
+				<dd><span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span><div class="personalName">张玉</div></dd>
+				<dd><span>所在公司：</span><div class="personalCompany">北京慧摩尔科技有限公司</div></dd>
+				<dd><span>职业类型：</span><div class="personalProfession">普通职员</div></dd>
+				<dd><a href="editInfo.html"><button>编辑资料</button></a></dd>
+			</dl>
+		</div>
+		<script type="text/javascript">
+			$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+		        success:function(data){
+		        	if(isLogin(data)){
+		        		var data=data.data;
+		        		$('.wxname').text(data.wxname)
+		            	$('.wximg').attr('src',data.wximage)
+		            	$('.personalName').text(data.username)
+		            	$('.personalCompany').text(data.company)
+		            	$('.personalProfession').text(data.name)
+		        	}
+		        }
+		    });
+		</script>
+	</body>
+</html>
