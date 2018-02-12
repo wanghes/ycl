@@ -75,6 +75,9 @@
 	        url: 'http://yichuanglian.huimor.com/index/development',
 	        type:'get',
 	        dataType:'json',
+	        data:{
+	        	url: window.location.hostname
+	        },
 	        xhrFields:{  
 				withCredentials:true  
 			},  
