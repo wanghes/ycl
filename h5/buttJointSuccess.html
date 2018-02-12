@@ -89,7 +89,7 @@
 				$('#assignSaleMoney').text('￥'+data.Commission_money);
 				$('#percentageMoney').text('提成金额：￥'+data.proportion_money);
 				$('#upperImg').attr('src',data.avator);
-				$('#nickName').text(data.wxname);
+				$('#nickName').text(data.upname);
 				detailsStatus.html = [
 					'<div><span>对接状态：</span>对接成功</div>',
 					'<div><span>实际合同金额：</span><strong>￥'+data.actual_budget+'</strong></div>',
@@ -146,8 +146,8 @@
 		        			actual_budget:data.actual_budget,
 		        			proportion_money:data.proportion_money,
 		        			Commission_money:data.Commission_money,
-		        			wxname:docker.wxname,
-		        			avator:docker.wximage,
+		        			upname:docker.upname,
+		        			avator:docker.upimage,
 		        		}
 		        		createDetailsStatus(detailData);
 		        		createCluesHtml(clues);
