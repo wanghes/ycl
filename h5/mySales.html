@@ -85,7 +85,7 @@
 					'<div class="fl">我的上级：</div>',
 					'<div class="fr">',
 					'<img src="'+result.wximage+'" alt="" />',
-					'<span>'+reuslt.username+'</span>',
+					'<span>'+result.username+'</span>',
 					'</div>'
 				].join('');
 				upperLevel.html(html);
@@ -103,7 +103,7 @@
 			}
 
 			function noLowerLevel(){
-				$('.nothing').hide();
+				$('.nothing').show();
 			}
 			//	获取行业
 			$.ajax({
@@ -118,6 +118,7 @@
 		        		var data = data.data;
 		        		var lowerList = data.lower;
 		        		var upperList = data.upper;
+
 		        		lowerList && lowerList.length ? createLowerLevel(lowerList) : noLowerLevel();
 		        		upperList && upperList.length ? createUpperLevel(upperList): noUpperLevel();
 
