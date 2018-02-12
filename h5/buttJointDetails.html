@@ -73,14 +73,18 @@
 			function createCluesHtml(clues){
 				var cluesBox = $('#cluesBox');
 				clues.addtime = clues.addtime.slice(0,-3);
+				clues.cate_name = clues.cate_name.join(', ');
+				if(!isNaN(clues.budget)){
+    				clues.budget = '￥'+clues.budget
+    			}
 				var html = [
 					'<dd><span>发布时间：</span><div>'+clues.addtime+'</div></dd>',
 					'<dd><span>项目名称：</span><div>'+clues.projectname+'</div></dd>',
 					'<dd><span>业务类型：</span><div>'+clues.BusinessName+'</div></dd>',
-					'<dd><span>行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</span><div>教育</div></dd>',
-					'<dd><span>项目预算：</span><div>￥100000.00</div></dd>',
-					'<dd><span>期望提成比例：</span><div>10%</div></dd>',
-					'<dd><span>项目描述：</span><div>描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字</div></dd>'
+					'<dd><span>行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</span><div>'+clues.cate_name+'</div></dd>',
+					'<dd><span>项目预算：</span><div>'+clues.budget+'</div></dd>',
+					'<dd><span>期望提成比例：</span><div>'+clues.proportion+'%</div></dd>',
+					'<dd><span>项目描述：</span><div>'+clues.describes+'</div></dd>'
 				].join('');
 				cluesBox.html(html);
 			}

@@ -34,7 +34,35 @@
 	<script src="js/t3.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/home.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
+			
+			function sendOauth(){
 		
+				$.ajax({
+			        url: 'http://yichuanglian.huimor.com/index/getOpenID',
+			        type:'get',
+			        dataType:'json',
+			        xhrFields:{  
+						withCredentials:true  
+					},  
+			        success:function(data){
+			        	if(!data.data){
+				        	$.ajax({
+						        url: 'http://yichuanglian.huimor.com/index/getWxMsg',
+						        type:'get',
+						        dataType:'json',
+						        xhrFields:{  
+									withCredentials:true  
+								},  
+						        success:function(data){
+						        	console.log(data);
+						        }
+							});
+						}
+			        }
+				});
+				
+			}
+
 			$('.login-btn button').click(function(){
 				var tel=$('input[name="tel"]').val();
 				var pwd=$('input[name="password"]').val();
@@ -69,6 +97,7 @@
 					},  
 			        success:function(data){
 			            if(data.code==1){
+			            	sendOauth();
 			           		window.location.href='index.html'
 			            }else{
 			            	$.toastTip({
