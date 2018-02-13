@@ -66,7 +66,7 @@ function isLogin(data){
         		//分享朋友圈
 		        wx.onMenuShareTimeline({
 		            title: '易创链-链接IT商务线索',
-		            link: protocol+'//'+host+'/share.html',
+		            link: protocol+'//'+host+'/h5/share.html',
 		            imgUrl: protocol+'//'+host+'/h5/images/logo.png',// 自定义图标
 		            success: function (res) {
 		                $.toastTip({
@@ -84,7 +84,7 @@ function isLogin(data){
  				wx.onMenuShareAppMessage({
 		            title: '易创链', // 分享标题
 		            desc: '链接IT商务线索', // 分享描述
-		            link: protocol+'//'+host+'/share.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		            link: protocol+'//'+host+'/h5/share.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 		            imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 自定义图标
 		            type: 'link', // 分享类型,music、video或link，不填默认为link
 		            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -102,7 +102,7 @@ function isLogin(data){
 		        wx.onMenuShareQQ({
 					title: '易创链', // 分享标题
 					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/share.html', // 分享链接
+					link: protocol+'//'+host+'/h5/share.html', // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -118,7 +118,7 @@ function isLogin(data){
 				wx.onMenuShareQZone({
 					title: '易创链', // 分享标题
 					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/share.html', // 分享链接
+					link: protocol+'//'+host+'/h5/share.html', // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -134,7 +134,7 @@ function isLogin(data){
 				wx.onMenuShareWeibo({
 					title: '易创链', // 分享标题
 					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/share.html', // 分享链接
+					link: protocol+'//'+host+'/h5/share.html', // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
