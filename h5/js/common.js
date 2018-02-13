@@ -58,6 +58,145 @@ function isLogin(data){
                 $('.actionsheet').remove()
             }, 300)
         },
+        showShareBox:function(options){
+        	var defalut = {
+        		title:"分享至",
+        		images:[
+        			{des:"QQ好友",img:'../images/1-5qq.png'},
+        			{des:"QQ空间",img:'../images/1-5qqkj.png'},
+        			{des:"微信好友",img:'../images/1-5wx.png'},
+        			{des:"朋友圈",img:'../images/1-5pyq.png'},
+        			{des:"微博",img:'../images/1-5wb.png'}
+				],
+        	}
+        	var config = defalut;
+        	if(options){
+        		$.extend(config,defalut,options);
+        	}
+     		var link = window.location.href;
+			var protocol = window.location.protocol;
+			var host = window.location.host;
+     		var html = [
+     			'<div class="share_bg">',
+     			'<div class="share_box" id="shareBox">',
+     				'<div class="title"><h3>'+config.title+'</h3><span class="share_closer"></span></div>',
+     				'<div class="list">',
+	     				'<div class="item"><img src="'+config.images[0].img+'" ><span>'+config.images[0].des+'</span></div>',
+	     				'<div class="item"><img src="'+config.images[1].img+'" ><span>'+config.images[1].des+'</span></div>',
+	     				'<div class="item"><img src="'+config.images[2].img+'" ><span>'+config.images[2].des+'</span></div>',
+	     				'<div class="item"><img src="'+config.images[3].img+'" ><span>'+config.images[3].des+'</span></div>',
+	     				'<div class="item"><img src="'+config.images[4].img+'" ><span>'+config.images[4].des+'</span></div>',
+     				'</div>',
+     			'</div>',
+     			'</div>'
+     		].join('');
+     		var box = $(html);
+
+     		$('body').append(box);
+     		$('.share_closer').click(function(){
+     			$('.share_bg').remove();
+     		})
+     		$('#shareBox .item').eq(0).click(function(){
+     			wx.onMenuShareQQ({
+					title: '易创链', // 分享标题
+					desc: '链接IT商务线索', // 分享描述
+					link: protocol+'//'+host+'/share.html', // 分享链接
+					imgUrl: protocol+'//'+host+'/images/logo.png', // 分享图标
+					success: function () {
+						$.toastTip({
+							img:'../images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:['分享成功']
+						});
+					},
+					cancel: function () {
+					}
+				});
+     		})
+     		$('#shareBox .item').eq(1).click(function(){
+     			wx.onMenuShareQZone({
+					title: '易创链', // 分享标题
+					desc: '链接IT商务线索', // 分享描述
+					link: protocol+'//'+host+'/share.html', // 分享链接
+					imgUrl: protocol+'//'+host+'/images/logo.png', // 分享图标
+					success: function () {
+						$.toastTip({
+							img:'../images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:['分享成功']
+						});
+					},
+					cancel: function () {
+					}
+				});
+     		})
+     		$('#shareBox .item').eq(2).click(function(){
+     			wx.ready(function(){
+     				wx.onMenuShareAppMessage({
+			            title: '易创链', // 分享标题
+			            desc: '链接IT商务线索', // 分享描述
+			            link: protocol+'//'+host+'/share.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			            imgUrl: protocol+'//'+host+'/images/logo.png', // 自定义图标
+			            type: 'link', // 分享类型,music、video或link，不填默认为link
+			            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			            success: function () {
+			                $.toastTip({
+								img:'../images/4-3gxfkui.png',
+								imgW:'1.56rem',
+								imgH:'1.5rem',
+								text:['分享成功']
+							});
+			            },
+			            cancel: function () {
+			            }
+			        });
+     			});
+     		})
+     		$('#shareBox .item').eq(3).click(function(){
+     			wx.ready(function(){
+	    			//分享朋友圈
+			        wx.onMenuShareTimeline({
+			            title: '易创链-链接IT商务线索',
+			            link: protocol+'//'+host+'/share.html',
+			            imgUrl: protocol+'//'+host+'/images/logo.png',// 自定义图标
+			            success: function (res) {
+			                $.toastTip({
+								img:'../images/4-3gxfkui.png',
+								imgW:'1.56rem',
+								imgH:'1.5rem',
+								text:['分享成功']
+							});
+			            },
+			            cancel: function (res) {
+			            },
+			            fail: function (res) {
+			            }
+			        });
+			    });
+     		})
+     		$('#shareBox .item').eq(4).click(function(){
+     			wx.onMenuShareWeibo({
+					title: '易创链', // 分享标题
+					desc: '链接IT商务线索', // 分享描述
+					link: protocol+'//'+host+'/share.html', // 分享链接
+					imgUrl: protocol+'//'+host+'/images/logo.png', // 分享图标
+					success: function () {
+						$.toastTip({
+							img:'../images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:['分享成功']
+						});
+					},
+					cancel: function () {
+					// 用户取消分享后执行的回调函数
+					}
+				});
+     		})
+     		
+        },
 		actionsheet:function(options){
 			var lists_str='';
 			var lists=options.lists;
@@ -105,7 +244,9 @@ function isLogin(data){
 
 
 $(function(){
-	
+	$('#shareBtn').click(function(){
+		$.showShareBox();
+	});
 	//	发布线索 输入框点击
 	$('.releaseInfo input').focus(function(){
 		$(this).parents('dd').addClass('cur')
