@@ -62,11 +62,11 @@ function isLogin(data){
         	var defalut = {
         		title:"分享至",
         		images:[
-        			{des:"QQ好友",img:'../images/1-5qq.png'},
-        			{des:"QQ空间",img:'../images/1-5qqkj.png'},
-        			{des:"微信好友",img:'../images/1-5wx.png'},
-        			{des:"朋友圈",img:'../images/1-5pyq.png'},
-        			{des:"微博",img:'../images/1-5wb.png'}
+        			{des:"QQ好友",img:'/h5/images/1-5qq.png'},
+        			{des:"QQ空间",img:'/h5/images/1-5qqkj.png'},
+        			{des:"微信好友",img:'/h5/images/1-5wx.png'},
+        			{des:"朋友圈",img:'/h5/images/1-5pyq.png'},
+        			{des:"微博",img:'/h5/images/1-5wb.png'}
 				],
         	}
         	var config = defalut;
@@ -104,7 +104,7 @@ function isLogin(data){
 					imgUrl: protocol+'//'+host+'/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
-							img:'../images/4-3gxfkui.png',
+							img:'/h5/images/4-3gxfkui.png',
 							imgW:'1.56rem',
 							imgH:'1.5rem',
 							text:['分享成功']
@@ -122,7 +122,7 @@ function isLogin(data){
 					imgUrl: protocol+'//'+host+'/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
-							img:'../images/4-3gxfkui.png',
+							img:'/h5/images/4-3gxfkui.png',
 							imgW:'1.56rem',
 							imgH:'1.5rem',
 							text:['分享成功']
@@ -143,7 +143,7 @@ function isLogin(data){
 			            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 			            success: function () {
 			                $.toastTip({
-								img:'../images/4-3gxfkui.png',
+								img:'/h5/images/4-3gxfkui.png',
 								imgW:'1.56rem',
 								imgH:'1.5rem',
 								text:['分享成功']
@@ -163,7 +163,7 @@ function isLogin(data){
 			            imgUrl: protocol+'//'+host+'/images/logo.png',// 自定义图标
 			            success: function (res) {
 			                $.toastTip({
-								img:'../images/4-3gxfkui.png',
+								img:'/h5/images/4-3gxfkui.png',
 								imgW:'1.56rem',
 								imgH:'1.5rem',
 								text:['分享成功']
@@ -184,7 +184,7 @@ function isLogin(data){
 					imgUrl: protocol+'//'+host+'/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
-							img:'../images/4-3gxfkui.png',
+							img:'/h5/images/4-3gxfkui.png',
 							imgW:'1.56rem',
 							imgH:'1.5rem',
 							text:['分享成功']
