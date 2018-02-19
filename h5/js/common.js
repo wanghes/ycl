@@ -344,7 +344,8 @@ function GetQueryString(name) {
 $(function(){
 
 	if(!GetQueryString('isauth')){
-		location.href="http://yichuanglian.huimor.com/index?fromurl=yichanglian.huimor.com/h5/share.html"
+		var href = window.location.href
+		location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 	}
 	$('#shareBtn , .shareBtn').click(function(){
 		$.showShareBox();
