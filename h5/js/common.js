@@ -7,7 +7,38 @@
     win.addEventListener('resize',change,false);
 })(window,document);
 
-
+//动态异步加载脚本
+function loadScript(url, callback) {
+    var head = document.head || document.getElementsByTagName('head')[0] || document.documentElement,
+    script,
+    options,
+    s;
+    if (typeof url === 'object') {
+        options = url;
+        url = undefined;
+    }
+    s = options || {};
+    url = url || s.url;
+    callback = callback || s.success;
+    script = document.createElement('script');
+    script.async = s.async || false;
+    script.type = 'text/javascript';
+    if (s.charset) {
+        script.charset = s.charset;
+    }
+    if (s.cache === false) {
+        url = url + (/\?/.test(url) ? '&': '?') + '_=' + (new Date()).getTime();
+    }
+    script.src = url;
+    head.insertBefore(script, head.firstChild);
+    if (callback) {
+        document.addEventListener ? script.addEventListener('load', callback, false) : script.onreadystatechange = function() {
+            if (/loaded|complete/.test(script.readyState)) {
+                script.onreadystatechange = callback()
+            }
+        }
+    }
+}
 	
 
 //	判断是否登录
@@ -47,7 +78,6 @@ function isLogin(data){
 //	}
 //}
 
-
 //下拉底部显示
 (function() {
     $.extend({
@@ -58,15 +88,18 @@ function isLogin(data){
                 $('.actionsheet').remove()
             }, 300)
         },
+
         shareAction:function(){
         	var link = window.location.href;
 			var protocol = window.location.protocol;
 			var host = window.location.host;
+			var uid = localStorage.getItem("uid");
         	wx.ready(function(){
+
         		//分享朋友圈
 		        wx.onMenuShareTimeline({
 		            title: '易创链-链接IT商务线索',
-		            link: protocol+'//'+host+'/h5/share.html',
+		            link: protocol+'//'+host+'/h5/share.html?uid='+uid,
 		            imgUrl: protocol+'//'+host+'/h5/images/logo.png',// 自定义图标
 		            success: function (res) {
 		                $.toastTip({
@@ -84,7 +117,7 @@ function isLogin(data){
  				wx.onMenuShareAppMessage({
 		            title: '易创链', // 分享标题
 		            desc: '链接IT商务线索', // 分享描述
-		            link: protocol+'//'+host+'/h5/share.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		            link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 		            imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 自定义图标
 		            type: 'link', // 分享类型,music、video或link，不填默认为link
 		            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -102,7 +135,7 @@ function isLogin(data){
 		        wx.onMenuShareQQ({
 					title: '易创链', // 分享标题
 					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/h5/share.html', // 分享链接
+					link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -118,7 +151,7 @@ function isLogin(data){
 				wx.onMenuShareQZone({
 					title: '易创链', // 分享标题
 					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/h5/share.html', // 分享链接
+					link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -134,7 +167,7 @@ function isLogin(data){
 				wx.onMenuShareWeibo({
 					title: '易创链', // 分享标题
 					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/h5/share.html', // 分享链接
+					link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -149,6 +182,46 @@ function isLogin(data){
 					}
 				});
  			});
+        },
+        developSecondSales:function(){ //发展二级分销
+        	loadScript('http://res.wx.qq.com/open/js/jweixin-1.0.0.js',function(){
+        		$.ajax({
+			        url: 'http://yichuanglian.huimor.com/index/development',
+			        type:'get',
+			        dataType:'json',
+			        data:{
+			        	url: window.location.href
+			        },
+			        xhrFields:{  
+						withCredentials:true  
+					},  
+			        success:function(data){
+			        	var appId  = data.data.appId;
+			        	var nonceStr  = data.data.nonceStr;
+			        	var timestamp  = data.data.timestamp;
+			        	var signature  = data.data.signature;
+			        	var uid = data.data.userid;
+
+	        			localStorage.setItem("uid",uid);
+
+			    		wx.config({
+						    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+						    appId: appId, // 必填，公众号的唯一标识     
+						　　timestamp: timestamp, // 必填，生成签名的时间戳
+						    nonceStr: nonceStr, // 必填，生成签名的随机串
+						    signature: signature,// 必填，签名，见附录1
+						    jsApiList: [
+						    	'onMenuShareTimeline',
+						    	'onMenuShareAppMessage',
+						    	'onMenuShareQQ',
+						    	'onMenuShareWeibo',
+						    	'onMenuShareQZone'
+					    	] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+						});
+			    		$.shareAction();
+			        }
+			    });
+        	})
         },
         showShareBox:function(){
         	var html = [
@@ -261,10 +334,19 @@ function isLogin(data){
 })(jQuery);
 
 
+function GetQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r!=null) return (r[2]); return null; 
+}
 
 
 $(function(){
-	$('#shareBtn').click(function(){
+
+	if(!GetQueryString('isauth')){
+		location.href="http://yichuanglian.huimor.com/index?fromurl=yichanglian.huimor.com/h5/share.html"
+	}
+	$('#shareBtn , .shareBtn').click(function(){
 		$.showShareBox();
 	});
 	//	发布线索 输入框点击
@@ -411,7 +493,8 @@ $(function(){
 		var budget_id=$('.selectBudget p').attr('data-id');
 		var proportion=$('input[name="proportion"]').val();
 		var describes=$('textarea').val();
-		if($('dd.industryAdd p').text()==''){
+
+		if($('dd.industryAdd p').text()=='' && !$('dd.industryAdd ul li').length){
 			$.toastTip({
 				img:'images/4-3gxfkui.png',
 				imgW:'1.56rem',
@@ -420,13 +503,15 @@ $(function(){
 			});
 			return false;
 		}
-		if($('.industryAdd p em').length<2){
+
+		if($('.industryAdd p em').length && $('.industryAdd p em').length<2){
 			cate_id.push($('.industryAdd p em').attr('data-id'));
 		}else{
 			$('dd.industryAdd ul em').each(function(){
 				cate_id.push($(this).attr('data-id'))
 			})
 		}
+
 		
 		$.ajax({
 	        url: 'http://yichuanglian.huimor.com/index/release',

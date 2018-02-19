@@ -46,18 +46,24 @@
 		</div>
 		
 		<footer>
-			<div class="enter bottom0"><a href="enter.html"><span>发展<p>二级分销商</p></span></a></div>
+			<div class="enter bottom0"><a href="javascript:;" class="shareBtn"><span>发展<p>二级分销商</p></span></a></div>
 		</footer>
 		
 		<!--没有线索-->
 		<div class="nothing" style="display: none;">
 			<img src="images/3-10myxxi.png" alt="" />
 			<p>很抱歉，您还没有下级分销商信息</p>
-			<a href="">立即发展</a>
+			<a href="javascript:;" class="shareBtn">立即发展</a>
 		</div>
 		
 
 		<script type="text/javascript">
+			$.developSecondSales(); //发展二级分销微信配置
+			//跳转到分销商详细页面
+			function jumpSalesMan(username){
+				alert(username)
+				window.location.href="dataDetails.html?uid="+username
+			}
 			function createLowerLevel(list){
 				var lowerLevel = $('#lowerLevel');
 				var html = "",temp='';
@@ -66,7 +72,7 @@
 					item.username = item.username ? item.username : '';
 					item.create_date = item.create_date.slice(0,10);
 					temp = [
-						'<li>',
+						'<li onclick="jumpSalesMan(\''+item.username+'\')">',
 						'<div class="fl"><img src="'+item.wximage+'" alt="" /><span>'+item.username+'</span></div>',
 						'<div class="fr">入驻时间：'+item.create_date+'</div>',
 						'</li>'

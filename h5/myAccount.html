@@ -13,11 +13,11 @@
 		<div class="fixed-bg"></div>
 		
 		<div class="accountBox">
-			<h3>￥1000.00</h3>
+			<h3 id="totalMoney"></h3>
 			<p>我的总收入</p>
-			<div><span>已入账：<em>￥5000.00</em></span><span>未入账：<em>￥5.22万</em></span></div>
+			<div><span>已入账：<em id="incomeMoney"></em></span><span>未入账：<em id="notpayMoney"></em></span></div>
 		</div>
-		<div class="btn"><a href="">查看已支付明细</a><a href="">查看未支付明细</a></div>
+		<div class="btn"><a href="payTurnover.html?type=1">查看已支付明细</a><a href="payTurnover.html?type=2">查看未支付明细</a></div>
 		<script type="text/javascript">
 			$.ajax({
 		        url: 'http://yichuanglian.huimor.com/index/totalincome',
@@ -27,14 +27,14 @@
 					withCredentials:true  
 				},  
 		        success:function(data){
-		        	console.log(data);
-		        	return;
 		        	if(data.code==1){
-		        		var data = data.data;
-		        		var lowerList = data.lower;
-		        		var upperList = data.upper;
-		        		lowerList && lowerList.length ? createLowerLevel(lowerList) : noLowerLevel();
-		        		upperList && upperList.length ? createUpperLevel(upperList): noUpperLevel();
+		        		var data = data.data.pop();
+		        		var total_money = data.total_money;
+		        		var notpay_money = data.notpay_money;
+		        		var income_money = data.income_money;
+		        		$('#totalMoney').text('￥'+total_money);
+		        		$('#incomeMoney').text('￥'+income_money);
+		        		$('#notpayMoney').text('￥'+ notpay_money);
 
 		        	}else{
         		      	$.toastTip({
@@ -44,7 +44,6 @@
 							text:[data.msg]
 						});
 		        	}
-		        	
 		        }
 			});
 		</script>
