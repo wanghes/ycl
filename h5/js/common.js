@@ -342,10 +342,14 @@ function GetQueryString(name) {
 
 
 $(function(){
-
-	if(!GetQueryString('isauth')){
-		var href = window.location.href
-		location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+	var isAuth = localStorage.getItem('isauth');
+	if(!isAuth){
+		if(!GetQueryString('isauth')){
+			var href = window.location.href
+			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+		}else{
+			localStorage.setItem('isauth',1);
+		}
 	}
 	$('#shareBtn , .shareBtn').click(function(){
 		$.showShareBox();
