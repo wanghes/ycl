@@ -12,6 +12,49 @@
 	<body>
 		<div class="fixed-bg"></div>
 		<textarea class="feedback_textarea" placeholder="不少于150字"></textarea>
-		<button>提交</button>
+		<button id="feedBtn">提交</button>
 	</body>
 </html>
+<script type="text/javascript">
+	$(function(){
+		$('#feedBtn').click(function(){
+			$(this).prop('disabled',true);
+			var text = $('.feedback_textarea').val();
+			if(!text){
+				$.toastTip({
+					img:'images/4-3gxfkui.png',
+					imgW:'1.56rem',
+					imgH:'1.5rem',
+					text:['反馈内容不能为空！']
+				});
+			}else {
+				$.ajax({
+			        url: 'http://yichuanglian.huimor.com/index/addFeedback',
+			        type:'post',
+			        data:{
+			        	contents:text
+			        },
+			        xhrFields:{  
+						withCredentials:true  
+					}, 
+			        dataType:'json',
+			        success:function(data){
+			        	if(data.code==1){
+			        		$.toastTip({
+								img:'images/4-3gxfkui.png',
+								imgW:'1.56rem',
+								imgH:'1.5rem',
+								delay:2000,
+								text:["感谢您的反馈！<p>我们会尽快安排专人与您联系~</p>"]
+							});
+							setTimeout(function(){
+								location.href="setting.html"
+							},2500);
+			        	}
+			  
+			        }
+			    });
+			}
+		});
+	});
+</script>

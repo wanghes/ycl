@@ -31,17 +31,18 @@
 				},  
 		        success:function(data){
 		        	if(isLogin(data)){
-		        		var data=data.data;
-		            	$('input[name="username"]').val(data.username)
-		            	$('input[name="company"]').val(data.company)
-		            	$('.selectProfession p').text(data.name)
+		        		var data=data.data[0];
+		            	$('input[name="username"]').val(data.username);
+		            	$('input[name="company"]').val(data.company);
+		            	$('.selectProfession p').text(data.name);
 		        	}
 		        }
 		    });
 		    $('.edit-btn button').click(function(){
+		    	$(this).prop('disabled',true);
 		    	var username=$('input[name="username"]').val();
             	var company=$('input[name="company"]').val();
-            	var occupationtype=$('.selectProfession p').text();
+            	var occupationtype=$('.selectProfession p').data('id');
 		    	$.ajax({
 			        url: 'http://yichuanglian.huimor.com/index/personalUpdate',
 			        type:'post',
@@ -60,8 +61,12 @@
 								img:'images/4-3gxfkui.png',
 								imgW:'1.56rem',
 								imgH:'1.5rem',
+								delay:2000,
 								text:['保存成功']
-							})
+							});
+							setTimeout(function(){
+								location.href="personalInfo.html"
+							},2500);
 			        	}
 			        }
 			    });

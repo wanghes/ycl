@@ -43,7 +43,6 @@ function loadScript(url, callback) {
 
 //	判断是否登录
 function isLogin(data){
-	console.log(data)
 	if(data.code==1001){
 		$.myAlert({
 			title:'<img src="images/2-1xdlu.png" alt="" />',
@@ -320,6 +319,8 @@ function isLogin(data){
 			var imgSrc=options.img;
 			var text=options.text;
 			var text_str='';
+			options.delay = options.delay ? options.delay : 1500;
+
 			$.each(text, function(i,v){
 				text_str+='<p>'+v+'</p>';
 			});
@@ -328,7 +329,7 @@ function isLogin(data){
 			$('body').append(toastTipStr).css('overflow-y', 'hidden');
 			var tipTop=($(window).height()-$(".toastContent").height())/2.5;
 			$(".toastContent").css('top',tipTop);
-			setTimeout(function(){$('.toastTip').fadeOut(300);$('body').css('overflow-y', 'scroll');$('.toastTip').remove();},1500)
+			setTimeout(function(){$('.toastTip').fadeOut(300);$('body').css('overflow-y', 'scroll');$('.toastTip').remove();},options.delay)
 		}
 	})
 })(jQuery);

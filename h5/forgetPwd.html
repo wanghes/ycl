@@ -102,6 +102,9 @@
 			            pwd:pwd,
 			            smscode:code
 			        },
+			        xhrFields:{  
+						withCredentials:true  
+					}, 
 			        dataType:'json',
 			        success:function(data){
 			        	if(data.code==1){

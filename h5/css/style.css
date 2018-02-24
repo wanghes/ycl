@@ -415,3 +415,7 @@ footer .bottom0 span p{font-size:.3rem;margin-top:.12rem;}
 
 .no_empty{text-align: center; padding-top: 2rem;}
 .no_empty h4{font-size:.36rem; margin-bottom: 0.5rem;}
+
+button[disabled]{
+	background-color: #83bdf9;
+}

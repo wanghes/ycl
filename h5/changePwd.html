@@ -96,9 +96,7 @@
 							imgH:'1.5rem',
 							text:['密码不正确']
 						});
-						return false;
-					}
-					if(code==''){
+					} else if(code==''){
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
 							imgW:'1.56rem',
@@ -106,22 +104,23 @@
 							text:['验证码不正确']
 						});
 						return false;
-					}
-					$.ajax({
-				        url: 'http://yichuanglian.huimor.com/index/modpassword',
-				        type:'post',
-				        data:{
-				            pwd:pwd,
-				            smscode:code,
-				            mobile:tel
-				        },
-				        dataType:'json',
-				        success:function(data){
-				        	if(isLogin(data)){
-				        		window.location.href='perfectInfo.html'
-				           	}
-				        }
-				    });
+					} else {
+						$.ajax({
+					        url: 'http://yichuanglian.huimor.com/index/modpassword',
+					        type:'post',
+					        data:{
+					            pwd:pwd,
+					            smscode:code,
+					            mobile:tel
+					        },
+					        dataType:'json',
+					        success:function(data){
+					        	if(isLogin(data)){
+					        		window.location.href='perfectInfo.html'
+					           	}
+					        }
+					    });
+				    }
 			    });
 
 		</script>

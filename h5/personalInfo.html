@@ -33,7 +33,7 @@
 					withCredentials:true  
 				},  
 		        success:function(result){
-		        	var cates=result.data[0];
+		        	var cates=result.data;
 		        	$.ajax({
 				        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
 				        type:'get',
@@ -48,16 +48,15 @@
 				            	$('#avator').attr('src',data.wximage)
 				            	$('.personalName').text(data.username || "")
 				            	$('.personalCompany').text(data.company || "")
-				            	if(!occupationtype){
+				            	if(!data.occupationtype){
 				            		$('.personalProfession').text('')	
 				            	}else{
 				            		$.each(cates,function(index,item){
-				            			if(item.id==occupationtype){
+				            			if(item.id==data.occupationtype){
 				            				$('.personalProfession').text(item.name);
 				            			}
 				            		});
 				            	}
-				            	
 				        	}
 				        }
 				    });

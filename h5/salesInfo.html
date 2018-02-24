@@ -65,9 +65,7 @@
 	        	}
 	        }
 		}
-		let con = $.extend({},defaultConfig,config);
-		// console.log(con);
-		// return;
+		var con = $.extend({},defaultConfig,config);
 		$.ajax(con);
 	}
 
@@ -204,14 +202,14 @@
 				img:'images/4-3gxfkui.png',
 				imgW:'1.56rem',
 				imgH:'1.5rem',
-				text:"用户ID缺失"
+				text:["用户ID缺失"]
 			});
 		}else if(!id){
 			$.toastTip({
 				img:'images/4-3gxfkui.png',
 				imgW:'1.56rem',
 				imgH:'1.5rem',
-				text:"线索ID缺失"
+				text:["线索ID缺失"]
 			});
 		}else{
 			if(type==1 && level==1){ 
