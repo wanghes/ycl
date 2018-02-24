@@ -14,8 +14,8 @@
 	<body>
 		<div class="personalHead">
 			<a href="personalInfo.html">
-				<img src="images/img1.jpg" alt="" />
-				<p>昵称</p>
+				<img id="avator" src="images/img1.jpg" alt="" />
+				<p id="nick"></p>
 				<i></i>
 			</a>
 		</div>
@@ -59,6 +59,7 @@
 				</div>
 			</div>
 		</footer>
+	</body>
 	<script type="text/javascript">
 		$.ajax({
 	        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
@@ -69,12 +70,11 @@
 			},  
 	        success:function(data){
 	        	if(isLogin(data)){
-	        		var data=data.data;
+	        		var data=data.data[0];
 	            	$('.personalHead img').attr('src',data.wximage)
 	            	$('.personalHead p').text(data.wxname)
 	        	}
 	        }
 	    });
 	</script>
-	</body>
 </html>

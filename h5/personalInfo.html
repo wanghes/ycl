@@ -15,33 +15,56 @@
 		<div class="fixed-bg"></div>
 		<div class="personalInfo">
 			<dl>
-				<dd><span>微信昵称：</span><div class="wxname">不忘初心</div></dd>
-				<dd><span>微信头像：</span><div class="wximg"><img src="images/img1.jpg" alt="" /></div></dd>
-				<dd><span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span><div class="personalName">张玉</div></dd>
-				<dd><span>所在公司：</span><div class="personalCompany">北京慧摩尔科技有限公司</div></dd>
-				<dd><span>职业类型：</span><div class="personalProfession">普通职员</div></dd>
+				<dd><span>微信昵称：</span><div class="wxname"></div></dd>
+				<dd><span>微信头像：</span><div class="wximg"><img id="avator" src="images/img1.jpg" alt="" /></div></dd>
+				<dd><span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span><div class="personalName"></div></dd>
+				<dd><span>所在公司：</span><div class="personalCompany"></div></dd>
+				<dd><span>职业类型：</span><div class="personalProfession"></div></dd>
 				<dd><a href="editInfo.html"><button>编辑资料</button></a></dd>
 			</dl>
 		</div>
 		<script type="text/javascript">
+
 			$.ajax({
-		        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
+		        url: 'http://yichuanglian.huimor.com/index/occategory',
 		        type:'get',
 		        dataType:'json',
 		        xhrFields:{  
 					withCredentials:true  
 				},  
-		        success:function(data){
-		        	if(isLogin(data)){
-		        		var data=data.data;
-		        		$('.wxname').text(data.wxname)
-		            	$('.wximg').attr('src',data.wximage)
-		            	$('.personalName').text(data.username)
-		            	$('.personalCompany').text(data.company)
-		            	$('.personalProfession').text(data.name)
-		        	}
+		        success:function(result){
+		        	var cates=result.data[0];
+		        	$.ajax({
+				        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
+				        type:'get',
+				        dataType:'json',
+				        xhrFields:{  
+							withCredentials:true  
+						},  
+				        success:function(data){
+				        	if(isLogin(data)){
+				        		var data=data.data[0];
+				        		$('.wxname').text(data.wxname || "")
+				            	$('#avator').attr('src',data.wximage)
+				            	$('.personalName').text(data.username || "")
+				            	$('.personalCompany').text(data.company || "")
+				            	if(!occupationtype){
+				            		$('.personalProfession').text('')	
+				            	}else{
+				            		$.each(cates,function(index,item){
+				            			if(item.id==occupationtype){
+				            				$('.personalProfession').text(item.name);
+				            			}
+				            		});
+				            	}
+				            	
+				        	}
+				        }
+				    });
+		        	
 		        }
 		    });
+			
 		</script>
 	</body>
 </html>

@@ -12,11 +12,11 @@
 	</head>
 	<body>
 		<div class="tab_div">
-			<div class="active">我发布的线索分销明细</div>
-			<div>下级发布线索分销明细</div>
+			<div class="active" data-id="first">我发布的线索分销明细</div>
+			<div data-id="second">下级发布线索分销明细</div>
 		</div>
-		<div class="model" style="display: block;">
-			<div class="list paylist">
+		<div id="first" class="model" style="display: block;">
+			<!-- <div class="list paylist">
 				<div><span>项目名称111</span><span class="fr">成单时间：2017-12-21 12:39</span></div>
 				<div><span>实际合同：￥1000.00</span></div>
 				<div><span>总收入：￥1000.00</span></div>
@@ -33,10 +33,10 @@
 				<div><span>实际合同：￥500.00</span></div>
 				<div><span>总收入：￥500.00</span></div>
 				<div><span>已支付：￥500.00</span></div>
-			</div>
+			</div> -->
 		</div>
-		<div class="model">
-			<div class="list paylist">
+		<div id="second" class="model">
+			<!-- <div class="list paylist">
 				<div><span>项目名称222</span><span class="fr">成单时间：2017-12-21 12:39</span></div>
 				<div><span>实际合同：￥1000.00</span></div>
 				<div><span>总收入：￥1000.00</span></div>
@@ -53,7 +53,7 @@
 				<div><span>实际合同：￥500.00</span></div>
 				<div><span>总收入：￥500.00</span></div>
 				<div><span>已支付：￥500.00</span></div>
-			</div>
+			</div> -->
 		</div>
 		
 		<!--没有下级-->
@@ -64,3 +64,135 @@
 		</div>
 	</body>
 </html>
+<script type="text/javascript">
+	$.developSecondSales(); //发展二级分销微信配置
+	var type = GetQueryString('type');
+	var userId ="";
+	function jumpPage(id,level){
+		var query = '?id='+id+'&type='+type+'&userId='+userId+"&level="+level;
+		var str = "salesInfo.html";
+		window.location.href = str+query;
+	}
+		
+
+	function payFunc(clue){
+		var ifZhifu = "";
+		var dot = type==1 ? "已支付" : "未支付";
+		var money =  type==1 ? clue.alpayment : clue.notpay;
+		return '<div><span>'+dot+'：￥'+money+'</span></div>';
+	}
+
+
+	function handleData(data){
+		var myClue = data.myclue; //我的线索分销列表
+		var myDownClue = data.mydownclue;//我的下级的线索分销列表
+		var myClueHtml = "";
+		var myDownClueHtml = "";
+		
+		if(!myClue){
+			notMySales();
+		}else{
+			for(var i=0;i<myClue.length;i++){
+				myClue[i].addtime = myClue[i].addtime ? myClue[i].addtime.slice(0,-3) : ""; //格式化日期
+				
+				myClueHtml +=[
+					'<div class="list paylist" onclick="jumpPage(\''+myClue[i].id+'\',1)">',
+						'<div><span>'+myClue[i].projectname+'</span><span class="fr">成单时间：'+myClue[i].addtime+'</span></div>',
+						'<div><span>实际合同：￥'+myClue[i].actual_budget+'</span></div>',
+						'<div><span>总收入：￥'+myClue[i].proportion_money+'</span></div>',
+						payFunc(myClue[i]),
+					'</div>'
+				].join('');
+			}
+			$('#first').html(myClueHtml);
+		}
+
+		if(!myDownClue){
+			notSecondSales();
+			return;
+		}else{
+			for(var i=0;i<myDownClue.length;i++){
+				myDownClue[i].addtime = myDownClue[i].addtime ? myDownClue[i].addtime.slice(0,-3) :''; //格式化日期
+				myDownClueHtml +=[
+					'<div class="list paylist" onclick="jumpPage(\''+myDownClue[i].id+'\',2)">',
+						'<div><span>'+myDownClue[i].projectname+'</span><span class="fr">成单时间：'+myDownClue[i].addtime+'</span></div>',
+						'<div><span>实际合同：￥'+myDownClue[i].actual_budget+'</span></div>',
+						'<div><span>总收入：￥'+myDownClue[i].proportion_money+'</span></div>',
+						payFunc(myDownClue[i]),
+					'</div>'
+				].join('');
+			}
+			$('#second').html(myDownClueHtml);
+		}
+	}
+
+	function notMySales(){
+		var html = [
+			'<div class="no_empty">',
+				'<h4>很抱歉，您还没有分销商信息</h4>',
+			'</div>'
+		].join('');
+		$('#first').html(html);
+	}
+
+	function notSecondSales(){
+		var html = [
+			'<div class="no_empty">',
+				'<h4>很抱歉，您还没有下级分销商信息</h4>',
+				'<div class="btn"><a href="javascript:;" class="shareBtn">立即发展</a></div>',
+			'</div>'
+		].join('');
+		$('#second').html(html);
+	}
+
+
+	//type=1 是已经支付 type=2是未支付
+	function excuteAjax(type){
+		if(type==1){ 
+			$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/clueDetail',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+		        success:function(data){
+		        	if(isLogin(data)){
+		        		var data=data.data;
+		        		userId = data.user_id
+		        		handleData(data);
+		        	}
+		        }
+			});
+		} else {
+			$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/notDockingDetail',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true
+				},  
+		        success:function(data){
+		        	if(isLogin(data)){
+		        		var data=data.data;
+		        		userId = data.myclue[0].user_id
+		        		handleData(data);
+		        	}
+		        }
+			});
+		}
+	}
+
+
+	$(function(){
+		
+		excuteAjax(type);
+		$('.tab_div div').click(function(){
+			var index=$(this).index();
+			var id=$(this).data('id');
+			$(this).addClass('active').siblings().removeClass('active');
+			$('.model').hide();
+			$('#'+id).show();
+		})
+	});
+</script>

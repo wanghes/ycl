@@ -346,12 +346,12 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}
 	}
-	$('#shareBtn , .shareBtn').click(function(){
+	$(document).on('click','#shareBtn , .shareBtn',function(){
 		$.showShareBox();
 	});
 	//	发布线索 输入框点击
@@ -542,7 +542,8 @@ $(function(){
 	})
 
 	
-	//	我发布的线索
+	//我发布的线索发分销明细
+	/*
 	$('.tab_div div').click(function(){
 		var index=$(this).index();
 		$(this).addClass('active').siblings().removeClass('active');
@@ -575,6 +576,7 @@ $(function(){
 	        }
 		});
 	})
+	*/
 	
 	//	意见反馈提示
 //	$.toastTip({

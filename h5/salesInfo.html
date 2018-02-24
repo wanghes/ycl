@@ -16,7 +16,7 @@
 				<h3>分销基本信息</h3>
 				<span></span>
 			</div>
-			<dl>
+			<dl id="baseInfo">
 				<dd><span>项目名称：</span><div>不忘初心</div></dd>
 				<dd><span>实际合同金额：</span><div>￥1000.00</div></dd>
 				<dd><span>实际提成比例：</span><div>10%</div></dd>
@@ -31,7 +31,7 @@
 					<h3>分销商信息</h3>
 					<span></span>
 				</div>
-				<dl>
+				<dl id="salesMan">
 					<dd><span>分销商姓名：</span><div>张玉</div></dd>
 					<dd><span>与我的关系：</span><div>我的上级分销商</div></dd>
 					<dd><span>联系电话：</span><div>15733223355</div></dd>
@@ -42,3 +42,234 @@
 			</div>
 	</body>
 </html>
+<script type="text/javascript">
+	var type = GetQueryString('type');
+	var userId = GetQueryString('userId');
+	var id = GetQueryString('id');
+	var level = GetQueryString('level'); //获取级别 我或者我的下级 1是我 2是我的下级
+
+	function sendAjax(config,cb){
+		var defaultConfig = {
+			url: '',
+	        type:'post',
+	        dataType:'json',
+	        xhrFields:{  
+				withCredentials:true  
+			},  
+			data:{
+			},
+	        success:function(data){
+	        	if(isLogin(data)){
+	        		var data=data.data;
+	        		if(cb) cb(data);
+	        	}
+	        }
+		}
+		let con = $.extend({},defaultConfig,config);
+		// console.log(con);
+		// return;
+		$.ajax(con);
+	}
+
+	function joinInfoBase(data,hasUpLevel){
+		var baseInfo = $('#baseInfo');
+		data.addtime = data.addtime ? data.addtime.slice(0,-3):"";
+		data.alpayment = data.alpayment ? data.alpayment: 0;
+		var html = [
+			'<dd><span>项目名称：</span><div>'+data.projectname+'</div></dd>',
+			'<dd><span>实际合同金额：</span><div>￥'+data.actual_budget+'</div></dd>',
+			'<dd><span>实际提成比例：</span><div>'+data.actual_proportion+'%</div></dd>',
+			'<dd><span>个人所得分销总金额：</span><div>￥'+data.Commission_money+'</div></dd>',
+			'<dd><span>已支付分销金额：</span><div>￥'+parseFloat(data.alpayment).toFixed(2)+'</div></dd>',
+			'<dd><span>支付时间：</span><div>'+data.addtime+'</div></dd>'
+		].join('');
+
+		if(hasUpLevel){
+			html += '<dd><span>我的上级所得总分销金额：</span><div>￥'+data.distribution_money+'</div></dd>';
+		}
+
+		baseInfo.html(html);
+	}
+
+	//拼接分销商信息
+	function joinSalesManInfo(data,h){
+		var salesMan = $('#salesMan');
+		data.addtime = data.addtime ? data.addtime.slice(0,-3):"";
+		data.alpayment = data.alpayment ? data.alpayment: 0;
+		var html = [
+			'<dd><span>分销商姓名：</span><div>'+data.username+'</div></dd>',
+			'<dd><span>与我的关系：</span><div>'+data.lianxi+'</div></dd>',
+			'<dd><span>联系电话：</span><div>'+data.mobile+'</div></dd>',
+			'<dd><span>微信号码：</span><div>'+data.wxnumber+'</div></dd>',
+			'<dd><span>微信昵称：</span><div>'+data.wxname+'</div></dd>',
+			'<dd><span>微信头像：</span><div><img src="'+data.wximage+'" alt="" /></div></dd>'
+		].join('');
+		salesMan.html(html);
+	}
+
+	//我的下级
+	function joinSecondInfoBase(data,user){
+		var baseInfo = $('#baseInfo');
+		var salesMan = $('#salesMan');
+		data.addtime = data.addtime ? data.addtime.slice(0,-3):"";
+		var html = [
+			'<dd><span>项目名称：</span><div>'+data.projectname+'</div></dd>',
+			'<dd><span>实际合同金额：</span><div>￥'+data.actual_budget+'</div></dd>',
+			'<dd><span>实际提成比例：</span><div>'+data.actual_proportion+'%</div></dd>',
+			'<dd><span>个人所得分销总金额：</span><div>￥'+data.myfenxiao+'</div></dd>',
+			'<dd><span>已支付分销金额：</span><div>￥'+parseFloat(data.alpayment).toFixed(2)+'</div></dd>',
+			'<dd><span>支付时间：</span><div>'+data.addtime+'</div></dd>',
+			'<dd><span>我的下级所得总分销金额：</span><div>￥'+data.mydownfenxiao+'</div></dd>'
+		].join('');
+		baseInfo.html(html);
+
+		var html2 = [
+			'<dd><span>分销商姓名：</span><div>'+user.username+'</div></dd>',
+			'<dd><span>与我的关系：</span><div>'+user.lianxi+'</div></dd>',
+			'<dd><span>联系电话：</span><div>'+user.mobile+'</div></dd>',
+			'<dd><span>微信号码：</span><div>'+user.wxnumber+'</div></dd>',
+			'<dd><span>微信昵称：</span><div>'+user.wxname+'</div></dd>',
+			'<dd><span>微信头像：</span><div><img src="'+user.wximage+'" alt="" /></div></dd>'
+		].join('');
+
+		salesMan.html(html2);
+	}
+
+	function joinInfoNotPayBase(data,hasUpLevel){
+		var baseInfo = $('#baseInfo');
+		data.addtime = data.addtime ? data.addtime.slice(0,-3):"";
+		data.alpayment = data.alpayment ? data.alpayment: 0;
+		var html = [
+			'<dd><span>项目名称：</span><div>'+data.projectname+'</div></dd>',
+			'<dd><span>实际合同金额：</span><div>￥'+data.actual_budget+'</div></dd>',
+			'<dd><span>实际提成比例：</span><div>'+data.actual_proportion+'%</div></dd>',
+			'<dd><span>个人所得分销总金额：</span><div>￥'+data.Commission_money+'</div></dd>',
+			'<dd><span>未支付分销金额：</span><div>￥'+parseFloat(data.proportion_money).toFixed(2)+'</div></dd>'
+		].join('');
+
+		if(hasUpLevel){
+			html += '<dd><span>我的上级所得总分销金额：</span><div>￥'+data.distribution_money+'</div></dd>';
+		}
+
+		baseInfo.html(html);
+	}
+
+	//拼接分销商信息
+	function joinSalesManNotPayInfo(data,h){
+		var salesMan = $('#salesMan');
+		data.addtime = data.addtime ? data.addtime.slice(0,-3):"";
+		data.alpayment = data.alpayment ? data.alpayment: 0;
+		var html = [
+			'<dd><span>分销商姓名：</span><div>'+data.username+'</div></dd>',
+			'<dd><span>与我的关系：</span><div>'+data.lianxi+'</div></dd>',
+			'<dd><span>联系电话：</span><div>'+data.mobile+'</div></dd>',
+			'<dd><span>微信号码：</span><div>'+data.wxnumber+'</div></dd>',
+			'<dd><span>微信昵称：</span><div>'+data.wxname+'</div></dd>',
+			'<dd><span>微信头像：</span><div><img src="'+data.wximage+'" alt="" /></div></dd>'
+		].join('');
+		salesMan.html(html);
+	}
+
+	//我的下级
+	function joinSecondInfoNotPayBase(data,user){
+		var baseInfo = $('#baseInfo');
+		var salesMan = $('#salesMan');
+		data.addtime = data.addtime ? data.addtime.slice(0,-3):"";
+		var html = [
+			'<dd><span>项目名称：</span><div>'+data.projectname+'</div></dd>',
+			'<dd><span>实际合同金额：</span><div>￥'+data.actual_budget+'</div></dd>',
+			'<dd><span>实际提成比例：</span><div>'+data.actual_proportion+'%</div></dd>',
+			'<dd><span>个人所得分销总金额：</span><div>￥'+data.myfenxiao+'</div></dd>',
+			'<dd><span>未支付分销金额：</span><div>￥'+parseFloat(data.proportion_money).toFixed(2)+'</div></dd>',
+			'<dd><span>我的下级所得总分销金额：</span><div>￥'+data.mydownfenxiao+'</div></dd>'
+		].join('');
+		baseInfo.html(html);
+
+		var html2 = [
+			'<dd><span>分销商姓名：</span><div>'+user.username+'</div></dd>',
+			'<dd><span>与我的关系：</span><div>'+user.lianxi+'</div></dd>',
+			'<dd><span>联系电话：</span><div>'+user.mobile+'</div></dd>',
+			'<dd><span>微信号码：</span><div>'+user.wxnumber+'</div></dd>',
+			'<dd><span>微信昵称：</span><div>'+user.wxname+'</div></dd>',
+			'<dd><span>微信头像：</span><div><img src="'+user.wximage+'" alt="" /></div></dd>'
+		].join('');
+
+		salesMan.html(html2);
+	}
+
+	//type=1 是已经支付 type=2是未支付
+	function excuteAjax(type){
+		if(!userId){
+			$.toastTip({
+				img:'images/4-3gxfkui.png',
+				imgW:'1.56rem',
+				imgH:'1.5rem',
+				text:"用户ID缺失"
+			});
+		}else if(!id){
+			$.toastTip({
+				img:'images/4-3gxfkui.png',
+				imgW:'1.56rem',
+				imgH:'1.5rem',
+				text:"线索ID缺失"
+			});
+		}else{
+			if(type==1 && level==1){ 
+				sendAjax({
+					url: 'http://yichuanglian.huimor.com/index/getMyclueDetail',
+					data:{
+						clues_id:id,
+						user_id:userId
+					}
+				},function(data){
+					if(data.user){
+						joinInfoBase(data.mycluedetail[0],true);
+						joinSalesManInfo(data.user);
+					}else{
+						joinInfoBase(data.mycluedetail[0],false);
+					}
+				})
+			} else if(type==1 && level==2) {
+				sendAjax({
+					url: 'http://yichuanglian.huimor.com/index/getMydownclueDetail',
+					data:{
+						clues_id:id,
+						down_id:userId
+					}
+				},function(data){
+					joinSecondInfoBase(data.mycluedetail[0],data.user);
+				});
+			} else if(type==2 && level==1){
+				sendAjax({
+					url: 'http://yichuanglian.huimor.com/index/unpaidDetail',
+					data:{
+						clues_id:id,
+						user_id:userId
+					}
+				},function(data){
+					if(data.user){
+						joinInfoNotPayBase(data.mycluedetail[0], true);
+						joinSalesManNotPayInfo(data.user);
+					}else{
+						joinInfoNotPayBase(data.mycluedetail[0], false);
+					}
+				});
+			} else if(type==2 && level==2){
+				sendAjax({
+					url: 'http://yichuanglian.huimor.com/index/unpaidDownDetail',
+					data:{
+						clues_id:id,
+						user_id:userId
+					}
+				},function(data){
+					joinSecondInfoNotPayBase(data.mycluedetail[0],data.user);
+				});
+			}
+		}
+	}
+
+
+	$(function(){
+		excuteAjax(type);
+	});
+</script>
