@@ -66,16 +66,16 @@ function isLogin(data){
 	}
 }
 
-//function isTel(tel){
-//	if(tel==''|| tel.length!=11){
-//		$.toastTip({
-//			img:'images/4-3gxfkui.png',
-//			imgW:'1.56rem',
-//			imgH:'1.5rem',
-//			text:['手机号不正确']
-//		});
-//	}
-//}
+function isTel(tel){
+	if(tel==''|| tel.length!=11){
+		$.toastTip({
+			img:'images/4-3gxfkui.png',
+			imgW:'1.56rem',
+			imgH:'1.5rem',
+			text:['手机号不正确']
+		});
+	}
+}
 
 //下拉底部显示
 (function() {
@@ -234,8 +234,6 @@ function isLogin(data){
         		$(this).remove();
         	})
         	/*
-
-
         	var defalut = {
         		title:"分享至",
         		images:[
@@ -347,7 +345,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}
@@ -357,15 +355,15 @@ $(function(){
 	});
 	//	发布线索 输入框点击
 	$('.releaseInfo input').focus(function(){
-		$(this).parents('dd').addClass('cur')
+		$(this).parents('dd').addClass('cur');
 	});
 	$('.releaseInfo input').blur(function(){
-		$(this).parents('dd').removeClass('cur')
+		$(this).parents('dd').removeClass('cur');
 	});
 	
 	//	完善个人信息 是否同意阅读线上合同
 	$('.agreeContract i').click(function(){
-		$(this).toggleClass('active')
+		$(this).toggleClass('active');
 	})
 	
 	//	发布线索  行业选择弹出
@@ -458,7 +456,7 @@ $(function(){
 	        }
 		});
 	})
-	//	发布线索  业务类型
+	// 发布线索  业务类型 
 	$('.selectBusiness div').click(function(){
 		var this_text=$(this).find('p').text();
 		var lists=[],listsId=[];
@@ -491,7 +489,7 @@ $(function(){
 		});
 	});
 	
-	//发布线索提交
+	// 发布线索提交
 	$('.release-btn button').click(function(){
 		var projectName=$('input[name="projectName"]').val();
 		var bus_id=$('.selectBusiness p').attr('data-id');
@@ -542,66 +540,32 @@ $(function(){
 		});
 	})
 
-	
-	//我发布的线索发分销明细
-	/*
-	$('.tab_div div').click(function(){
-		var index=$(this).index();
-		$(this).addClass('active').siblings().removeClass('active');
-		
-		$.ajax({
-	        url: 'http://yichuanglian.huimor.com/index/release',
-	        type:'post',
-	        data:{
-	        	status:index+1,
-	        },
-	        dataType:'json',
-	        xhrFields:{  
-				withCredentials:true  
-			},  
-	        success:function(data){
-	        	if(isLogin(data)){
-	        		var str='';
-	        		var data=data.data;
-	        		for (i=0;i<data.length();i++) {
-        				str+='<div class="list">\
-								<div><span>'+data[i].projectname+'</span><span class="fr">'+data[i].addtime+'</span></div>\
-								<div><span>行业：</span>教育</div>\
-								<div><span>项目预算：</span><strong>￥1000.00</strong></div>\
-								<div><span>期望提成比例：</span><em>10%</em></div>\
-							</div>';
-        			}
-	        	}
-	        	$('.model').eq(index).append(str);
-				$('.model').hide().eq(index).show();
-	        }
-		});
-	})
-	*/
-	
+
 	//	意见反馈提示
-//	$.toastTip({
-//		img:'images/4-3gxfkui.png',
-//		imgW:'1.56rem',
-//		imgH:'1.5rem',
-//		text:['感谢您的反馈！','我们会尽快安排专人与您联系~']
-//	})
+	/*
+	$.toastTip({
+		img:'images/4-3gxfkui.png',
+		imgW:'1.56rem',
+		imgH:'1.5rem',
+		text:['感谢您的反馈！','我们会尽快安排专人与您联系~']
+	});
 
-	//	保存分销信息
-//	$.toastTip({
-//		img:'images/3-12bccg.png',
-//		imgW:'1.52rem',
-//		imgH:'1.34rem',
-//		text:['保存成功']
-//	})
+		保存分销信息
+	$.toastTip({
+		img:'images/3-12bccg.png',
+		imgW:'1.52rem',
+		imgH:'1.34rem',
+		text:['保存成功']
+	});
 
-	//	密码修改成功
-//	$.toastTip({
-//		img:'images/4-2xgcgong.png',
-//		imgW:'1.68rem',
-//		imgH:'1.49rem',
-//		text:['修改成功']
-//	})
+		密码修改成功
+	$.toastTip({
+		img:'images/4-2xgcgong.png',
+		imgW:'1.68rem',
+		imgH:'1.49rem',
+		text:['修改成功']
+	});
+	*/
 
     
     //完善个人信息 选择职业类型
@@ -684,4 +648,4 @@ $(function(){
 	    });
     });
     
-})
+});

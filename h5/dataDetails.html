@@ -16,15 +16,157 @@
 				<h3>分销商信息</h3>
 				<span></span>
 			</div>
-			<dl>
-				<dd><span>分销商姓名：</span><div>张玉</div></dd>
+			<dl id="values">
+				<!-- <dd><span>分销商姓名：</span><div>张玉</div></dd>
 				<dd><span>与我的关系：</span><div>我的下级分销商</div></dd>
 				<dd><span>联系电话：</span><div>15733223355</div></dd>
 				<dd><span>微信号码：</span><div>zai123456</div></dd>
 				<dd><span>微信昵称：</span><div>不忘初心</div></dd>
-				<dd><span>微信头像：</span><div><img src="images/img1.jpg" alt="" /></div></dd>
+				<dd><span>微信头像：</span><div><img src="images/img1.jpg" alt="" /></div></dd> -->
 			</dl>
 		</div>
-		<div class="dataDetails-btn"><button>保存到本地</button></div>
+		<div class="dataDetails-btn"><button id="saveLocalBtn">保存到本地</button></div>
 	</body>
 </html>
+<script type="text/javascript">
+
+	function convertHtmlToCanvas(obj,ifDown){
+		var imgX, imgY, text, imgUrl;
+		var canvas = document.createElement("canvas");
+		var context=canvas.getContext('2d');
+		canvas.width = 300;
+		canvas.height = 300;
+		
+		context.rect(0,0,canvas.width,canvas.height);
+		context.fillStyle='#f8f8f8';
+		context.fill();
+
+		context.textAlign="center";
+		context.fillStyle="#000";
+		context.font="normal 20px Arial";
+   	 	context.lineWidth=1;
+    	context.fillText("分销商信息",150,50);
+    	context.textAlign="left";
+    	for(var i=0; i<obj.length; i++){
+    		context.font="normal 16px Arial";
+    		if(obj[i].key!="wximage"){
+	    		text = obj[i].label+"："+obj[i].value; 
+	    		context.fillText(text,40,50+30*(i+1));
+    		}else{
+    			text = obj[i].label+"："; 
+	    		context.fillText(text,40,50+30*(i+1));
+	    		imgUrl = obj[i].value;
+	    		imgX = 16*4+55;
+	    		imgY =37+30*(i+1);
+    		}
+    	}
+    	loadImageAsync(imgUrl,context,canvas,imgX,imgY,ifDown);
+	}
+
+	function loadImageAsync(imgUrl,context,canvas,imgX,imgY,ifDown){
+		 var image = new Image();
+		    image.width = 60;
+			image.height = 60;
+		    image.crossOrigin = '*'; 
+		    image.onload = function() {
+		    	context.drawImage(image,imgX,imgY,image.width,image.height);
+		      	convertCanvasToImage(canvas,handleImgResult,ifDown);
+		    };
+		    image.onerror = function() {
+		        alert(new Error('Could not load image at ' + imgUrl));
+		    };
+		    image.src = imgUrl;
+	}
+
+	function convertCanvasToImage(canvas,cb,ifDown) {
+		var base64 = "";
+		base64 = canvas.toDataURL("image/png"); 
+		if(cb){
+			cb(base64,canvas,ifDown);
+		}
+	}
+	
+	function handleImgResult(base64, canvas, ifDown){
+		if(ifDown){
+			$('#saveLocalBtn').click(function(){
+				saveFile(base64,(new Date()).getTime()+".png");
+			});
+		}else{
+			//document.getElementById("pngHolder").appendChild(canvas);
+		}
+	}
+
+	/**
+	* 在本地进行文件保存
+	* @param  {String} data  base64   要保存到本地的图片数据
+	* @param  {String} filename 文件名
+	*/
+	function saveFile(data, filename){
+	   var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+	   save_link.href = data;
+	   save_link.download = filename;
+	  
+	   var event = document.createEvent('MouseEvents');
+	   event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+	   save_link.dispatchEvent(event);
+	};
+
+	function generateInfo(data){
+		var arr = [];
+		var result = [];
+		var keysSort = ["username","level","mobile","wxnumber","wxname","wximage"];
+		var labels = ["分销商姓名","与我的关系","联系电话","微信号码","微信昵称","微信头像"];
+		for(var key in data){
+			arr.push({key:key,value:data[key]});
+		}
+
+		keysSort.forEach(function(item){
+			arr.forEach(function(aItem){
+				if(item==aItem.key){
+					aItem.label = labels.shift();
+					result.push(aItem);
+				}
+			})
+		})
+		return result;
+	}
+
+
+	$(function(){
+		var uid = GetQueryString('uid');
+		var up = GetQueryString('up');
+		var defaultHead = "http://yichuanglian.huimor.com/storage/header.png";
+
+		$.ajax({
+	        url: 'http://yichuanglian.huimor.com/index/getlevelDetailmessage',
+	        type: 'post',
+	        dataType: 'json',
+	        data: {
+	        	userid:uid
+	        },
+	        xhrFields: {  
+				withCredentials:true
+			},  
+	        success:function(data){
+	        	if(data.code==1){
+	        		var data = data.data;
+	        		data.wxnumber = data.wxnumber ? data.wxnumber : "";
+	        		data.level = up == '1' ? "我的上级分销商" : "我的下级分销商"
+	        		data.wximage = data.wximage ? data.wximage : defaultHead
+	        		var html = [
+	        			'<dd><span>分销商姓名：</span><div>'+(data.username || "")+'</div></dd>',
+						'<dd><span>与我的关系：</span><div>'+data.level+'</div></dd>',
+						'<dd><span>联系电话：</span><div>'+(data.mobile || "")+'</div></dd>',
+						'<dd><span>微信号码：</span><div>'+(data.wxnumber || "")+'</div></dd>',
+						'<dd><span>微信昵称：</span><div>'+(data.wxname || "")+'</div></dd>',
+						'<dd><span>微信头像：</span><div><img src="'+data.wximage+'" alt="'+data.level+'头像" onerror="javascript:this.src='+defaultHead+';" /></div></dd>'
+	        		];
+	        		$('#values').html(html);
+	        		var newData = generateInfo(data);
+	        		convertHtmlToCanvas(newData,true);
+	        	}
+	        	
+	        }
+		});
+	})
+</script>

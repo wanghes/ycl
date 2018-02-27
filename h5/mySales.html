@@ -11,8 +11,8 @@
 </head>
 	<body>
 		<div class="higherup" id="upperLevel">
-			<div class="fl">我的上级：</div>
-			<div class="fr"><img src="images/img1.jpg" alt="" /><span>这是昵称很长</span></div>
+			<!-- <div class="fl">我的上级：</div>
+			<div class="fr"><img src="images/img1.jpg" alt="" /><span></span></div> -->
 		</div>
 		<div class="bg_block"></div>
 		<div class="subordinate">
@@ -60,9 +60,8 @@
 		<script type="text/javascript">
 			$.developSecondSales(); //发展二级分销微信配置
 			//跳转到分销商详细页面
-			function jumpSalesMan(username){
-				alert(username)
-				window.location.href="dataDetails.html?uid="+username
+			function jumpSalesMan(userid,up){
+				window.location.href="dataDetails.html?uid="+userid+"&up="+up;
 			}
 			function createLowerLevel(list){
 				var lowerLevel = $('#lowerLevel');
@@ -71,9 +70,15 @@
 					item.wximage = item.wximage ? item.wximage : '';
 					item.username = item.username ? item.username : '';
 					item.create_date = item.create_date.slice(0,10);
+					item.wxname = item.wxname ? item.wxname : "";
+					if(item.wximage){
+						item.wximage = item.wximage.indexOf("http://") > -1 ?
+									    item.wximage : "http://"+item.wximage;
+					}
+
 					temp = [
-						'<li onclick="jumpSalesMan(\''+item.username+'\')">',
-						'<div class="fl"><img src="'+item.wximage+'" alt="" /><span>'+item.username+'</span></div>',
+						'<li onclick="jumpSalesMan(\''+item.userid+'\',2)">',
+						'<div class="fl"><img src="'+item.wximage+'" alt="" /><span>'+item.wxname+'</span></div>',
 						'<div class="fr">入驻时间：'+item.create_date+'</div>',
 						'</li>'
 					].join('');
@@ -85,13 +90,13 @@
 			}
 			function createUpperLevel(list){
 				var upperLevel = $('#upperLevel');
-				
 				var result = list.pop();
+				result.wxname = result.wxname ? result.wxname : "";
 				var html = [
 					'<div class="fl">我的上级：</div>',
-					'<div class="fr">',
-					'<img src="'+result.wximage+'" alt="" />',
-					'<span>'+result.username+'</span>',
+					'<div class="fr" onclick="jumpSalesMan(\''+result.userid+'\',1)">',
+					'<img src="'+result.wximage+'" alt="'+result.wximage+'" />',
+					'<span>'+result.wxname+'</span>',
 					'</div>'
 				].join('');
 				upperLevel.html(html);
@@ -99,13 +104,7 @@
 
 			function noUpperLevel(){
 				var upperLevel = $('#upperLevel');
-				var html = [
-					'<div class="fl">我的上级：</div>',
-					'<div class="fr">',
-					'<img src="images/img1.jpg" alt="" /><span>还没有上级</span>',
-					'</div>'
-				].join('');
-				upperLevel.html(html);
+				upperLevel.hide();
 			}
 
 			function noLowerLevel(){
@@ -126,7 +125,11 @@
 		        		var upperList = data.upper;
 
 		        		lowerList && lowerList.length ? createLowerLevel(lowerList) : noLowerLevel();
-		        		upperList && upperList.length ? createUpperLevel(upperList): noUpperLevel();
+		        		if(!upperList){
+		        			noUpperLevel();
+		        		}else{
+		        			upperList && upperList.length ? createUpperLevel(upperList): noUpperLevel();
+		        		}
 
 		        	}else{
         		      	$.toastTip({

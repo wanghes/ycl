@@ -13,7 +13,7 @@
 </head>
 	<body>
 		<div class="personalHead">
-			<a href="personalInfo.html">
+			<a href="personalInfo.html" id="perHead">
 				<img id="avator" src="images/img1.jpg" alt="" />
 				<p id="nick"></p>
 				<i></i>
@@ -52,7 +52,7 @@
 					</a>
 				</div>
 				<div class="active">
-					<a href="#">
+					<a href="javascript:;">
 						<img src="images/1-1grzxin2.png" alt="" />
 						<p>个人中心</p>
 					</a>
@@ -61,6 +61,7 @@
 		</footer>
 	</body>
 	<script type="text/javascript">
+		var defaultHead = "http://yichuanglian.huimor.com/storage/header.png";
 		$.ajax({
 	        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
 	        type:'get',
@@ -71,7 +72,10 @@
 	        success:function(data){
 	        	if(isLogin(data)){
 	        		var data=data.data[0];
-	            	$('.personalHead img').attr('src',data.wximage)
+	        		var html = [
+	        		
+	        		]
+	            	$('.personalHead img').attr('src',(data.wximage || defaultHead))
 	            	$('.personalHead p').text(data.wxname)
 	        	}
 	        }

@@ -34,19 +34,30 @@
 		var mesBox = $('#mesBox');
 		var html = "";
 		var status='';
-		
-		if(data.length){
+		var classInfo = "";
+
+		if(!data.length){
 			mesBox.html('<h3 style="text-align:center">目前还没有系统消息</h3>');
 			return;
 		}
 		
 		$.each(data,function(index,item){
 			item.addtime = item.addtime ? item.addtime.slice(0,-3) :''; //格式化日期
-			status = item.content.indexOf("对接成功") > -1 ? "对接成功" :"对接失败";
+			status = item.status==1 ? "对接成功" :"对接失败";
+			if (item.status==1) {
+				status = "对接成功";
+				classInfo = "successMes";
+			} else if(item.status==2) {
+				status = "对接失败";
+				classInfo = "defeatedMes";
+			} else { //status==3
+				status = "系统通知";
+				classInfo = "";
+			}
 			html += [
 				'<div class="messagesDate">'+item.addtime+'</div>',
 				'<div class="messagesList">',
-					'<h3 class="successMes">'+status+'</h3>',
+					'<h3 class="'+classInfo+'">'+status+'</h3>',
 					'<p>'+item.content+'</p>',
 				'</div>'
 			].join('');
@@ -54,6 +65,7 @@
 
 		mesBox.html(html);
 	}
+
 	$(function(){
 		$.ajax({
 	        url: 'http://yichuanglian.huimor.com/index/getSysMessage',

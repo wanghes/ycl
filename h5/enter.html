@@ -51,7 +51,9 @@
 				$('.code').click(function(){
 					var _this=this;
 					var tel=$('input[name="tel"]').val();
-					if((tel=='')|| (tel.length!=11)){
+					var telReg = /^[1][3,4,5,7,8][0-9]{9}$/; 
+
+					if((tel=='') || (tel.length!=11) || !telReg.test(tel)){
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
 							imgW:'1.56rem',

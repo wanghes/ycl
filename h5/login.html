@@ -54,7 +54,7 @@
 									withCredentials:true  
 								},  
 						        success:function(data){
-						        	console.log(data);
+						        	window.location.href='index.html'
 						        }
 							});
 						}
@@ -66,49 +66,48 @@
 			$('.login-btn button').click(function(){
 				var tel=$('input[name="tel"]').val();
 				var pwd=$('input[name="password"]').val();
-				if((tel=='')||(tel.length!=11)){
+				var telReg = /^[1][3,4,5,7,8][0-9]{9}$/; 
+				if((tel=='')||(tel.length!=11) || !telReg.test(tel)){
 					$.toastTip({
 						img:'images/4-3gxfkui.png',
 						imgW:'1.56rem',
 						imgH:'1.5rem',
 						text:['手机号码不正确']
 					});
-					return false;
-				}
-				if(pwd==''){
+				} else if(pwd==''){
 					$.toastTip({
 						img:'images/4-3gxfkui.png',
 						imgW:'1.56rem',
 						imgH:'1.5rem',
 						text:['密码不能为空']
 					});
-					return false;
-				}
-				$.ajax({
-			        url: 'http://yichuanglian.huimor.com/index/login',
-			        type:'post',
-			        data:{
-			            mobile:tel,
-			            password:pwd,
-			        },
-			        dataType:'json',
-			        xhrFields:{  
-						withCredentials:true  
-					},  
-			        success:function(data){
-			            if(data.code==1){
-			            	sendOauth();
-			           		window.location.href='index.html'
-			            }else{
-			            	$.toastTip({
-								img:'images/4-3gxfkui.png',
-								imgW:'1.56rem',
-								imgH:'1.5rem',
-								text:[data.msg]
-							});
-			            }
-			        }
-			    });
+				} else {
+					$.ajax({
+				        url: 'http://yichuanglian.huimor.com/index/login',
+				        type:'post',
+				        data:{
+				            mobile:tel,
+				            password:pwd,
+				        },
+				        dataType:'json',
+				        xhrFields:{  
+							withCredentials:true  
+						},  
+				        success:function(data){
+				            if(data.code==1){
+				            	sendOauth();
+				           		window.location.href='index.html'
+				            }else{
+				            	$.toastTip({
+									img:'images/4-3gxfkui.png',
+									imgW:'1.56rem',
+									imgH:'1.5rem',
+									text:[data.msg]
+								});
+				            }
+				        }
+				    });
+			    }
 		    });
 	</script>
 	</body>
