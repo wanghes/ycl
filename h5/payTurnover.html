@@ -67,8 +67,7 @@
 <script type="text/javascript">
 	$.developSecondSales(); //发展二级分销微信配置
 	var type = GetQueryString('type');
-	var userId ="";
-	function jumpPage(id,level){
+	function jumpPage(id,level,userId){
 		var query = '?id='+id+'&type='+type+'&userId='+userId+"&level="+level;
 		var str = "salesInfo.html";
 		window.location.href = str+query;
@@ -96,7 +95,7 @@
 				myClue[i].addtime = myClue[i].addtime ? myClue[i].addtime.slice(0,-3) : ""; //格式化日期
 				
 				myClueHtml +=[
-					'<div class="list paylist" onclick="jumpPage(\''+myClue[i].id+'\',1)">',
+					'<div class="list paylist" onclick="jumpPage(\''+myClue[i].id+'\',1,\''+myClue[i].user_id+'\')">',
 						'<div><span>'+myClue[i].projectname+'</span><span class="fr">成单时间：'+myClue[i].addtime+'</span></div>',
 						'<div><span>实际合同：￥'+myClue[i].actual_budget+'</span></div>',
 						'<div><span>总收入：￥'+myClue[i].proportion_money+'</span></div>',
@@ -113,7 +112,7 @@
 			for(var i=0;i<myDownClue.length;i++){
 				myDownClue[i].addtime = myDownClue[i].addtime ? myDownClue[i].addtime.slice(0,-3) :''; //格式化日期
 				myDownClueHtml +=[
-					'<div class="list paylist" onclick="jumpPage(\''+myDownClue[i].id+'\',2)">',
+					'<div class="list paylist" onclick="jumpPage(\''+myDownClue[i].id+'\',2,\''+myDownClue[i].user_id+'\')">',
 						'<div><span>'+myDownClue[i].projectname+'</span><span class="fr">成单时间：'+myDownClue[i].addtime+'</span></div>',
 						'<div><span>实际合同：￥'+myDownClue[i].actual_budget+'</span></div>',
 						'<div><span>总收入：￥'+myDownClue[i].proportion_money+'</span></div>',
@@ -158,7 +157,6 @@
 		        success:function(data){
 		        	if(isLogin(data)){
 		        		var data=data.data;
-		        		userId = data.user_id
 		        		handleData(data);
 		        	}
 		        }
@@ -174,7 +172,6 @@
 		        success:function(data){
 		        	if(isLogin(data)){
 		        		var data=data.data;
-		        		userId = data.myclue[0].user_id
 		        		handleData(data);
 		        	}
 		        }
