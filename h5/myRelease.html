@@ -144,6 +144,7 @@
 
 			$('.tab_nav div').click(function(){
 				var index=$(this).index();
+				$('.nothing').hide();
 				$(this).addClass('active').siblings().removeClass('active');
 				excuteAjax(index);
 			})

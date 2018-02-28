@@ -44,12 +44,16 @@
 				        success:function(data){
 				        	if(isLogin(data)){
 				        		var data=data.data[0];
-				        		$('.wxname').text(data.wxname || "")
-				            	$('#avator').attr('src',data.wximage)
-				            	$('.personalName').text(data.username || "")
-				            	$('.personalCompany').text(data.company || "")
+				        		$('.wxname').text(data.wxname || "");
+				            	$('#avator').attr('src',data.wximage);
+				            	$('.personalName').text(data.username || "");
+				            	$('.personalCompany').text(data.company || "");
 				            	if(!data.occupationtype){
-				            		$('.personalProfession').text('')	
+				            		if(data.name){
+				            			$('.personalProfession').text(data.name)	
+				            		}else{
+				            			$('.personalProfession').text('');	
+				            		}
 				            	}else{
 				            		$.each(cates,function(index,item){
 				            			if(item.id==data.occupationtype){

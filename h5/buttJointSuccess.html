@@ -25,7 +25,7 @@
 		
 		<div class="detailsSum">
 			<p>我的上级：</p>
-			<div>
+			<div id="upLevelInfo">
 				<img id="upperImg" src="" alt="" style="height:50px; width:50px;" />
 				<span id="nickName"></span>
 				<div id="percentageMoney"></div>
@@ -74,7 +74,7 @@
 		
 	</div>
 	<script type="text/javascript">
-		
+			var hasUpLevel = false;
 			//对象化查询参数
 			function GetRequest() {
 				var url = location.search; //获取url中"?"符后的字串
@@ -90,14 +90,24 @@
 				return theRequest;
 			}
 
+			function showUpLevelInfo(hasUpLevel,data){
+				var html = "";
+				if(hasUpLevel){
+					$('#upLevelInfo').html('');
+				}else{
+					html = [
+						'<img id="upperImg" src="'+data.avator+'" alt="" style="height:50px; width:50px;" />',
+						'<span id="nickName">'+data.upname+'</span>',
+						'<div id="percentageMoney">提成金额：￥'+data.proportion_money+'</div>'
+					].join('');
+					$('#upLevelInfo').html(html);
+				}
+			}
 
 			function createDetailsStatus(data){
 				var detailsStatus = $('#detailsStatus');
 				var html = '';
 				$('#assignSaleMoney').text('￥'+data.Commission_money);
-				$('#percentageMoney').text('提成金额：￥'+data.proportion_money);
-				$('#upperImg').attr('src',data.avator);
-				$('#nickName').text(data.upname);
 				html = [
 					'<div><span>对接状态：</span>对接成功</div>',
 					'<div><span>实际合同金额：</span><strong>￥'+data.actual_budget+'</strong></div>',
@@ -138,8 +148,8 @@
 			}
 
 			$.ajax({
-		        url: 'http://yichuanglian.huimor.com/index/DetailMessage',
-		        type:'POST',
+		        url: 'http://yichuanglian.huimor.com/index/getmyupuser',
+		        type:'get',
 		        dataType:'json',
 		        xhrFields:{  
 					withCredentials:true  
@@ -147,31 +157,52 @@
 				data:GetRequest(),
 		        success:function(data){
 		        	if(data.code==1){
-		        		var data = data.data;
-		        		var docker = data.docker; //对接人信息
-		        		var clues = data.clues; //线索基本信息
-		        		var detailData = {
-		        			actual_proportion:data.actual_proportion,
-		        			actual_budget:data.actual_budget,
-		        			proportion_money:data.proportion_money,
-		        			Commission_money:data.Commission_money,
-		        			upname:docker.upname,
-		        			avator:docker.upimage,
+		        		if(data.data){
+		        			hasUpLevel = true;
+		        			showUpLevelInfo(hasUpLevel,data)
+		        		}else{
+		        			showUpLevelInfo(hasUpLevel,null);
 		        		}
-		        		createDetailsStatus(detailData);
-		        		createCluesHtml(clues);
-		        		createDockerHtml(docker);
-		        	}else{
-        		      	$.toastTip({
-							img:'images/4-3gxfkui.png',
-							imgW:'1.56rem',
-							imgH:'1.5rem',
-							text:[data.msg]
-						});
 		        	}
-		        	
+		        	$.ajax({
+				        url: 'http://yichuanglian.huimor.com/index/DetailMessage',
+				        type:'POST',
+				        dataType:'json',
+				        xhrFields:{  
+							withCredentials:true  
+						},
+						data:GetRequest(),
+				        success:function(data){
+				        	if(data.code==1){
+				        		var data = data.data;
+				        		var docker = data.docker; //对接人信息
+				        		var clues = data.clues; //线索基本信息
+				        		var detailData = {
+				        			actual_proportion:data.actual_proportion,
+				        			actual_budget:data.actual_budget,
+				        			proportion_money:data.proportion_money,
+				        			Commission_money:data.Commission_money,
+				        			upname:docker.upname,
+				        			avator:docker.upimage,
+				        		}
+				        		createDetailsStatus(detailData);
+				        		createCluesHtml(clues);
+				        		createDockerHtml(docker);
+				        	}else{
+		        		      	$.toastTip({
+									img:'images/4-3gxfkui.png',
+									imgW:'1.56rem',
+									imgH:'1.5rem',
+									text:[data.msg]
+								});
+				        	}
+				        	
+				        }
+					});
 		        }
 			});
+
+			
 
 		</script>
 	</body>

@@ -61,26 +61,26 @@
 							imgH:'1.5rem',
 							text:['手机号不正确']
 						});
-						return false;
-					}
-					$.ajax({
-				        url: 'http://yichuanglian.huimor.com/index/getsms',
-				        type:'post',
-				        data:{
-				            mobile:tel,
-				            type:'1',
-				        },
-				        xhrFields:{  
-							withCredentials:true  
-						},  
-				        dataType:'json',
-				        success:function(data){
-				        	
-				        	if(isLogin(data)){
-			        			codeTime.init(_this);
-				           	}	
-				        }
-				    });
+					} else {
+						$.ajax({
+					        url: 'http://yichuanglian.huimor.com/index/getsms',
+					        type:'post',
+					        data:{
+					            mobile:tel,
+					            type:'1',
+					        },
+					        xhrFields:{  
+								withCredentials:true  
+							},  
+					        dataType:'json',
+					        success:function(data){
+					        	
+					        	if(isLogin(data)){
+				        			codeTime.init(_this);
+					           	}	
+					        }
+					    });
+				    }
 				});
 				
 				//立即入驻
@@ -88,18 +88,17 @@
 					var tel=$('.enter-form input[name="tel"]').val();
 					var pwd=$('.enter-form input[type="password"]').val();
 					var code=$('.enter-form input[name="code"]').val();
-					var reg = /^[A-Za-z0-9]{6,12}$/;
-
+					var reg = /^[A-Za-z0-9]{6,12}$/;			
+					var telReg = /^[1][3,4,5,7,8][0-9]{9}$/; 
 					
-					if((tel=='')|| (tel.length!=11)){
+					if ((tel=='') || (tel.length!=11) || !telReg.test(tel)) {
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
 							imgW:'1.56rem',
 							imgH:'1.5rem',
-							text:['手机号不正确']
+							text:['手机号码不正确']
 						});
-					
-					} else if(pwd==''){
+					} else if(pwd=='') {
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
 							imgW:'1.56rem',

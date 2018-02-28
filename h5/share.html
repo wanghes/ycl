@@ -63,15 +63,14 @@
 	        	uid:uid
 	        },
 	        xhrFields:{  
-				withCredentials:true  
+				withCredentials:true
 			},  
 			success:function(data){
 				var erwei = $('#erwei');
 				if(data.code==1){
 	        		var qrcode  = data.data.qrcode;
-	        		erwei.attr('src',qrcode)
+	        		erwei.attr('src',qrcode);
 	        	}
-	        	
 	        }
 	    });
 	</script>
