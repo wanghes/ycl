@@ -86,6 +86,7 @@
 				var tel=$('input[name="tel"]').val();
 				var pwd=$('input[type="password"]').val();
 				var code=$('input[name="code"]').val();
+				var reg = /^[A-Za-z0-9]{6,12}$/;
 				if(pwd==''){
 					$.toastTip({
 						img:'images/4-3gxfkui.png',
@@ -93,42 +94,47 @@
 						imgH:'1.5rem',
 						text:['密码不正确']
 					});
-					return false;
-				}
-				if(code==''){
+				} else if(!reg.test(pwd)){
+						$.toastTip({
+							img:'images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:['密码格式不正确']
+						});
+				} else if(code==''){
 					$.toastTip({
 						img:'images/4-3gxfkui.png',
 						imgW:'1.56rem',
 						imgH:'1.5rem',
 						text:['验证码不正确']
 					});
-					return false;
-				}
-				$.ajax({
-			        url: 'http://yichuanglian.huimor.com/index/forgetpwd',
-			        type:'post',
-			        data:{
-			        	mobile:tel,
-			            pwd:pwd,
-			            smscode:code
-			        },
-			        xhrFields:{  
-						withCredentials:true  
-					}, 
-			        dataType:'json',
-			        success:function(data){
-			        	if(data.code==1){
-			           		window.location.href='login.html'
-			            }else{
-			            	$.toastTip({
-								img:'images/4-3gxfkui.png',
-								imgW:'1.56rem',
-								imgH:'1.5rem',
-								text:[data.msg]
-							});
-			            }
-			        }
-			    });
+				} else {
+					$.ajax({
+				        url: 'http://yichuanglian.huimor.com/index/forgetpwd',
+				        type:'post',
+				        data:{
+				        	mobile:tel,
+				            pwd:pwd,
+				            smscode:code
+				        },
+				        xhrFields:{  
+							withCredentials:true  
+						}, 
+				        dataType:'json',
+				        success:function(data){
+				        	if(data.code==1){
+				           		window.location.href='login.html'
+				            }else{
+				            	$.toastTip({
+									img:'images/4-3gxfkui.png',
+									imgW:'1.56rem',
+									imgH:'1.5rem',
+									text:[data.msg]
+								});
+				            }
+				        }
+				    });
+			    }
 		    });
 
 		</script>

@@ -23,6 +23,7 @@
 		</div>
 		<script type="text/javascript">
 				//倒计时
+				var upid = GetQueryString('upid');
 				var codeTime = {
 				    node:null,
 				    count:60,
@@ -87,6 +88,8 @@
 					var tel=$('.enter-form input[name="tel"]').val();
 					var pwd=$('.enter-form input[type="password"]').val();
 					var code=$('.enter-form input[name="code"]').val();
+					var reg = /^[A-Za-z0-9]{6,12}$/;
+
 					
 					if((tel=='')|| (tel.length!=11)){
 						$.toastTip({
@@ -95,43 +98,52 @@
 							imgH:'1.5rem',
 							text:['手机号不正确']
 						});
-						return false;
-					}
 					
-					if(pwd==''){
+					} else if(pwd==''){
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
 							imgW:'1.56rem',
 							imgH:'1.5rem',
-							text:['密码不正确']
+							text:['密码必填']
+						});
+					} else if(!reg.test(pwd)){
+						$.toastTip({
+							img:'images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:['密码格式不正确']
 						});
 						return false;
-					}
-					if(code==''){
+					} else if(code==''){
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
 							imgW:'1.56rem',
 							imgH:'1.5rem',
 							text:['验证码不正确']
 						});
-						return false;
-					}
-					$.ajax({
-				        url: 'http://yichuanglian.huimor.com/index/register',
-				        type:'post',
-				        data:{
-				            mobile:tel,
+					} else {
+						var postData = {
+							mobile:tel,
 				            pwd:pwd,
 				            smscode:code,
 				            comeid:1
-				        },
-				        dataType:'json',
-				        success:function(data){
-				        	if(isLogin(data)){
-				        		window.location.href='perfectInfo.html'
-				           	}
-				        }
-				    });
+						}
+
+						if(upid){
+							postData.upid = upid;
+						}
+						$.ajax({
+					        url: 'http://yichuanglian.huimor.com/index/register',
+					        type:'post',
+					        data:postData,
+					        dataType:'json',
+					        success:function(data){
+					        	if(isLogin(data)){
+					        		window.location.href='perfectInfo.html'
+					           	}
+					        }
+					    });
+				    }
 			    });
 		</script>
 	</body>
