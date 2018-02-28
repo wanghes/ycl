@@ -89,6 +89,7 @@
 				$('.enter-ok').click(function(){
 					var pwd=$('.enter-form input[type="password"]').val();
 					var code=$('.enter-form input[name="code"]').val();
+					var reg = /^[A-Za-z0-9]{6,12}$/;
 					if(pwd==''){
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
@@ -96,7 +97,15 @@
 							imgH:'1.5rem',
 							text:['密码不正确']
 						});
-					} else if(code==''){
+					} else if(!reg.test(pwd)){
+						$.toastTip({
+							img:'images/4-3gxfkui.png',
+							imgW:'1.56rem',
+							imgH:'1.5rem',
+							text:['密码格式正确']
+						});
+						return false;
+					}else if(code==''){
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
 							imgW:'1.56rem',

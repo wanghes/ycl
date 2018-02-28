@@ -345,7 +345,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}

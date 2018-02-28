@@ -300,7 +300,8 @@ div.mt_76{margin-top:.76rem!important;}
 .detailsSum>div{margin-top:.22rem;}
 .detailsSum img{width:1rem;height:1rem;border-radius:50%;vertical-align:middle;}
 .detailsSum span{vertical-align:middle;margin-left:.3rem;width:2rem;display:inline-block;}
-.detailsSum div div{float:right;line-height:1;margin-top:.39rem;}
+.detailsSum div{overflow: hidden;}
+.detailsSum div div{float:right;line-height:1;margin-top:.39rem;margin-bottom:.39rem;}
 
 /*我的分销*/
 .higherup{height:1.7rem;padding:0 .4rem;font-size:.3rem;color:#333;}
