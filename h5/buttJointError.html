@@ -19,7 +19,7 @@
 			
 			<div class="detailsStatus">
 				<div><span>对接状态：</span><strong>对接失败</strong></div>
-				<div><span>失败原因：</span>信息不符，导致预算超支，对方放弃项目合作。</div>
+				<div id="reason"></div>
 			</div>
 			
 			<div id="transformImg" class="mt_76">
@@ -28,11 +28,11 @@
 					<span></span>
 				</div>
 				<dl id="dockerBox">
-					<dd><span>对接人姓名：</span><div>张玉</div></dd>
+		<!-- 			<dd><span>对接人姓名：</span><div>张玉</div></dd>
 					<dd><span>联系电话：</span><div>15733223355</div></dd>
 					<dd><span>微信号码：</span><div>zai123456</div></dd>
 					<dd><span>微信昵称：</span><div>不忘初心</div></dd>
-					<dd><span>微信头像：</span><div><img src="images/img1.jpg" alt="" /></div></dd>
+					<dd><span>微信头像：</span><div><img src="images/img1.jpg" alt="" /></div></dd> -->
 				</dl>
 			</div>
 			
@@ -45,13 +45,13 @@
 			
 			<div class="detailsDl" id="cluesBox">
 				<dl>
-					<dd><span>发布时间：</span><div>2017-12-21 12:30</div></dd>
+					<!-- <dd><span>发布时间：</span><div>2017-12-21 12:30</div></dd>
 					<dd><span>项目名称：</span><div>ERP系统设计</div></dd>
 					<dd><span>业务类型：</span><div>人力外派</div></dd>
 					<dd><span>行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</span><div>教育</div></dd>
 					<dd><span>项目预算：</span><div>￥100000.00</div></dd>
 					<dd><span>期望提成比例：</span><div>10%</div></dd>
-					<dd><span>项目描述：</span><div>描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字</div></dd>
+					<dd><span>项目描述：</span><div>描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字</div></dd> -->
 				</dl>
 			</div>
 			
@@ -65,7 +65,7 @@
 				if (url.indexOf("?") != -1) {
 				  	var str = url.substr(1);
 				  		strs = str.split("&");
-				  	for(var i = 0; i < strs.length; i ++) {
+				  	for(var i = 0; i < strs.length; i++) {
 				   		theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
 				  	}
 				}
@@ -75,14 +75,18 @@
 			function createCluesHtml(clues){
 				var cluesBox = $('#cluesBox');
 				clues.addtime = clues.addtime.slice(0,-3);
+				clues.cate_name = clues.cate_name.join(',');
+				if(!isNaN(clues.budget)){
+    				clues.budget = '￥'+clues.budget
+    			}
 				var html = [
 					'<dd><span>发布时间：</span><div>'+clues.addtime+'</div></dd>',
 					'<dd><span>项目名称：</span><div>'+clues.projectname+'</div></dd>',
 					'<dd><span>业务类型：</span><div>'+clues.BusinessName+'</div></dd>',
-					'<dd><span>行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</span><div>教育</div></dd>',
-					'<dd><span>项目预算：</span><div>￥100000.00</div></dd>',
-					'<dd><span>期望提成比例：</span><div>10%</div></dd>',
-					'<dd><span>项目描述：</span><div>描述文字描述文字描述文字描述文字描述文字描述文字描述文字描述文字</div></dd>'
+					'<dd><span>行&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业：</span><div>'+clues.cate_name+'</div></dd>',
+					'<dd><span>项目预算：</span><div>'+clues.budget+'</div></dd>',
+					'<dd><span>期望提成比例：</span><div>'+clues.proportion+'%</div></dd>',
+					'<dd><span>项目描述：</span><div>'+clues.describes+'</div></dd>'
 				].join('');
 				cluesBox.html(html);
 			}
@@ -112,6 +116,8 @@
 		        		var data = data.data;
 		        		var docker = data.docker; //对接人信息
 		        		var clues = data.clues; //线索基本信息
+		        		var reason = data.reason;
+		        		$('#reason').html('<span>失败原因：</span>'+reason+'。');
 		        		createCluesHtml(clues);
 		        		createDockerHtml(docker);
 		        	}else{
@@ -122,7 +128,6 @@
 							text:[data.msg]
 						});
 		        	}
-		        	
 		        }
 			});
 

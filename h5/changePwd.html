@@ -116,7 +116,16 @@
 					        dataType:'json',
 					        success:function(data){
 					        	if(isLogin(data)){
-					        		window.location.href='perfectInfo.html'
+					        		$.toastTip({
+										img:'images/4-2xgcgong.png',
+										imgW:'1.68rem',
+										imgH:'1.49rem',
+										text:['修改成功']
+									});
+									setTimeout(function(){
+										window.location.href='login.html';
+									},1500);
+					        		
 					           	}
 					        }
 					    });

@@ -345,7 +345,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}
@@ -369,7 +369,13 @@ $(function(){
 	//	发布线索  行业选择弹出
 	$('.industryAdd a').click(function(){
 		$('.industryTanchu').show();
-	})
+	});
+
+	$('.industryTanchu').click(function(e){
+		if(e.target==$('.industryTanchu')[0]){
+			$(this).hide();
+		}
+	});
 	$('.industryContent').delegate('span','click',function(){
 		$('.industryBtn').removeClass('industryBtnOk');
 		$(this).find('i').toggleClass('active');

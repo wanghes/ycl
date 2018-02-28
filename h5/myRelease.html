@@ -79,7 +79,7 @@
 		</div>
 		
 		<!--没有线索-->
-		<div class="nothing">
+		<div class="nothing" style="display: none;">
 			<img src="images/3-10myxxi.png" alt="" />
 			<p>很抱歉，您还没有发布任何线索信息</p>
 			<a href="">立即发布</a>
@@ -118,18 +118,22 @@
 			        	if(isLogin(data)){
 			        		var str='';
 			        		var data=data.data;
-			        		for (i=0;i<data.length;i++) {
-			        			if(!isNaN(data[i].budget)){
-			        				data[i].budget = '￥'+data[i].budget
+			        		if(data.length){
+				        		for (i=0;i<data.length;i++) {
+				        			if(!isNaN(data[i].budget)){
+				        				data[i].budget = '￥'+data[i].budget
+				        			}
+				        			data[i].cate_name = data[i].cate_name.join(', ');
+				        			data[i].addtime = data[i].addtime.slice(0,-3); //格式化日期
+			        				str+='<div class="list" data-id="'+data[i].id+'" onclick="jumpPage('+data[i].id+','+status+')">\
+											<div><span>'+data[i].projectname+'</span><span class="fr">'+data[i].addtime+'</span></div>\
+											<div><span>行业：</span>'+data[i].cate_name+'</div>\
+											<div><span>项目预算：</span><strong>'+data[i].budget+'</strong></div>\
+											<div><span>期望提成比例：</span><em>'+data[i].proportion+'%</em></div>\
+										</div>';
 			        			}
-			        			data[i].cate_name = data[i].cate_name.join(', ');
-			        			data[i].addtime = data[i].addtime.slice(0,-3); //格式化日期
-		        				str+='<div class="list" data-id="'+data[i].id+'" onclick="jumpPage('+data[i].id+','+status+')">\
-										<div><span>'+data[i].projectname+'</span><span class="fr">'+data[i].addtime+'</span></div>\
-										<div><span>行业：</span>'+data[i].cate_name+'</div>\
-										<div><span>项目预算：</span><strong>'+data[i].budget+'</strong></div>\
-										<div><span>期望提成比例：</span><em>'+data[i].proportion+'%</em></div>\
-									</div>';
+		        			}else{
+		        				$('.nothing').show();
 		        			}
 			        	}
 			        	$('.model').eq(index).html(str);
