@@ -14,7 +14,7 @@
 	<body>
 		<div class="personalHead">
 			<a href="personalInfo.html" id="perHead">
-				<img id="avator" src="images/img1.jpg" alt="" />
+				<img id="avator" src="" alt="" />
 				<p id="nick"></p>
 				<i></i>
 			</a>
@@ -73,10 +73,11 @@
 	        	if(isLogin(data)){
 	        		var data=data.data[0];
 	        		var html = [
-	        		
-	        		]
-	            	$('.personalHead img').attr('src',(data.wximage || defaultHead))
-	            	$('.personalHead p').text(data.wxname)
+	        			'<img id="avator" src="'+(data.wximage || defaultHead)+'" alt="" />',
+						'<p id="nick">'+data.wxname+'</p>',
+						'<i></i>'
+	        		].join('');
+	            	$('#perHead').html(html);
 	        	}
 	        }
 	    });

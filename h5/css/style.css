@@ -275,7 +275,7 @@ dd.industryAdd em i{position:absolute;width:.38rem;height:.38rem;background:url(
 .model div strong{color:#ff2525;}
 .model div em{color:#2e8cee;}
 .model div .fr{font-size:.26rem;color:#999;}
-.nothing{text-align:center;display:none;}
+.nothing{text-align:center;}
 .nothing img{width:2.2rem;height:2.41rem;margin-top:1.12rem;margin-bottom:.24rem;vertical-align:middle;}
 .nothing p{font-size:.32rem;color:#333;line-height:1;}
 .nothing a{margin-top:.32rem;color:#2e8cee;font-size:.32rem;}
@@ -413,8 +413,6 @@ footer .bottom0 span p{font-size:.3rem;margin-top:.12rem;}
 .actionsheetContent p.active{background:#2e8cee;color:#fff;}
 
 
-.no_empty{text-align: center; padding-top: 2rem;}
-.no_empty h4{font-size:.36rem; margin-bottom: 0.5rem;}
 
 button[disabled]{
 	background-color: #83bdf9;

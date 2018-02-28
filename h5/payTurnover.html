@@ -57,14 +57,15 @@
 		</div>
 		
 		<!--没有下级-->
-		<div class="nothing">
+		<!-- <div class="nothing">
 			<img src="images/3-10myxxi.png" alt="" />
 			<p>很抱歉，您还没有下级分销商信息</p>
 			<a href="">立即发展</a>
-		</div>
+		</div> -->
 	</body>
 </html>
 <script type="text/javascript">
+	var hasLow = false;
 	$.developSecondSales(); //发展二级分销微信配置
 	var type = GetQueryString('type');
 	function jumpPage(id,level,userId){
@@ -126,21 +127,35 @@
 
 	function notMySales(){
 		var html = [
-			'<div class="no_empty">',
-				'<h4>很抱歉，您还没有分销商信息</h4>',
+			'<div class="nothing">',
+				'<img src="images/3-10myxxi.png" />',
+				'<p>很抱歉，您还没有发布线索!</p>',
 			'</div>'
 		].join('');
 		$('#first').html(html);
 	}
 
-	function notSecondSales(){
-		var html = [
-			'<div class="no_empty">',
-				'<h4>很抱歉，您还没有下级分销商信息</h4>',
-				'<div class="btn"><a href="javascript:;" class="shareBtn">立即发展</a></div>',
-			'</div>'
-		].join('');
+	function notSecondSales() {
+		var html = ""
+		if (hasLow) {
+			html = [
+				'<div class="nothing">',
+					'<img src="images/3-10myxxi.png" />',
+					'<p>很抱歉，您的下级还没有发布线索</p>',
+				'</div>'
+			].join('');
+		} else {
+			html = [
+				'<div class="nothing">',
+					'<img src="images/3-10myxxi.png" />',
+					'<p>很抱歉，您还没有下级分销商信息</p>',
+					'<a href="javascript:;" class="shareBtn">立即发展</a>',
+				'</div>'
+			].join('');
+		}
+
 		$('#second').html(html);
+		alert($('#second').html())
 	}
 
 
@@ -181,8 +196,25 @@
 
 
 	$(function(){
+		$.ajax({
+			url:"http://yichuanglian.huimor.com/index/getmydowns",
+			type:'get',
+	        dataType:'json',
+	        xhrFields:{  
+				withCredentials:true
+			},  
+			success:function(data){
+	        	if(isLogin(data)){
+	        		if(data.data){ //证明有下级
+	        			hasLow = true;
+	        		} else { //没有下级
+	        			hasLow = true;
+	        		}
+	        		excuteAjax(type);
+	        	}
+	        }
+		});
 		
-		excuteAjax(type);
 		$('.tab_div div').click(function(){
 			var index=$(this).index();
 			var id=$(this).data('id');
