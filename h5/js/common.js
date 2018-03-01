@@ -344,7 +344,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}
@@ -503,16 +503,6 @@ $(function(){
 		var proportion=$('input[name="proportion"]').val();
 		var describes=$('textarea').val();
 
-		if($('dd.industryAdd p').text()=='' && !$('dd.industryAdd ul li').length){
-			$.toastTip({
-				img:'images/4-3gxfkui.png',
-				imgW:'1.56rem',
-				imgH:'1.5rem',
-				text:['请选择行业']
-			});
-			return false;
-		}
-
 		if($('.industryAdd p em').length && $('.industryAdd p em').length<2){
 			cate_id.push($('.industryAdd p em').attr('data-id'));
 		}else{
@@ -521,28 +511,50 @@ $(function(){
 			})
 		}
 
-		
-		$.ajax({
-	        url: 'http://yichuanglian.huimor.com/index/release',
-	        type:'post',
-	        data:{
-	        	projectname:projectName,
-	        	bus_id:bus_id,
-	        	cate_id:cate_id,
-	        	budget_id:budget_id,
-	        	proportion:proportion,
-	        	describes:describes,
-	        },
-	        dataType:'json',
-	        xhrFields:{  
-				withCredentials:true  
-			},  
-	        success:function(data){
-	        	if(isLogin(data)){
-	        		window.location.href='successRelease.html?adminId='+data.data;
-	        	}
-	        }
-		});
+		if($('dd.industryAdd p').text()=='' && !$('dd.industryAdd ul li').length){
+			$.toastTip({
+				img:'images/4-3gxfkui.png',
+				imgW:'1.56rem',
+				imgH:'1.5rem',
+				text:['请选择行业']
+			});
+		} else if(parseFloat(proportion)<0){
+			$.toastTip({
+				img:'images/4-3gxfkui.png',
+				imgW:'1.56rem',
+				imgH:'1.5rem',
+				text:['期望提成比例不能为负数']
+			});
+		}else if (parseFloat(proportion)>=100){
+			$.toastTip({
+				img:'images/4-3gxfkui.png',
+				imgW:'1.56rem',
+				imgH:'1.5rem',
+				text:['期望提成比例不能大于等于100的数据']
+			});
+		}else{	
+			$.ajax({
+		        url: 'http://yichuanglian.huimor.com/index/release',
+		        type:'post',
+		        data:{
+		        	projectname:projectName,
+		        	bus_id:bus_id,
+		        	cate_id:cate_id,
+		        	budget_id:budget_id,
+		        	proportion:proportion,
+		        	describes:describes,
+		        },
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+		        success:function(data){
+		        	if(isLogin(data)){
+		        		window.location.href='successRelease.html?adminId='+data.data;
+		        	}
+		        }
+			});
+		}
 	})
 
 

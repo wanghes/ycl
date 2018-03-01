@@ -39,7 +39,7 @@
 		</div>
 		
 		<div class="transform_img_wrap" class="mt_76">
-			<div id="transformImg" class="mt_76">
+			<div id="transformImg">
 				<div class="subTitle">
 					<h3>商务对接人信息</h3>
 					<span></span>
@@ -93,7 +93,7 @@
 
 			function showUpLevelInfo(hasUpLevel,data){
 				var html = "";
-				if(hasUpLevel){
+				if(!hasUpLevel){
 					$('#upLevelInfo').html('');
 					$('#upLevelInfoWrap').hide();
 				}else{
@@ -167,7 +167,6 @@
 		        	if(data.code==1){
 		        		if(data.data){
 		        			hasUpLevel = true;
-		        			showUpLevelInfo(hasUpLevel,data)
 		        		}else{
 		        			showUpLevelInfo(hasUpLevel,null);
 		        		}
@@ -193,6 +192,7 @@
 				        			upname:docker.upname,
 				        			avator:docker.upimage,
 				        		}
+				        		showUpLevelInfo(hasUpLevel,data);
 				        		createDetailsStatus(detailData);
 				        		createCluesHtml(clues);
 				        		createDockerHtml(docker);

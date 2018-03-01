@@ -40,39 +40,59 @@
 		        	}
 		        }
 		    });
+
 		    $('.edit-btn button').click(function(){
-		    	$(this).prop('disabled',true);
+		    	
 		    	var username=$('input[name="username"]').val();
             	var company=$('input[name="company"]').val();
             	var occupationtype=$('.selectProfession p').data('id') || occupationtypeValue;
 
-		    	$.ajax({
-			        url: 'http://yichuanglian.huimor.com/index/personalUpdate',
-			        type:'post',
-			        data:{
-			        	username:username,
-			        	company:company,
-			        	occupationtype:occupationtype
-			        },
-			        dataType:'json',
-			        xhrFields:{  
-						withCredentials:true  
-					},  
-			        success:function(data){
-			        	if(isLogin(data)){
-		        			$.toastTip({
-								img:'images/4-3gxfkui.png',
-								imgW:'1.56rem',
-								imgH:'1.5rem',
-								delay:2000,
-								text:['保存成功']
-							});
-							setTimeout(function(){
-								location.href="personalInfo.html"
-							},2500);
-			        	}
-			        }
-			    });
+            	if(!username){
+            		$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['姓名必填']
+					});
+
+            	}else if(!occupationtype){
+            		$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['职业类型必填']
+					});
+
+            	}else{
+            		$(this).prop('disabled',true);
+			    	$.ajax({
+				        url: 'http://yichuanglian.huimor.com/index/personalUpdate',
+				        type:'post',
+				        data:{
+				        	username:username,
+				        	company:company,
+				        	occupationtype:occupationtype
+				        },
+				        dataType:'json',
+				        xhrFields:{  
+							withCredentials:true  
+						},  
+				        success:function(data){
+				        	if(isLogin(data)){
+			        			$.toastTip({
+									img:'images/4-3gxfkui.png',
+									imgW:'1.56rem',
+									imgH:'1.5rem',
+									delay:2000,
+									text:['保存成功']
+								});
+								setTimeout(function(){
+									location.href="personalInfo.html"
+								},2500);
+				        	}
+				        }
+				    });
+			    }
 		    });
 		    
 		</script>

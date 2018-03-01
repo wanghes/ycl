@@ -63,6 +63,11 @@
 				
 			}
 
+			var user = store.get('user');
+			if(user && user.login) {
+				location.href="index.html"
+			}
+
 			$('.login-btn button').click(function(){
 				var tel=$('input[name="tel"]').val();
 				var pwd=$('input[name="password"]').val();
