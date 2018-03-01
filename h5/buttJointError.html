@@ -21,19 +21,21 @@
 				<div><span>对接状态：</span><strong>对接失败</strong></div>
 				<div id="reason"></div>
 			</div>
-			
-			<div id="transformImg" class="mt_76">
-				<div class="subTitle">
-					<h3>商务对接人信息</h3>
-					<span></span>
+				
+			<div class="transform_img_wrap" class="mt_76">
+				<div id="transformImg" >
+					<div class="subTitle">
+						<h3>商务对接人信息</h3>
+						<span></span>
+					</div>
+					<dl id="dockerBox">
+			<!-- 			<dd><span>对接人姓名：</span><div>张玉</div></dd>
+						<dd><span>联系电话：</span><div>15733223355</div></dd>
+						<dd><span>微信号码：</span><div>zai123456</div></dd>
+						<dd><span>微信昵称：</span><div>不忘初心</div></dd>
+						<dd><span>微信头像：</span><div><img src="images/img1.jpg" alt="" /></div></dd> -->
+					</dl>
 				</div>
-				<dl id="dockerBox">
-		<!-- 			<dd><span>对接人姓名：</span><div>张玉</div></dd>
-					<dd><span>联系电话：</span><div>15733223355</div></dd>
-					<dd><span>微信号码：</span><div>zai123456</div></dd>
-					<dd><span>微信昵称：</span><div>不忘初心</div></dd>
-					<dd><span>微信头像：</span><div><img src="images/img1.jpg" alt="" /></div></dd> -->
-				</dl>
 			</div>
 			
 			<div class="m-img-tip"><img src="images/3-7cabcun.png"/></div>
@@ -56,6 +58,7 @@
 			</div>
 			
 		</div>
+		<script type="text/javascript" src="js/html2canvas.min.js"></script>
 		<script type="text/javascript">
 			//对象化查询参数
 			function GetRequest() {
@@ -92,6 +95,7 @@
 			}
 
 			function createDockerHtml(docker){
+				var transformImg = $('#transformImg');
 				var dockerBox = $('#dockerBox');
 				var html = [
 					'<dd><span>对接人姓名：</span><div>'+docker.realname+'</div></dd>',
@@ -101,6 +105,10 @@
 					'<dd><span>微信头像：</span><div><img src="'+docker.avator+'" alt="" /></div></dd>'
 				].join('');
 				dockerBox.html(html);
+				html2canvas(transformImg[0]).then(function(canvas) {
+					 var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); 
+					 transformImg.html('<img src="'+imgUri+'" style="width:100%;"/>');
+				});
 			}
 
 			$.ajax({
@@ -130,6 +138,10 @@
 		        	}
 		        }
 			});
+
+			$(function(){
+
+			})
 
 		</script>
 	</body>

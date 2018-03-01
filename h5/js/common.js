@@ -225,7 +225,7 @@ function isTel(tel){
         showShareBox:function(){
         	var html = [
      			'<div class="share_bg">',
-     			'<img id="arrow" src="/h5/images/sharearrows.png" />',
+     			'<img id="arrow" src="./images/sharearrows.png" />',
      			'</div>'
      		].join('');
      		var box = $(html);
@@ -344,7 +344,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}

@@ -222,7 +222,7 @@ dd.industryAdd em i{position:absolute;width:.38rem;height:.38rem;background:url(
 /*成功入驻*/
 .releaseShow{margin-top:.96rem;}
 .releaseShow p{margin-bottom:0;}
-#transformImg{width:6rem;margin:.52rem auto .24rem;border:1px solid #ddd;padding:.35rem;}
+#transformImg{width:6.7rem; padding:.35rem; box-sizing: border-box;}
 #transformImg dl{margin-top:.14rem;}
 #transformImg dd{line-height:1;text-align:left;margin-bottom:.44rem;font-size:.28rem;color:#333;}
 #transformImg dd span{text-align:left;}
@@ -417,4 +417,10 @@ footer .bottom0 span p{font-size:.3rem;margin-top:.12rem;}
 
 button[disabled]{
 	background-color: #83bdf9;
+}
+
+.transform_img_wrap {
+	border:1px solid #ddd; 
+	width:6.7rem;
+    margin: .52rem auto .24rem;
 }

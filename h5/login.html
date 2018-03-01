@@ -9,6 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
 	<script src="js/jquery.1.11.3.min.js"></script>
 	<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/store.js"></script>
 	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
 </head>
 	<body>
@@ -95,6 +96,7 @@
 				        success:function(data){
 				            if(data.code==1){
 				            	sendOauth();
+				            	store.set('user', { login:true });
 				           		window.location.href='index.html'
 				            }else{
 				            	$.toastTip({

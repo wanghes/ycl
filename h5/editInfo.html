@@ -22,6 +22,7 @@
 		</div>
 		<div class="edit-btn"><button>保存</button></div>
 		<script type="text/javascript">
+			var occupationtypeValue = null;
 			$.ajax({
 		        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
 		        type:'get',
@@ -35,6 +36,7 @@
 		            	$('input[name="username"]').val(data.username);
 		            	$('input[name="company"]').val(data.company);
 		            	$('.selectProfession p').text(data.name);
+		            	occupationtypeValue = data.occupationtype
 		        	}
 		        }
 		    });
@@ -42,7 +44,8 @@
 		    	$(this).prop('disabled',true);
 		    	var username=$('input[name="username"]').val();
             	var company=$('input[name="company"]').val();
-            	var occupationtype=$('.selectProfession p').data('id');
+            	var occupationtype=$('.selectProfession p').data('id') || occupationtypeValue;
+
 		    	$.ajax({
 			        url: 'http://yichuanglian.huimor.com/index/personalUpdate',
 			        type:'post',
@@ -70,7 +73,7 @@
 			        	}
 			        }
 			    });
-		    })
+		    });
 		    
 		</script>
 	</body>
