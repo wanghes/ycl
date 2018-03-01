@@ -278,7 +278,6 @@ function isTel(tel){
      			
      		})
      		$('#shareBox .item').eq(2).click(function(){
-     			
      		})
      		$('#shareBox .item').eq(3).click(function(){
      		})

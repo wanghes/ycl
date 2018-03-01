@@ -23,7 +23,7 @@
 			<div><span>实际提成比例：</span><em>10%</em></div> -->
 		</div>
 		
-		<div class="detailsSum">
+		<div class="detailsSum" id="upLevelInfoWrap">
 			<p>我的上级：</p>
 			<div id="upLevelInfo">
 				<img id="upperImg" src="" alt="" style="height:50px; width:50px;" />
@@ -94,6 +94,7 @@
 				var html = "";
 				if(hasUpLevel){
 					$('#upLevelInfo').html('');
+					$('#upLevelInfoWrap').hide();
 				}else{
 					html = [
 						'<img id="upperImg" src="'+data.avator+'" alt="" style="height:50px; width:50px;" />',
@@ -101,6 +102,7 @@
 						'<div id="percentageMoney">提成金额：￥'+data.proportion_money+'</div>'
 					].join('');
 					$('#upLevelInfo').html(html);
+					$('#upLevelInfoWrap').show();
 				}
 			}
 
