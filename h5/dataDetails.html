@@ -27,7 +27,8 @@
 				</dl>
 			</div>
 		</div>
-		<div class="dataDetails-btn"><a id="saveLocalBtn">保存到本地</a></div>
+		<div class="m-img-tip"><img src="images/3-7cabcun.png"/></div>
+	<!-- 	<div class="dataDetails-btn"><button id="saveLocalBtn">保存到本地</button></div> -->
 	</body>
 </html>
 <script type="text/javascript" src="js/html2canvas.min.js"></script>
@@ -35,35 +36,6 @@
 <script type="text/javascript">
 
 	
-function base64Img2Blob(code){
-
-                var parts = code.split(';base64,');
-
-                var contentType = parts[0].split(':')[1];
-                                console.log(contentType)
-                var raw = window.atob(parts[1]);
-                var rawLength = raw.length;
-
-                var uInt8Array = new Uint8Array(rawLength);
-
-                for (var i = 0; i < rawLength; ++i) {
-                  uInt8Array[i] = raw.charCodeAt(i);
-                }
-
-                return new Blob([uInt8Array], {type: contentType}); 
-            }
-            function downloadFile(fileName, content){
-               
-                var aLink = document.createElement('a');
-                var blob = base64Img2Blob(content); //new Blob([content]);
-              
-                var evt = document.createEvent("HTMLEvents");
-                evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错
-                aLink.download = fileName;
-                aLink.href = URL.createObjectURL(blob);
-         
-                aLink.dispatchEvent(evt);
-            }  
 
 	function generateInfo(data){
 		var arr = [];
@@ -117,22 +89,11 @@ function base64Img2Blob(code){
 	        		];
 	        		$('#values').html(html);
 	        		var newData = generateInfo(data);
-	        	//	convertHtmlToCanvas(newData,true);
+	
 	        		var transformImg = $('#transformImg');
-		        	html2canvas(transformImg[0]).then(function(canvas) {
+	        		html2canvas(transformImg[0]).then(function(canvas) {
 						 var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); 
-						 $('body').append('<img src="'+imgUri+'" style="width:100%;display:none"/>');
-
-						 $('#saveLocalBtn').click(function(){
-						 	// // var dl = document.createElement('a');
-						 	// // dl.download = "ad.png";
-						 	// // dl.href=imgUri
-						 	// // dl.click();
-						 	//  var imgUri2 = canvas.toDataURL("image/png")
-						 	// $('body').append('<img src="'+imgUri2+'"/>');
-						 	Canvas2Image.saveAsImage(canvas);
-						 	//downloadFile('ship.png', canvas.toDataURL("image/png"));
-						 })
+						 transformImg.html('<img src="'+imgUri+'" style="width:100%;"/>');
 					});
 	        	}
 	        }
