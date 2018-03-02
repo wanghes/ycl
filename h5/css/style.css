@@ -164,8 +164,28 @@ footer .enter{text-align:center;background:url(../images/1-dc.png)no-repeat cent
 /*分享*/
 .m-code{margin:.5rem 0 .44rem 0;text-align:center;}
 .m-code img{width:2.7rem;height:2.7rem;}
-.m-img-tip{width:6.75rem;margin:0 auto .4rem;}
+.m-img-tip{width:6.75rem;margin:0.5rem auto .4rem; border-top:1px solid #ddd;}
 .m-img-tip img{width:100%;height:100%;}
+.m-img-tip .img_tip_i{
+	position: relative;
+	top:-.34rem;
+	width:0.8rem;height:0.65rem; 
+	display: inline-block; 	
+	background:#fff url("../images/shou.png") no-repeat;
+	background-position: 0 0;
+	background-size: contain;
+}
+.m-img-tip .text_tip{
+	display: inline-block;
+	position: relative;
+	background:#fff;
+	padding: 0 .2rem 0 0.1rem;
+	font-size: 14px;
+	color:#999;
+	top:-.54rem;
+	height: 0.65rem;
+	line-height: 0.65rem;
+}
 .mb0{margin-bottom:0;}
 
 /*发布线索*/
