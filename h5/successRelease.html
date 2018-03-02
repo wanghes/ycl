@@ -16,18 +16,20 @@
 		<div class="tipShow releaseShow">
 			<img src="images/2-6fbucg.png"/>
 			<p>恭喜您成功发布线索</p>
-			<div id="transformImg">
-				<div class="subTitle">
-					<h3>商务对接人信息</h3>
-					<span></span>
+			<div class="transform_img_wrap">
+				<div id="transformImg">
+					<div class="subTitle">
+						<h3>商务对接人信息</h3>
+						<span></span>
+					</div>
+					<dl>
+						<dd><span>对接人姓名：</span><div class="realname"></div></dd>
+						<dd><span>联系电话：</span><div class="username"></div></dd>
+						<dd><span>微信号码：</span><div class="wxnumber"></div></dd>
+						<dd><span>微信昵称：</span><div class="wxname"></div></dd>
+						<dd><span>微信头像：</span><div class="avator"><img src="" alt="" /></div></dd>
+					</dl>
 				</div>
-				<dl>
-					<dd><span>对接人姓名：</span><div class="realname"></div></dd>
-					<dd><span>联系电话：</span><div class="username"></div></dd>
-					<dd><span>微信号码：</span><div class="wxnumber"></div></dd>
-					<dd><span>微信昵称：</span><div class="wxname"></div></dd>
-					<dd><span>微信头像：</span><div class="avator"><img src="" alt="" /></div></dd>
-				</dl>
 			</div>
 			<div class="m-img-tip"><img src="images/3-7cabcun.png"/></div>
 			<div class="btn"><a href="myRelease.html">确定</a><a href="javascript:;" class="shareBtn">发展二级分销商</a></div>
@@ -46,7 +48,6 @@
 				},  
 		        success:function(data){
 		        	if(isLogin(data)){
-		        		console.log(data)
 		        		var data=data.data;
 		        		$('.realname').text(data.realname)
 		        		$('.username').text(data.username)

@@ -93,6 +93,7 @@
 		$(function(){
 			var user = store.get('user') ;
 			if(user && user.login){
+				alert(user.login);
 				$('.enter').hide();
 			}else{
 				$('.enter').show();
