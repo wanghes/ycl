@@ -50,18 +50,18 @@
 				
 				var tel;
 				$.ajax({
-				        url: 'http://yichuanglian.huimor.com/index/getUserMobile',
-				        type:'get',
-				        xhrFields:{  
-							withCredentials:true  
-						},  
-				        dataType:'json',
-				        success:function(data){
-				        	if(isLogin(data)){
-				        		tel=data.data;
-				        	}
-				        }
-				    });
+			        url: 'http://yichuanglian.huimor.com/index/getUserMobile',
+			        type:'get',
+			        xhrFields:{  
+						withCredentials:true  
+					},  
+			        dataType:'json',
+			        success:function(data){
+			        	if(isLogin(data)){
+			        		tel=data.data;
+			        	}
+			        }
+			    });
 				
 				//立即入驻  验证码
 				$('.code').click(function(){
