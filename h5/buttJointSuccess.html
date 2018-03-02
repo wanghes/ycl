@@ -95,14 +95,15 @@
 
 			function showUpLevelInfo(hasUpLevel,data){
 				var html = "";
+				data && data.proportion_money = data && data.proportion_money ? '￥'+data.proportion_money: "";
 				if(!hasUpLevel){
 					$('#upLevelInfo').html('');
 					$('#upLevelInfoWrap').hide();
 				}else{
 					html = [
 						'<img id="upperImg" src="'+data.avator+'" alt="" style="height:50px; width:50px;" />',
-						'<span id="nickName">'+data.upname+'</span>',
-						'<div id="percentageMoney">提成金额：￥'+data.proportion_money+'</div>'
+						'<span id="nickName">'+(data.upname||"")+'</span>',
+						'<div id="percentageMoney">提成金额：'+data.proportion_money+'</div>'
 					].join('');
 					$('#upLevelInfo').html(html);
 					$('#upLevelInfoWrap').show();
