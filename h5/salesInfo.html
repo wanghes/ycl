@@ -91,7 +91,7 @@
 		if(hasUpLevel){
 			html += '<dd><span>我的上级所得总分销金额：</span><div>￥'+data.distribution_money+'</div></dd>';
 		}
-		$('#transformImg').hide();
+		$('.transform_img_wrap').hide();
 		baseInfo.html(html);
 	}
 
@@ -154,7 +154,7 @@
 		if(hasUpLevel){
 			html += '<dd><span>我的上级所得总分销金额：</span><div>￥'+data.distribution_money+'</div></dd>';
 		}
-		$('#transformImg').hide();
+		$('.transform_img_wrap').hide();
 		baseInfo.html(html);
 	}
 
@@ -238,10 +238,10 @@
 					url: 'http://yichuanglian.huimor.com/index/getMydownclueDetail',
 					data:{
 						clues_id:id,
-						down_id:userId
+						user_id:userId
 					}
 				},function(data){
-					joinSecondInfoBase(data.mycluedetail[0],data.user);
+					joinSecondInfoBase(data.mydowncluedetail[0],data.user);
 				});
 			} else if(type==2 && level==1){
 				sendAjax({

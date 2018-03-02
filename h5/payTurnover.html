@@ -195,6 +195,11 @@
 
 
 	$(function(){
+		if(type==1){
+			document.title="已支付资金流水"
+		}else{
+			document.title="未支付资金流水"
+		}
 		$.ajax({
 			url:"http://yichuanglian.huimor.com/index/getmydowns",
 			type:'get',
@@ -217,6 +222,7 @@
 		$('.tab_div div').click(function(){
 			var index=$(this).index();
 			var id=$(this).data('id');
+
 			$(this).addClass('active').siblings().removeClass('active');
 			$('.model').hide();
 			$('#'+id).show();
