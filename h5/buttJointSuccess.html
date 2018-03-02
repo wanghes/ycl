@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<title>线索详情</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css?t=1"/>
 	<script src="js/jquery.1.11.3.min.js"></script>
 	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
 </head>
@@ -94,16 +94,18 @@
 			}
 
 			function showUpLevelInfo(hasUpLevel,data){
-				var html = "";
-				var proportion_money = data && data.proportion_money ? "￥"+data.proportion_money :"";
+				var html = "", distribution_money="";
+				var upper = null;
 				if(!hasUpLevel){
 					$('#upLevelInfo').html('');
 					$('#upLevelInfoWrap').hide();
 				}else{
+					upper = data.upper
+					distribution_money = upper.distribution_money ? "￥"+upper.distribution_money :"";
 					html = [
-						'<img id="upperImg" src="'+data.avator+'" alt="" style="height:50px; width:50px;" />',
-						'<span id="nickName">'+(data.upname||"")+'</span>',
-						'<div id="percentageMoney">提成金额：'+proportion_money+'</div>'
+						'<img id="upperImg" src="'+upper.upimage+'" alt="" style="height:50px; width:50px;" />',
+						'<span id="nickName">'+(upper.upname||"")+'</span>',
+						'<div id="percentageMoney">提成金额：'+distribution_money+'</div>'
 					].join('');
 					$('#upLevelInfo').html(html);
 					$('#upLevelInfoWrap').show();
@@ -154,10 +156,8 @@
 				].join('');
 				dockerBox.html(html);
 				html2canvas(transformImg[0]).then(function(canvas) {
-					 //transform_img_wrap.css('visibility','visible');
 					 var imgUri = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"); 
 					 transformImg.html('<img src="'+imgUri+'" style="width:100%;"/>');
-					
 				});
 			}
 
