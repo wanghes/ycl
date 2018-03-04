@@ -20,10 +20,30 @@
 			<div class="agreeContract"><i></i>我已阅读并同意签约<a href="hetong.html">《线上合同》</a></div>
 			<div class="perfectCode">
 				<div>个人二维码：<span>分享二维码发展属于个人的二级分销商</span></div>
-				<img src="http://yichuanglian.huimor.com/index/createTwoCode" alt="" />
+				<img id="personCode" src="http://yichuanglian.huimor.com/index/createTwoCode" alt="" />
 			</div>
 		</div>
 		<div class="perfect-btn"><button>完成</button></div>
 	</body>
 	
 </html>
+<script type="text/javascript">
+	$(function(){
+		$.ajax({
+			url:"http://yichuanglian.huimor.com/index/getUserQrcode",
+			type:'get',
+	        dataType:'json',
+	        xhrFields:{  
+				withCredentials:true
+			},  
+			success:function(data){
+	        	if(data.data){ //证明有下级
+        			var er = data.qrcode;
+        			$('#personCode').attr('src',er);
+        		} else { //没有下级
+        			
+        		}
+	        }
+		});
+	})
+</script>

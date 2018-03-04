@@ -186,30 +186,32 @@
 						},
 						data:GetRequest(),
 				        success:function(data){
-				        	if(data.code==1){
-				        		var data = data.data;
-				        		var docker = data.docker; //对接人信息
-				        		var clues = data.clues; //线索基本信息
-				        		var detailData = {
-				        			actual_proportion:data.actual_proportion,
-				        			actual_budget:data.actual_budget,
-				        			proportion_money:data.proportion_money,
-				        			Commission_money:data.Commission_money,
-				        			upname:docker.upname,
-				        			avator:docker.upimage,
-				        		}
-				        		showUpLevelInfo(hasUpLevel,data);
-				        		createDetailsStatus(detailData);
-				        		createCluesHtml(clues);
-				        		createDockerHtml(docker);
-				        	}else{
-		        		      	$.toastTip({
-									img:'images/4-3gxfkui.png',
-									imgW:'1.56rem',
-									imgH:'1.5rem',
-									text:[data.msg]
-								});
-				        	}
+				        	if(isLogin(data)){
+					        	if(data.code==1){
+					        		var data = data.data;
+					        		var docker = data.docker; //对接人信息
+					        		var clues = data.clues; //线索基本信息
+					        		var detailData = {
+					        			actual_proportion:data.actual_proportion,
+					        			actual_budget:data.actual_budget,
+					        			proportion_money:data.proportion_money,
+					        			Commission_money:data.Commission_money,
+					        			upname:docker.upname,
+					        			avator:docker.upimage,
+					        		}
+					        		showUpLevelInfo(hasUpLevel,data);
+					        		createDetailsStatus(detailData);
+					        		createCluesHtml(clues);
+					        		createDockerHtml(docker);
+					        	}else{
+			        		      	$.toastTip({
+										img:'images/4-3gxfkui.png',
+										imgW:'1.56rem',
+										imgH:'1.5rem',
+										text:[data.msg]
+									});
+					        	}
+					        }
 				        	
 				        }
 					});

@@ -39,19 +39,21 @@
 					}, 
 			        dataType:'json',
 			        success:function(data){
-			        	if(data.code==1){
-			        		$.toastTip({
-								img:'images/4-3gxfkui.png',
-								imgW:'1.56rem',
-								imgH:'1.5rem',
-								delay:2000,
-								text:["感谢您的反馈！<p>我们会尽快安排专人与您联系~</p>"]
-							});
-							setTimeout(function(){
-								location.href="setting.html"
-							},2500);
-			        	}
-			  
+			        	if(isLogin(data)){
+				        	if(data.code==1){
+				        		
+				        		$.toastTip({
+									img:'images/4-3gxfkui.png',
+									imgW:'1.56rem',
+									imgH:'1.5rem',
+									delay:2000,
+									text:["感谢您的反馈！<p>我们会尽快安排专人与您联系~</p>"]
+								});
+								setTimeout(function(){
+									location.href="setting.html"
+								},2500);
+				        	}
+			  			}
 			        }
 			    });
 			}

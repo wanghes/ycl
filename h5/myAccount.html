@@ -27,22 +27,24 @@
 					withCredentials:true  
 				},  
 		        success:function(data){
+		        	if(isLogin(data)){
 		        	if(data.code==1){
-		        		var data = data.data.pop();
-		        		var total_money = data.total_money ? '￥'+parseFloat(data.total_money).toFixed(2) : '0.00';
-		        		var notpay_money = data.notpay_money ? '￥'+parseFloat(data.notpay_money).toFixed(2) : '0.00';
-		        		var income_money = data.income_money ? '￥'+parseFloat(data.income_money).toFixed(2) : '0.00';
-		        		$('#totalMoney').text(total_money);
-		        		$('#incomeMoney').text(income_money);
-		        		$('#notpayMoney').text(notpay_money);
+			        		var data = data.data.pop();
+			        		var total_money = data.total_money ? '￥'+parseFloat(data.total_money).toFixed(2) : '0.00';
+			        		var notpay_money = data.notpay_money ? '￥'+parseFloat(data.notpay_money).toFixed(2) : '0.00';
+			        		var income_money = data.income_money ? '￥'+parseFloat(data.income_money).toFixed(2) : '0.00';
+			        		$('#totalMoney').text(total_money);
+			        		$('#incomeMoney').text(income_money);
+			        		$('#notpayMoney').text(notpay_money);
 
-		        	}else{
-        		      	$.toastTip({
-							img:'images/4-3gxfkui.png',
-							imgW:'1.56rem',
-							imgH:'1.5rem',
-							text:[data.msg]
-						});
+			        	}else{
+	        		      	$.toastTip({
+								img:'images/4-3gxfkui.png',
+								imgW:'1.56rem',
+								imgH:'1.5rem',
+								text:[data.msg]
+							});
+			        	}
 		        	}
 		        }
 			});
