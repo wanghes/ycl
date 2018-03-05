@@ -49,11 +49,11 @@
 			</div>
 			<div class="m-img"><img src="images/1-fgx.png" alt="" /></div>
 			<!--公司介绍-->
-			<div class="subTitle">
+			<div class="subTitle" onclick="jump()">
 				<h3 id="gsjieshao">公司介绍</h3>
 				<span></span>
 			</div>
-			<div class="m-article">
+			<div class="m-article" onclick="jump()">
 				<img src="images/1-t1.png" alt="" />
 				<h3>专注于"企业+互联网"战略升级首选IT服务商</h3>
 				<p>通过管理咨询、互联网产品、技术以及人才服务与金融服务促进企业战略升级以及创新创业，并且首创技术VC模式，通过技术服务入股优质创业项目。</p>
@@ -89,17 +89,33 @@
 	<script src="js/t3.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/home.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
+		function jump(){
+			location.href="http://www.huimor.com/"
+		}
 		$(function(){
-			var user = store.get('user') ;
-			if(user && user.login){
-				$('.enter').hide();
-			}else{
-				$('.enter').show();
-			}
+			// var user = store.get('user') ;
+			// if(user && user.login){
+			// 	$('.enter').hide();
+			// }else{
+			// 	$('.enter').show();
+			// }
 
-			$('#gsjieshao').click(function(){
-				location.href="http://www.huimor.com/"
+			$.ajax({
+				url: 'http://yichuanglian.huimor.com/index/isLoginStatus',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true  
+				},  
+				success:function(data){
+		        	if(data.code==1001){
+		        		$('.enter').show();
+		        	}else{
+		        		$('.enter').show();
+		        	}
+		        }
 			})
+
 		})
 	</script>
 	</body>

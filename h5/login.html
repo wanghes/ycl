@@ -62,10 +62,22 @@
 				
 			}
 
-			var user = store.get('user');
-			if(user && user.login) {
-				location.href="index.html"
-			}
+			//判断用户是否登录状态
+			$.ajax({
+				url: 'http://yichuanglian.huimor.com/index/isLoginStatus',
+		        type:'get',
+		        dataType:'json',
+		        xhrFields:{  
+					withCredentials:true 
+				},  
+				success:function(data){
+		        	if(data.code!=1001){
+		        		location.href="index.html"
+		        	}
+		        }
+			})
+
+	
 
 			$('.login-btn button').click(function(){
 				var tel=$('input[name="tel"]').val();

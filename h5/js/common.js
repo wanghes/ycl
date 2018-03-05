@@ -51,7 +51,7 @@ function isLogin(data){
 			message:'请您先登录',
 			button:['立即登录'],
 			callback:function(){
-				store.remove('user');
+				//store.remove('user');
 				window.location.href='login.html'
 			}
 		});
@@ -64,7 +64,7 @@ function isLogin(data){
 			message:'请您完善个人资料',
 			button:['立即完善'],
 			callback:function(){
-				store.remove('user');
+				//store.remove('user');
 				window.location.href='login.html'
 			}
 		});
@@ -357,7 +357,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}
