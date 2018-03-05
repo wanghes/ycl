@@ -108,10 +108,11 @@
 					withCredentials:true  
 				},  
 				success:function(data){
-		        	if(data.code==1001){
+		
+		        	if(!data.data){
 		        		$('.enter').show();
 		        	}else{
-		        		$('.enter').show();
+		        		$('.enter').hide();
 		        	}
 		        }
 			})

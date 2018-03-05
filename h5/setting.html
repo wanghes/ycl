@@ -27,7 +27,7 @@
 			        type:'get',
 			        dataType:'json',
 			        success:function(data){
-			        	if(isLogin(data)){
+			        	if(data.code==1){
 			        		//store.remove('user');
 		        			window.location.href='login.html'
 			           	}	
