@@ -22,6 +22,7 @@
 			</dl>
 		</div>
 		<script type="text/javascript">
+
 				//倒计时
 				var upid = GetQueryString('upid');
 				var codeTime = {
@@ -81,6 +82,21 @@
 					        }
 					    });
 				    }
+				});
+
+				//判断用户是否登录状态
+				$.ajax({
+					url: 'http://yichuanglian.huimor.com/index/isLoginStatus',
+			        type:'get',
+			        dataType:'json',
+			        xhrFields:{  
+						withCredentials:true 
+					},  
+					success:function(data){
+			        	if(!!data.data){
+			        		location.href="index.html"
+			        	}
+			        }
 				});
 				
 				//立即入驻
