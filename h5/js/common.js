@@ -41,7 +41,7 @@ function loadScript(url, callback) {
         }
     }
 }
-	
+
 
 //	判断是否登录
 function isLogin(data){
@@ -65,7 +65,7 @@ function isLogin(data){
 			button:['立即完善'],
 			callback:function(){
 				//store.remove('user');
-				window.location.href='login.html'
+				window.location.href='perfectInfo.html'
 			}
 		});
 	}else{
@@ -204,9 +204,9 @@ function isTel(tel){
 			        data:{
 			        	url: window.location.href
 			        },
-			        xhrFields:{  
-						withCredentials:true  
-					},  
+			        xhrFields:{
+						withCredentials:true
+					},
 			        success:function(data){
 			        	var appId  = data.data.appId;
 			        	var nonceStr  = data.data.nonceStr;
@@ -218,7 +218,7 @@ function isTel(tel){
 
 			    		wx.config({
 						    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-						    appId: appId, // 必填，公众号的唯一标识     
+						    appId: appId, // 必填，公众号的唯一标识
 						　　timestamp: timestamp, // 必填，生成签名的时间戳
 						    nonceStr: nonceStr, // 必填，生成签名的随机串
 						    signature: signature,// 必填，签名，见附录1
@@ -285,17 +285,17 @@ function isTel(tel){
      			$('.share_bg').remove();
      		})
      		$('#shareBox .item').eq(0).click(function(){
-     			
+
      		})
      		$('#shareBox .item').eq(1).click(function(){
-     			
+
      		})
      		$('#shareBox .item').eq(2).click(function(){
      		})
      		$('#shareBox .item').eq(3).click(function(){
      		})
      		$('#shareBox .item').eq(4).click(function(){
-     			
+
      		})
      		*/
         },
@@ -345,10 +345,10 @@ function isTel(tel){
 })(jQuery);
 
 
-function GetQueryString(name) { 
-	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i"); 
-	var r = window.location.search.substr(1).match(reg); 
-	if (r!=null) return (r[2]); return null; 
+function GetQueryString(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+	var r = window.location.search.substr(1).match(reg);
+	if (r!=null) return (r[2]); return null;
 }
 
 
@@ -372,12 +372,12 @@ $(function(){
 	$('.releaseInfo input').blur(function(){
 		$(this).parents('dd').removeClass('cur');
 	});
-	
+
 	//	完善个人信息 是否同意阅读线上合同
 	$('.agreeContract i').click(function(){
 		$(this).toggleClass('active');
 	})
-	
+
 	//	发布线索  行业选择弹出
 	$('.industryAdd a').click(function(){
 		$('.industryTanchu').show();
@@ -422,7 +422,7 @@ $(function(){
 		}
 		$('.industryTanchu').hide();
 	})
-	
+
 	//	删除选择的行业
 	$('.industryAdd').delegate('em i','click',function(){
 		var this_em=$(this).parent('em');
@@ -441,7 +441,7 @@ $(function(){
 			$('.industryAdd ul').remove();
 		}
 	})
-	
+
 	//	发布线索  项目预算
 	$('.selectBudget div').click(function(){
 		var this_text=$(this).find('p').text();
@@ -450,9 +450,9 @@ $(function(){
 	        url: 'http://yichuanglian.huimor.com/index/getBudget',
 	        type:'get',
 	        dataType:'json',
-	        xhrFields:{  
-				withCredentials:true  
-			},  
+	        xhrFields:{
+				withCredentials:true
+			},
 	        success:function(data){
 	        	if(isLogin){
 		        	var data=data.data;
@@ -474,7 +474,7 @@ $(function(){
 	        }
 		});
 	})
-	// 发布线索  业务类型 
+	// 发布线索  业务类型
 	$('.selectBusiness div').click(function(){
 		var this_text=$(this).find('p').text();
 		var lists=[],listsId=[];
@@ -482,9 +482,9 @@ $(function(){
 	        url: 'http://yichuanglian.huimor.com/index/getBusiness',
 	        type:'get',
 	        dataType:'json',
-	        xhrFields:{  
-				withCredentials:true  
-			},  
+	        xhrFields:{
+				withCredentials:true
+			},
 	        success:function(data){
 	        	if(isLogin(data)){
         			var data=data.data;
@@ -506,7 +506,7 @@ $(function(){
 	        }
 		});
 	});
-	
+
 	// 发布线索提交
 	$('.release-btn button').click(function(){
 		var projectName=$('input[name="projectName"]').val();
@@ -545,7 +545,7 @@ $(function(){
 				imgH:'1.5rem',
 				text:['期望提成比例不能大于等于100的数据']
 			});
-		}else{	
+		}else{
 			$.ajax({
 		        url: 'http://yichuanglian.huimor.com/index/release',
 		        type:'post',
@@ -558,9 +558,9 @@ $(function(){
 		        	describes:describes,
 		        },
 		        dataType:'json',
-		        xhrFields:{  
-					withCredentials:true  
-				},  
+		        xhrFields:{
+					withCredentials:true
+				},
 		        success:function(data){
 		        	if(isLogin(data)){
 		        		window.location.href='successRelease.html?adminId='+data.data;
@@ -597,7 +597,7 @@ $(function(){
 	});
 	*/
 
-    
+
     //完善个人信息 选择职业类型
 	$('.selectProfession div').click(function(){
 		var this_text=$(this).find('p').text();
@@ -606,9 +606,9 @@ $(function(){
 	        url: 'http://yichuanglian.huimor.com/index/occategory',
 	        type:'get',
 	        dataType:'json',
-	        xhrFields:{  
-				withCredentials:true  
-			},  
+	        xhrFields:{
+				withCredentials:true
+			},
 	        success:function(data){
 	        	if(isLogin(data)){
         			var data=data.data;
@@ -630,7 +630,7 @@ $(function(){
 	        }
 		});
 	})
-			
+
 	//完善资料
 	$('.perfect-btn button').click(function(){
 		var name=$('input[name="name"]').val();
@@ -667,9 +667,9 @@ $(function(){
 	            agreement:agreement
 	        },
 	        dataType:'json',
-	        xhrFields:{  
-				withCredentials:true  
-			},  
+	        xhrFields:{
+				withCredentials:true
+			},
 	        success:function(data){
 	            if(isLogin(data)){
 	            	window.location.href='successEnter.html'
@@ -677,5 +677,5 @@ $(function(){
 	        }
 	    });
     });
-    
+
 });

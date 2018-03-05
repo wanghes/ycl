@@ -10,14 +10,14 @@
 	<script src="js/common.js?a=11" type="text/javascript" charset="utf-8"></script>
 </head>
 	<body>
-		
+
 		<!--头部-->
 		<div class="g-head">
 			<h3>易创链</h3>
 			<p>链接IT商务线索</p>
 			<div class="banner"></div>
 		</div>
-		
+
 		<!--内容-->
 		<div class="g-content">
 			<!--商务入驻有哪些好处-->
@@ -104,14 +104,18 @@
 				url: 'http://yichuanglian.huimor.com/index/isLoginStatus',
 		        type:'get',
 		        dataType:'json',
-		        xhrFields:{  
-					withCredentials:true  
-				},  
+		        xhrFields:{
+					withCredentials:true
+				},
 				success:function(data){
 		        	if(!data.data){
 		        		$('.enter').show();
 		        	}else{
 		        		$('.enter').hide();
+		        		if(data.code==1002){
+		        			location.href = "perfectInfo.html"
+		        		}
+
 		        	}
 		        }
 			})

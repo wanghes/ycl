@@ -22,6 +22,34 @@
 			</dl>
 		</div>
 		<script type="text/javascript">
+			function sendOauth(){
+				$.ajax({
+			        url: 'http://yichuanglian.huimor.com/index/getOpenID',
+			        type:'get',
+			        dataType:'json',
+			        xhrFields:{
+						withCredentials:true
+					},
+			        success:function(data){
+			        	if(!data.data){
+				        	$.ajax({
+						        url: 'http://yichuanglian.huimor.com/index/getWxMsg',
+						        type:'get',
+						        dataType:'json',
+						        xhrFields:{
+									withCredentials:true
+								},
+						        success:function(data){
+						        	//window.location.href='index.html'
+						        }
+							});
+						}
+			        }
+				});
+
+			}
+
+			sendOauth();
 
 				//倒计时
 				var upid = GetQueryString('upid');
@@ -48,12 +76,12 @@
 				      this.start();
 				   }
 				};
-				
+
 				//立即入驻  验证码
 				$('.code').click(function(){
 					var _this=this;
 					var tel=$('input[name="tel"]').val();
-					var telReg = /^[1][3,4,5,7,8][0-9]{9}$/; 
+					var telReg = /^[1][3,4,5,7,8][0-9]{9}$/;
 
 					if((tel=='') || (tel.length!=11) || !telReg.test(tel)){
 						$.toastTip({
@@ -70,15 +98,15 @@
 					            mobile:tel,
 					            type:'1',
 					        },
-					        xhrFields:{  
-								withCredentials:true  
-							},  
+					        xhrFields:{
+								withCredentials:true
+							},
 					        dataType:'json',
 					        success:function(data){
-					        	
+
 					        	if(isLogin(data)){
 				        			codeTime.init(_this);
-					           	}	
+					           	}
 					        }
 					    });
 				    }
@@ -89,24 +117,24 @@
 					url: 'http://yichuanglian.huimor.com/index/isLoginStatus',
 			        type:'get',
 			        dataType:'json',
-			        xhrFields:{  
-						withCredentials:true 
-					},  
+			        xhrFields:{
+						withCredentials:true
+					},
 					success:function(data){
 			        	if(!!data.data){
 			        		location.href="index.html"
 			        	}
 			        }
 				});
-				
+
 				//立即入驻
 				$('.ruzhu').click(function(){
 					var tel=$('.enter-form input[name="tel"]').val();
 					var pwd=$('.enter-form input[type="password"]').val();
 					var code=$('.enter-form input[name="code"]').val();
-					var reg = /^[A-Za-z0-9]{6,12}$/;			
-					var telReg = /^[1][3,4,5,7,8][0-9]{9}$/; 
-					
+					var reg = /^[A-Za-z0-9]{6,12}$/;
+					var telReg = /^[1][3,4,5,7,8][0-9]{9}$/;
+
 					if ((tel=='') || (tel.length!=11) || !telReg.test(tel)) {
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
