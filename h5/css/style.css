@@ -394,7 +394,7 @@ footer .bottom0 span p{font-size:.3rem;margin-top:.12rem;}
 .messagesDate{font-size:.32rem;color:#999;text-align:center;margin-bottom:.26rem;}
 .messagesList{padding:.28rem .4rem;box-shadow:0 .04rem .2rem .03rem rgba(206,226,246,.8);margin-bottom:.2rem;}
 .messagesList h3{font-size:.3rem;line-height:1;color:#333;}
-.messagesList p{font-size:.28rem;color:#333;margin-top:.26rem;}
+.messagesList p{font-size:.28rem;color:#333;margin-top:.26rem; word-wrap: break-word;}
 .messagesList .successMes{color:#2e8cee;}
 .messagesList .defeatedMes{color:#fe7e6c;}
 
@@ -529,7 +529,7 @@ button[disabled]{
 	padding:0 10%;
 }
 
-#listWrap{
+#listWrap, #first{
 	box-sizing: border-box;
 	position: absolute;
 	top:1rem;

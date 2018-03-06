@@ -7,6 +7,7 @@
 		<title>详情</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<script src="js/jquery.1.11.3.min.js"></script>
+		
 		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
@@ -49,10 +50,12 @@
 	</body>
 </html>
 <script type="text/javascript">
+
 	var type = GetQueryString('type');
 	var userId = GetQueryString('userId');
 	var id = GetQueryString('id');
 	var level = GetQueryString('level'); //获取级别 我或者我的下级 1是我 2是我的下级
+
 
 	function sendAjax(config,cb){
 		var defaultConfig = {

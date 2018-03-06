@@ -7,6 +7,7 @@
 		<title>已支付资金流水</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<script src="js/jquery.1.11.3.min.js"></script>
+		<script src="js/iscroll.js"></script>
 		<script src="js/myAlert.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
 	</head>
@@ -16,27 +17,19 @@
 			<div data-id="second">下级发布线索分销明细</div>
 		</div>
 		<div id="first" class="model" style="display: block;">
-			<!-- <div class="list paylist">
-				<div><span>项目名称111</span><span class="fr">成单时间：2017-12-21 12:39</span></div>
-				<div><span>实际合同：￥1000.00</span></div>
-				<div><span>总收入：￥1000.00</span></div>
-				<div><span>已支付：￥1000.00</span></div>
+			<div id="scroller">
+				<div id="pullDown">
+					<span class="pullDownIcon"></span><span class="pullDownLabel">下拉松开刷新</span>
+				</div>
+				<div id="thelistRelease">
+				</div>
+				<div id="pullUp" style="display:none;" >
+					<span class="pullUpIcon"></span><span class="pullUpLabel">上滑加载更多</span>
+				</div>
 			</div>
-			<div class="list paylist">
-				<div><span>ERP系统设计</span><span class="fr">成单时间：2017-12-21 12:39</span></div>
-				<div><span>实际合同：￥1000.00</span></div>
-				<div><span>总收入：￥1000.00</span></div>
-				<div><span>已支付：￥1000.00</span></div>
-			</div>
-			<div class="list paylist">
-				<div><span>ERP系统设计</span><span class="fr">成单时间：2017-12-21 12:39</span></div>
-				<div><span>实际合同：￥500.00</span></div>
-				<div><span>总收入：￥500.00</span></div>
-				<div><span>已支付：￥500.00</span></div>
-			</div> -->
 		</div>
-		<div id="second" class="model">
-			<!-- <div class="list paylist">
+		<!--<div id="second" class="model">
+			 <div class="list paylist">
 				<div><span>项目名称222</span><span class="fr">成单时间：2017-12-21 12:39</span></div>
 				<div><span>实际合同：￥1000.00</span></div>
 				<div><span>总收入：￥1000.00</span></div>
@@ -53,8 +46,8 @@
 				<div><span>实际合同：￥500.00</span></div>
 				<div><span>总收入：￥500.00</span></div>
 				<div><span>已支付：￥500.00</span></div>
-			</div> -->
-		</div>
+			</div> 
+		</div>-->
 		
 		<!--没有下级-->
 		<!-- <div class="nothing">
@@ -68,6 +61,90 @@
 	var hasLow = false;
 	$.developSecondSales(); //发展二级分销微信配置
 	var type = GetQueryString('type');
+	var qid = GetQueryString('qid');
+	var newUrl = "";
+
+	var myScroll,
+		pullDownEl, 
+		pullDownOffset,
+		pullUpEl, 
+		pullUpOffset,
+		indexVal,
+		generatedCount = 0,
+		newUrl="";
+
+	var pageSize=4;
+	var pageNo = 1;
+
+	function loaded() {
+		pullDownEl = document.getElementById('pullDown');
+		console.log(pullDownEl)
+		pullDownOffset = pullDownEl.offsetHeight;
+		pullUpEl = document.getElementById('pullUp');	
+		//pullUpOffset = 10;
+
+		pullUpOffset = pullUpEl.offsetHeight;
+		myScroll = new iScroll('first', {
+			useTransition: true,
+			topOffset: pullDownOffset,
+			onRefresh: function () {
+				if (pullDownEl.className.match('loading')) {
+					pullDownEl.className = '';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉松开刷新';}
+				if (pullUpEl.className.match('loading')) {
+					pullUpEl.className = '';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '上滑加载更多';
+				}
+				
+				document.getElementById("pullUp").style.display="none";
+			},
+			onScrollMove: function () {
+				if (this.y > 0) {
+					pullDownEl.className = 'flip';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉松开刷新';
+					this.minScrollY = 0;
+				}
+				if (this.y < 0 && pullDownEl.className.match('flip')) {
+					pullDownEl.className = '';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新页面';
+					this.minScrollY = -pullDownOffset;
+				}
+				
+				if ( this.scrollerH < this.wrapperH && this.y < (this.minScrollY-pullUpOffset) || this.scrollerH > this.wrapperH && this.y < (this.maxScrollY - pullUpOffset) ) {
+					document.getElementById("pullUp").style.display="";
+					pullUpEl.className = 'flip';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '上滑加载更多';
+				} 
+				 if (this.scrollerH < this.wrapperH && this.y > (this.minScrollY-pullUpOffset) && pullUpEl.className.match('flip') || this.scrollerH > this.wrapperH && this.y > (this.maxScrollY - pullUpOffset) && pullUpEl.className.match('flip')) {
+					document.getElementById("pullUp").style.display="none";
+					pullUpEl.className = '';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '上滑加载更多';
+				}
+			},
+			onScrollEnd: function () {
+				if (pullDownEl.className.match('flip')) {
+					pageNo = 1;
+					pullDownEl.className = 'loading';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '正在加载数据...';				
+					//excuteAjax(indexVal,true);
+				
+					location.href= newUrl;
+				} 
+				 if (pullUpEl.className.match('flip')) {
+				 	pageNo++;
+					pullUpEl.className = 'loading';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '正在加载数据...';		
+					excuteAjax(type);
+				}
+			}
+		});
+		
+		//setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+	}
+
+	
+
+
 	function jumpPage(id,level,userId){
 		var query = '?id='+id+'&type='+type+'&userId='+userId+"&level="+level;
 		var str = "salesInfo.html";
@@ -83,47 +160,73 @@
 	}
 
 
-	function handleData(data){
+	function handleData(data,total1,total2){
 		var myClue = data.myclue; //我的线索分销列表
 		var myDownClue = data.mydownclue;//我的下级的线索分销列表
 		var myClueHtml = "";
 		var myDownClueHtml = "";
 		
-		if(!myClue){
-			notMySales();
-		}else{
-			for(var i=0;i<myClue.length;i++){
-				myClue[i].addtime = myClue[i].addtime ? myClue[i].addtime.slice(0,-3) : ""; //格式化日期
-				
-				myClueHtml +=[
-					'<div class="list paylist" onclick="jumpPage(\''+myClue[i].id+'\',1,\''+myClue[i].user_id+'\')">',
-						'<div><span>'+myClue[i].projectname+'</span><span class="fr">成单时间：'+myClue[i].addtime+'</span></div>',
-						'<div><span>实际合同：￥'+myClue[i].actual_budget+'</span></div>',
-						'<div><span>总收入：￥'+myClue[i].proportion_money+'</span></div>',
-						payFunc(myClue[i]),
-					'</div>'
-				].join('');
+
+		if((qid && qid=="first") || !qid){
+			if(!myClue.length && !total1){
+				notMySales();
+			}else{
+				if(myClue.length){
+					for(var i=0;i<myClue.length;i++){
+						myClue[i].addtime = myClue[i].addtime ? myClue[i].addtime.slice(0,-3) : ""; //格式化日期			
+						myClueHtml +=[
+							'<div class="list paylist" onclick="jumpPage(\''+myClue[i].id+'\',1,\''+myClue[i].user_id+'\')">',
+								'<div><span>'+myClue[i].projectname+'</span><span class="fr">成单时间：'+myClue[i].addtime+'</span></div>',
+								'<div><span>实际合同：￥'+myClue[i].actual_budget+'</span></div>',
+								'<div><span>总收入：￥'+myClue[i].proportion_money+'</span></div>',
+								payFunc(myClue[i]),
+							'</div>'
+						].join('');
+					}
+					$('#thelistRelease').html(myClueHtml);
+				}else{
+					pullUpEl.style.display="none";
+					$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['数据全部加载完毕']
+					});
+				}
 			}
-			$('#first').html(myClueHtml);
 		}
 
-		if(!myDownClue){
-			notSecondSales();
-		}else{
-			for(var i=0;i<myDownClue.length;i++){
-				myDownClue[i].addtime = myDownClue[i].addtime ? myDownClue[i].addtime.slice(0,-3) :''; //格式化日期
-				myDownClueHtml +=[
-					'<div class="list paylist" onclick="jumpPage(\''+myDownClue[i].id+'\',2,\''+myDownClue[i].user_id+'\')">',
-						'<div><span>'+myDownClue[i].projectname+'</span><span class="fr">成单时间：'+myDownClue[i].addtime+'</span></div>',
-						'<div><span>实际合同：￥'+myDownClue[i].actual_budget+'</span></div>',
-						'<div><span>总收入：￥'+myDownClue[i].proportion_money+'</span></div>',
-						payFunc(myDownClue[i]),
-					'</div>'
-				].join('');
+		if(qid && qid=="second"){
+			if(!myDownClue.length && !total2){
+				notSecondSales();
+			}else{
+				if(myDownClue.length){
+					for(var i=0;i<myDownClue.length;i++){
+						myDownClue[i].addtime = myDownClue[i].addtime ? myDownClue[i].addtime.slice(0,-3) :''; //格式化日期
+						myDownClueHtml +=[
+							'<div class="list paylist" onclick="jumpPage(\''+myDownClue[i].id+'\',2,\''+myDownClue[i].user_id+'\')">',
+								'<div><span>'+myDownClue[i].projectname+'</span><span class="fr">成单时间：'+myDownClue[i].addtime+'</span></div>',
+								'<div><span>实际合同：￥'+myDownClue[i].actual_budget+'</span></div>',
+								'<div><span>总收入：￥'+myDownClue[i].proportion_money+'</span></div>',
+								payFunc(myDownClue[i]),
+							'</div>'
+						].join('');
+					}
+					$('#thelistRelease').html(myDownClueHtml);
+				}else{
+					pullUpEl.style.display="none"
+					$.toastTip({
+						img:'images/4-3gxfkui.png',
+						imgW:'1.56rem',
+						imgH:'1.5rem',
+						text:['数据全部加载完毕']
+					});
+				}
 			}
-			$('#second').html(myDownClueHtml);
 		}
 	}
+
+
 
 	function notMySales(){
 		var html = [
@@ -132,7 +235,7 @@
 				'<p>很抱歉，您还没有发布线索!</p>',
 			'</div>'
 		].join('');
-		$('#first').html(html);
+		$('#thelistRelease').html(html);
 	}
 
 	function notSecondSales() {
@@ -154,7 +257,7 @@
 			].join('');
 		}
 
-		$('#second').html(html);
+		$('#thelistRelease').html(html);
 	}
 
 
@@ -163,38 +266,53 @@
 		if(type==1){ 
 			$.ajax({
 		        url: 'http://yichuanglian.huimor.com/index/clueDetail',
-		        type:'get',
+		        type:'post',
 		        dataType:'json',
+		        data:{
+		        	pageSize:pageSize,
+		        	pageNo:pageNo
+		        },
 		        xhrFields:{  
 					withCredentials:true  
 				},  
 		        success:function(data){
 		        	if(isLogin(data)){
+		        		var total1 = data.total1;
+		        		var total2 = data.total2;
 		        		var data=data.data;
-		        		handleData(data);
+		        		handleData(data,total1,total2);
 		        	}
 		        }
 			});
 		} else {
 			$.ajax({
 		        url: 'http://yichuanglian.huimor.com/index/notDockingDetail',
-		        type:'get',
+		        type:'post',
 		        dataType:'json',
+		        data:{
+		        	pageSize:pageSize,
+		        	pageNo:pageNo
+		        },
 		        xhrFields:{  
 					withCredentials:true
 				},  
 		        success:function(data){
 		        	if(isLogin(data)){
+		        		var total1 = data.total1;
+		        		var total2 = data.total2;
 		        		var data=data.data;
-		        		handleData(data);
+		        		handleData(data,total1,total2);
 		        	}
 		        }
 			});
 		}
 	}
-
-
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+	
 	$(function(){
+		
+
 		if(type==1){
 			document.title="已支付资金流水"
 		}else{
@@ -219,13 +337,25 @@
 	        }
 		});
 		
+		if(qid && qid=="second"){
+			$('.tab_div div').eq(1).addClass('active').siblings().removeClass('active');
+		}else{
+			$('.tab_div div').eq(0).addClass('active').siblings().removeClass('active');
+		}
+		
+
 		$('.tab_div div').click(function(){
+			pageNo=1;
 			var index=$(this).index();
 			var id=$(this).data('id');
-
+			qid = id;
+			newUrl = 'http://'+location.host+ location.pathname +'?type='+type+'&qid='+qid;
+			location.href = newUrl;
 			$(this).addClass('active').siblings().removeClass('active');
-			$('.model').hide();
-			$('#'+id).show();
+			$('#thelistRelease').html('');
+			
+			
+
 		})
 	});
 </script>
