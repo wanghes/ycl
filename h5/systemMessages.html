@@ -7,11 +7,23 @@
 		<title>系统消息</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		<script src="js/jquery.1.11.3.min.js"></script>
+		<script src="js/iscroll.js"></script>
 		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="fixed-bg"></div>
 		<div class="messages" id="mesBox">
+			<div id="scroller">
+				<div id="pullDown">
+					<span class="pullDownIcon"></span><span class="pullDownLabel">下拉松开刷新</span>
+				</div>
+				<div id="thelist">
+				</div>
+				<div id="pullUp" style="display:none;" >
+					<span class="pullUpIcon"></span><span class="pullUpLabel">上滑加载更多</span>
+				</div>
+
+			</div>
 			<!-- <div class="messagesDate">2016-12-21 15:30</div>
 			<div class="messagesList">
 				<h3 class="successMes">对接成功</h3>
@@ -30,46 +42,98 @@
 	</body>
 </html>
 <script type="text/javascript">
-	function joinHtml(data){
-		var mesBox = $('#mesBox');
-		var html = "";
-		var status='';
-		var classInfo = "";
 
-		if(!data.length){
-			mesBox.html('<h3 style="text-align:center">目前还没有系统消息</h3>');
-			return;
-		}
-		
-		$.each(data,function(index,item){
-			item.addtime = item.addtime ? item.addtime.slice(0,-3) :''; //格式化日期
-			status = item.status==1 ? "对接成功" :"对接失败";
-			if (item.status==1) {
-				status = "对接成功";
-				classInfo = "successMes";
-			} else if(item.status==2) {
-				status = "对接失败";
-				classInfo = "defeatedMes";
-			} else { //status==3
-				status = "系统通知";
-				classInfo = "";
+	var myScroll,
+		pullDownEl, 
+		pullDownOffset,
+		pullUpEl, 
+		pullUpOffset,
+		generatedCount = 0;
+
+	var pageSize=2;
+	var pageNo = 1;
+
+	
+	function loaded() {
+		pullDownEl = document.getElementById('pullDown');
+
+		pullDownOffset = pullDownEl.offsetHeight;
+		pullUpEl = document.getElementById('pullUp');	
+		//pullUpOffset = 10;
+
+		pullUpOffset = pullUpEl.offsetHeight;
+		myScroll = new iScroll('mesBox', {
+			useTransition: true,
+			topOffset: pullDownOffset,
+			onRefresh: function () {
+				if (pullDownEl.className.match('loading')) {
+					pullDownEl.className = '';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉松开刷新';}
+				if (pullUpEl.className.match('loading')) {
+					pullUpEl.className = '';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '上滑加载更多';
+				}
+				
+				document.getElementById("pullUp").style.display="none";
+			},
+			onScrollMove: function () {
+				if (this.y > 0) {
+					pullDownEl.className = 'flip';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉松开刷新';
+					this.minScrollY = 0;
+				}
+				if (this.y < 0 && pullDownEl.className.match('flip')) {
+					pullDownEl.className = '';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '下拉刷新页面';
+					this.minScrollY = -pullDownOffset;
+				}
+				
+				if ( this.scrollerH < this.wrapperH && this.y < (this.minScrollY-pullUpOffset) || this.scrollerH > this.wrapperH && this.y < (this.maxScrollY - pullUpOffset) ) {
+					document.getElementById("pullUp").style.display="";
+					pullUpEl.className = 'flip';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '上滑加载更多';
+				} 
+				 if (this.scrollerH < this.wrapperH && this.y > (this.minScrollY-pullUpOffset) && pullUpEl.className.match('flip') || this.scrollerH > this.wrapperH && this.y > (this.maxScrollY - pullUpOffset) && pullUpEl.className.match('flip')) {
+					document.getElementById("pullUp").style.display="none";
+					pullUpEl.className = '';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '上滑加载更多';
+				}
+			},
+			onScrollEnd: function () {
+				if (pullDownEl.className.match('flip')) {
+					pullDownEl.className = 'loading';
+					pullDownEl.querySelector('.pullDownLabel').innerHTML = '正在加载数据...';				
+					// excuteAjax(true);
+					pageNo = 1;
+					location.reload();
+				} 
+				 if (pullUpEl.className.match('flip')) {
+				 	pageNo ++;
+					pullUpEl.className = 'loading';
+					pullUpEl.querySelector('.pullUpLabel').innerHTML = '正在加载数据...';		
+					excuteAjax(false);
+				}
 			}
-			html += [
-				'<div class="messagesDate">'+item.addtime+'</div>',
-				'<div class="messagesList">',
-					'<h3 class="'+classInfo+'">'+status+'</h3>',
-					'<p>'+item.content+'</p>',
-				'</div>'
-			].join('');
-		})
-
-		mesBox.html(html);
+		});
+		
+		//setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
 	}
 
-	$(function(){
+	document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+
+	document.addEventListener('DOMContentLoaded', function () { setTimeout(loaded, 200); }, false);
+
+	/**
+	* 通过 up 判断是向上滑 还是下拉刷新 （boolean）
+	*/
+	function excuteAjax(up){
 		$.ajax({
 	        url: 'http://yichuanglian.huimor.com/index/getSysMessage',
-	        type:'get',
+	        type:'post',
+	        data:{
+	        	pageSize:pageSize,
+	        	pageNo:pageNo
+	        },
 	        xhrFields:{  
 				withCredentials:true  
 			}, 
@@ -77,10 +141,65 @@
 	        success:function(data){
 	        	if(isLogin(data)){
 		        	if(data.code==1){
-		        		joinHtml(data.data);
+		        		joinHtml(data.total,data.data,up);
 		        	}
 		        }
 	        }
 	    });
+	}
+
+	function joinHtml(total,data,up){
+		var mesBox = $('#thelist');
+		var html = "";
+		var status='';
+		var classInfo = "";
+
+		if(!data.length && !total){
+			mesBox.html('<h3 style="text-align:center">目前还没有系统消息</h3>');
+			return;
+		}
+		if(data.length){
+			$.each(data,function(index,item){
+				item.addtime = item.addtime ? item.addtime.slice(0,-3) :''; //格式化日期
+				status = item.status==1 ? "对接成功" :"对接失败";
+				if (item.status==1) {
+					status = "对接成功";
+					classInfo = "successMes";
+				} else if(item.status==2) {
+					status = "对接失败";
+					classInfo = "defeatedMes";
+				} else { //status==3
+					status = "系统通知";
+					classInfo = "";
+				}
+				html = [
+					'<div class="messagesDate">'+item.addtime+'</div>',
+					'<div class="messagesList">',
+						'<h3 class="'+classInfo+'">'+status+'</h3>',
+						'<p>'+item.content+'</p>',
+					'</div>'
+				].join('');
+
+				if(up){
+					mesBox.prepend(html);
+				} else {
+					mesBox.append(html);
+				}
+			});
+		} else {
+			$.toastTip({
+				img:'images/4-3gxfkui.png',
+				imgW:'1.56rem',
+				imgH:'1.5rem',
+				text:['数据全部加载完毕']
+			});
+		}
+
+		myScroll.refresh();
+	}
+
+	$(function(){
+		loaded();
+		excuteAjax(true);
 	})
 </script>
