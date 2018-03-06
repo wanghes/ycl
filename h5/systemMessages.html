@@ -172,20 +172,19 @@
 					status = "系统通知";
 					classInfo = "";
 				}
-				html = [
+				html += [
 					'<div class="messagesDate">'+item.addtime+'</div>',
 					'<div class="messagesList">',
 						'<h3 class="'+classInfo+'">'+status+'</h3>',
 						'<p>'+item.content+'</p>',
 					'</div>'
 				].join('');
-
-				if(up){
-					mesBox.prepend(html);
-				} else {
-					mesBox.append(html);
-				}
 			});
+			if(up){
+				mesBox.prepend(html);
+			} else {
+				mesBox.append(html);
+			}
 		} else {
 			$.toastTip({
 				img:'images/4-3gxfkui.png',

@@ -35,18 +35,7 @@
 				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
 				<div><span>期望提成比例：</span><em>10%</em></div>
 			</div>
-			<div class="list">
-				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
-				<div><span>行业：</span>教育</div>
-				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
-				<div><span>期望提成比例：</span><em>10%</em></div>
-			</div>
-			<div class="list">
-				<div><span>ERP系统设计</span><span class="fr">2017-12-21 12:39</span></div>
-				<div><span>行业：</span>教育</div>
-				<div><span>项目预算：</span><strong>￥1000.00</strong></div>
-				<div><span>期望提成比例：</span><em>10%</em></div>
-			</div> -->
+			 -->
 		</div>
 		
 		<!--没有线索-->
@@ -62,10 +51,13 @@
 				pullUpEl, 
 				pullUpOffset,
 				indexVal,
-				generatedCount = 0;
+				generatedCount = 0,
+				newUrl="";
 
 			var pageSize=2;
 			var pageNo = 1;
+
+
 
 
 			function loaded(index) {
@@ -119,7 +111,7 @@
 							pullDownEl.className = 'loading';
 							pullDownEl.querySelector('.pullDownLabel').innerHTML = '正在加载数据...';				
 							//excuteAjax(indexVal,true);
-							location.reload();
+							location.href= newUrl;
 						} 
 						 if (pullUpEl.className.match('flip')) {
 						 	pageNo++;
@@ -153,14 +145,14 @@
 			}
 
 
-			function joinHtml(data,up){
+			function joinHtml(total,data,status,up){
 				var thisList = $('#thelistRelease');
-
-				if(!thisList.find('.list').length && !data.length){
+				console.log(total)
+				if(!data.length && !total){
 					$('.nothing').show();
 					return;
 				}
-				var html='';
+				var html ='';
 				if(data.length){
 					for (i=0;i<data.length;i++) {
 	        			if(!isNaN(data[i].budget)){
@@ -168,18 +160,19 @@
 	        			}
 	        			data[i].cate_name = data[i].cate_name.join(', ');
 	        			data[i].addtime = data[i].addtime.slice(0,-3); //格式化日期
-	    				html = '<div class="list" data-id="'+data[i].id+'" onclick="jumpPage('+data[i].id+','+status+')">\
+	    				html += '<div class="list" data-id="'+data[i].id+'" onclick="jumpPage('+data[i].id+','+status+')">\
 								<div><span>'+data[i].projectname+'</span><span class="fr">'+data[i].addtime+'</span></div>\
 								<div><span>行业：</span>'+data[i].cate_name+'</div>\
 								<div><span>项目预算：</span><strong>'+data[i].budget+'</strong></div>\
 								<div><span>期望提成比例：</span><em>'+data[i].proportion+'%</em></div>\
 							</div>';
-						if(up){
-							thisList.prepend(html);
-						} else {
-							thisList.append(html);
-						}
+						
 	    			}
+	    			if(up){
+						thisList.prepend(html);
+					} else {
+						thisList.append(html);
+					}
 	    		}else{
 	    			$.toastTip({
 						img:'images/4-3gxfkui.png',
@@ -193,7 +186,7 @@
 			}
 
 			function excuteAjax(index,up){
-				var status = index+1;
+				var status = parseInt(index)+1;
 				$.ajax({
 			        url: 'http://yichuanglian.huimor.com/index/cluemessage',
 			        type:'post',
@@ -208,28 +201,31 @@
 					},  
 			        success:function(data){
 			        	if(isLogin(data)){
+			        		var total = data.total;
 			        		var data=data.data;
-
-			        		joinHtml(data,up);
+			        		joinHtml(total,data,status,up);
 			        	}
 			        }
 				});
 			}
 
 			$('.tab_nav div').click(function(){
+				pageNo = 1;
 				var index = indexVal = $(this).index();
 				$('#thelistRelease').html('');
 				$('.nothing').hide();
 				$(this).addClass('active').siblings().removeClass('active');
+				newUrl = 'http://'+location.host+ location.pathname +'?active='+index;
 				excuteAjax(index,true);
 				loaded();
-				pageNo = 1;
 			})
 
+			indexVal = GetQueryString('active') || 0;
+			$('.tab_nav div').eq(indexVal).addClass('active').siblings().removeClass('active');
 
 			loaded();
-			indexVal = 0;
-			excuteAjax(0,true);
+			
+			excuteAjax(indexVal,true);
 		</script>
 	</body>
 </html>
