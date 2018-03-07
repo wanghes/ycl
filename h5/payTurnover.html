@@ -81,9 +81,9 @@
 		console.log(pullDownEl)
 		pullDownOffset = pullDownEl.offsetHeight;
 		pullUpEl = document.getElementById('pullUp');	
-		//pullUpOffset = 10;
+		pullUpOffset = 10;
 
-		pullUpOffset = pullUpEl.offsetHeight;
+		//pullUpOffset = pullUpEl.offsetHeight;
 		myScroll = new iScroll('first', {
 			useTransition: true,
 			topOffset: pullDownOffset,
@@ -183,9 +183,9 @@
 							'</div>'
 						].join('');
 					}
-					$('#thelistRelease').html(myClueHtml);
+					$('#thelistRelease').append(myClueHtml);
 				}else{
-					pullUpEl.style.display="none";
+					
 					$.toastTip({
 						img:'images/4-3gxfkui.png',
 						imgW:'1.56rem',
@@ -193,6 +193,7 @@
 						text:['数据全部加载完毕']
 					});
 				}
+
 			}
 		}
 
@@ -212,9 +213,8 @@
 							'</div>'
 						].join('');
 					}
-					$('#thelistRelease').html(myDownClueHtml);
+					$('#thelistRelease').append(myDownClueHtml);
 				}else{
-					pullUpEl.style.display="none"
 					$.toastTip({
 						img:'images/4-3gxfkui.png',
 						imgW:'1.56rem',
@@ -224,6 +224,8 @@
 				}
 			}
 		}
+
+		pullUpEl.style.display="none";
 	}
 
 
