@@ -405,8 +405,8 @@ footer .bottom0 span p{font-size:.3rem;margin-top:.12rem;}
 #arrow{
 	position: absolute;
 	top:0;
-	right: 0;
 	width:40%;
+	right: 20px;
 }
 .share_box {position: absolute; left:0; bottom: 0; background: #fff;}
 .share_box .title{height:40px; line-height: 40px; font-size:.32rem; position: relative; }

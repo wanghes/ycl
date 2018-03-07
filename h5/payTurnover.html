@@ -81,9 +81,9 @@
 		console.log(pullDownEl)
 		pullDownOffset = pullDownEl.offsetHeight;
 		pullUpEl = document.getElementById('pullUp');	
-		pullUpOffset = 10;
+		//pullUpOffset = 10;
 
-		//pullUpOffset = pullUpEl.offsetHeight;
+		pullUpOffset = pullUpEl.offsetHeight;
 		myScroll = new iScroll('first', {
 			useTransition: true,
 			topOffset: pullDownOffset,
@@ -226,6 +226,7 @@
 		}
 
 		pullUpEl.style.display="none";
+		myScroll.refresh();
 	}
 
 
