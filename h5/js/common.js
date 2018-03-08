@@ -203,7 +203,6 @@ function isTel(tel){
  			});
         },
         developSecondSales:function(bol){ //发展二级分销
-        	alert(bol);
         	loadScript('http://res.wx.qq.com/open/js/jweixin-1.0.0.js',function(){
         		$.ajax({
 			        url: 'http://yichuanglian.huimor.com/index/development',
