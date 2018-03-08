@@ -1,0 +1,21 @@
+CACHE MANIFEST
+#v1.0.0.0
+#需要缓存的文件
+js/canvas2image.js
+js/html2canvas.min.js
+js/iscroll.js
+js/jquery.1.11.3.min.js
+js/jweixin-1.2.0.js.js
+js/store.js
+js/t3.js
+js/myAlert.min.js
+imges/*
+css/*
+
+
+#不需要缓存的页面
+NETWORK:
+*
+
+#无法访问页面
+FALLBACK

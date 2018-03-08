@@ -101,17 +101,24 @@ function isTel(tel){
             }, 300)
         },
 
-        shareAction:function(){
+        shareAction:function(bol){
         	var link = window.location.href;
 			var protocol = window.location.protocol;
 			var host = window.location.host;
+			var url = "";
 			var uid = localStorage.getItem("uid");
         	wx.ready(function(){
-
+        		//如果bol存在 或者为 true name跳转到首页面
+        		if (bol) {
+        			url = protocol+'//'+host+'/h5/index.html';
+        		} else {
+        			url = protocol+'//'+host+'/h5/share.html?uid='+uid;
+        		}
+        		
         		//分享朋友圈
 		        wx.onMenuShareTimeline({
-		            title: '易创链-链接IT商务线索',
-		            link: protocol+'//'+host+'/h5/share.html?uid='+uid,
+		            title: '易创链-成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成',
+		            link: url,
 		            imgUrl: protocol+'//'+host+'/h5/images/logo.png',// 自定义图标
 		            success: function (res) {
 		                $.toastTip({
@@ -128,8 +135,8 @@ function isTel(tel){
 		        });
  				wx.onMenuShareAppMessage({
 		            title: '易创链', // 分享标题
-		            desc: '链接IT商务线索', // 分享描述
-		            link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+		            desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
+		            link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 		            imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 自定义图标
 		            type: 'link', // 分享类型,music、video或link，不填默认为link
 		            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -146,8 +153,8 @@ function isTel(tel){
 		        });
 		        wx.onMenuShareQQ({
 					title: '易创链', // 分享标题
-					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接
+					desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
+					link: url, // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -162,8 +169,8 @@ function isTel(tel){
 				});
 				wx.onMenuShareQZone({
 					title: '易创链', // 分享标题
-					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接
+					desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
+					link: url, // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -178,8 +185,8 @@ function isTel(tel){
 				});
 				wx.onMenuShareWeibo({
 					title: '易创链', // 分享标题
-					desc: '链接IT商务线索', // 分享描述
-					link: protocol+'//'+host+'/h5/share.html?uid='+uid, // 分享链接
+					desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
+					link: url, // 分享链接
 					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
 					success: function () {
 						$.toastTip({
@@ -195,7 +202,8 @@ function isTel(tel){
 				});
  			});
         },
-        developSecondSales:function(){ //发展二级分销
+        developSecondSales:function(bol){ //发展二级分销
+        	alert(bol);
         	loadScript('http://res.wx.qq.com/open/js/jweixin-1.0.0.js',function(){
         		$.ajax({
 			        url: 'http://yichuanglian.huimor.com/index/development',
@@ -230,7 +238,7 @@ function isTel(tel){
 						    	'onMenuShareQZone'
 					    	] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 						});
-			    		$.shareAction();
+			    		$.shareAction(bol);
 			        }
 			    });
         	})
