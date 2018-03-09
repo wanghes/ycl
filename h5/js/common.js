@@ -114,12 +114,12 @@ function isTel(tel){
         		} else {
         			url = protocol+'//'+host+'/h5/share.html?uid='+uid;
         		}
-        		
+
         		//分享朋友圈
 		        wx.onMenuShareTimeline({
 		            title: '易创链-成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成',
 		            link: url,
-		            imgUrl: protocol+'//'+host+'/h5/images/logo.png',// 自定义图标
+		            imgUrl: protocol+'//'+host+'/h5/images/logo.jpg',// 自定义图标
 		            success: function (res) {
 		                $.toastTip({
 							img:'/h5/images/4-3gxfkui.png',
@@ -137,7 +137,7 @@ function isTel(tel){
 		            title: '易创链', // 分享标题
 		            desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
 		            link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-		            imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 自定义图标
+		            imgUrl: protocol+'//'+host+'/h5/images/logo.jpg', // 自定义图标
 		            type: 'link', // 分享类型,music、video或link，不填默认为link
 		            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
 		            success: function () {
@@ -155,7 +155,7 @@ function isTel(tel){
 					title: '易创链', // 分享标题
 					desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
 					link: url, // 分享链接
-					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
+					imgUrl: protocol+'//'+host+'/h5/images/logo.jpg', // 分享图标
 					success: function () {
 						$.toastTip({
 							img:'/h5/images/4-3gxfkui.png',
@@ -171,7 +171,7 @@ function isTel(tel){
 					title: '易创链', // 分享标题
 					desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
 					link: url, // 分享链接
-					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
+					imgUrl: protocol+'//'+host+'/h5/images/logo.jpg', // 分享图标
 					success: function () {
 						$.toastTip({
 							img:'/h5/images/4-3gxfkui.png',
@@ -187,7 +187,7 @@ function isTel(tel){
 					title: '易创链', // 分享标题
 					desc: '成为易创商务合伙人，分享IT开发项目线索，获得10%~30%提成', // 分享描述
 					link: url, // 分享链接
-					imgUrl: protocol+'//'+host+'/h5/images/logo.png', // 分享图标
+					imgUrl: protocol+'//'+host+'/h5/images/logo.jpg', // 分享图标
 					success: function () {
 						$.toastTip({
 							img:'/h5/images/4-3gxfkui.png',
@@ -221,7 +221,9 @@ function isTel(tel){
 			        	var signature  = data.data.signature;
 			        	var uid = data.data.userid;
 
-	        			localStorage.setItem("uid",uid);
+			        	if(uid!="undefined"){
+                            localStorage.setItem("uid",uid);
+						}
 
 			    		wx.config({
 						    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -364,7 +366,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}
