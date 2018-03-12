@@ -23,20 +23,12 @@
 		</div>
 		<script type="text/javascript">
 			$.developSecondSales(true);
-            function GetQueryString(name) {
+             function GetQueryString(name) {
                 var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
                 var r = window.location.search.substr(1).match(reg);
                 if (r!=null) return (r[2]); return null;
             }
-            var isAuth = localStorage.getItem('isauth');
-            if(!isAuth){
-                if(!GetQueryString('isauth')){
-                    var href = window.location.href
-                    location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
-                }else{
-                    localStorage.setItem('isauth',1);
-                }
-            }
+
 			function sendOauth(){
 				$.ajax({
 			        url: 'http://yichuanglian.huimor.com/index/getOpenID',
@@ -55,7 +47,7 @@
 									withCredentials:true
 								},
 						        success:function(data){
-						        	//window.location.href='index.html'
+						        	window.location.href='index.html'
 						        }
 							});
 						}
@@ -138,6 +130,16 @@
 					success:function(data){
 			        	if(!!data.data){
 			        		location.href="index.html"
+			        	}else{
+										var isAuth = localStorage.getItem('isauth');
+				            if(!isAuth){
+				                if(!GetQueryString('isauth')){
+				                    var href = window.location.href
+				                    location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+				                }else{
+				                    localStorage.setItem('isauth',1);
+				                }
+				            }
 			        	}
 			        }
 				});

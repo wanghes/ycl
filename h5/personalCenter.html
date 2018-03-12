@@ -19,9 +19,9 @@
 				<i></i>
 			</a>
 		</div>
-		
+
 		<div class="bg_block"></div>
-		
+
 		<div class="personalList">
 			<div><a href="myCode.html"><img src="images/3-0ewma.png" alt="" /><span>我的二维码</span><i></i></a></div>
 			<div><a href="myRelease.html"><img src="images/3-0xsuo.png" alt="" /><span>我发布的线索</span><i></i></a></div>
@@ -29,13 +29,13 @@
 			<div><a href="myAccount.html"><img src="images/3-0zhu.png" alt="" /><span>我的账户</span><i></i></a></div>
 			<div><a href="systemMessages.html"><img src="images/3-0xtxxi.png" alt="" /><span>系统消息</span><i></i></a></div>
 		</div>
-		
+
 		<div class="bg_block"></div>
-		
+
 		<div class="personalList">
 			<div><a href="setting.html"><img src="images/3-0szhi.png" alt="" /><span>设置</span><i></i></a></div>
 		</div>
-		
+
 		<!--底部-->
 		<footer>
 			<div class="bottom">
@@ -46,8 +46,14 @@
 					</a>
 				</div>
 				<div>
+					<a href="myCode.html">
+						<img src="images/1-1fzxji@2x.png" alt="" style="width:0.5rem;" />
+						<p>发展下级</p>
+					</a>
+				</div>
+				<div>
 					<a href="cluesRelease.html">
-						<img src="images/1-1xauo1.png" alt="" />
+						<img src="images/1-1xauo1.png" alt=""  />
 						<p>发布线索</p>
 					</a>
 				</div>
@@ -67,9 +73,9 @@
 	        url: 'http://yichuanglian.huimor.com/index/personalCenterMsg',
 	        type:'get',
 	        dataType:'json',
-	        xhrFields:{  
-				withCredentials:true  
-			},  
+	        xhrFields:{
+				withCredentials:true
+			},
 	        success:function(data){
 	        	if(isLogin(data)){
 	        		var data=data.data[0];
