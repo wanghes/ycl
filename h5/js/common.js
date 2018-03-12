@@ -107,7 +107,7 @@ function isTel(tel){
 			var protocol = window.location.protocol;
 			var host = window.location.host;
 			var url = "";
-			var uid = localStorage.getItem("uid");
+			var uid = localStorage.getItem("uid") || GetQueryString('uid');
         	wx.ready(function(){
         		//如果bol存在 或者为 true name跳转到首页面
         		if (bol) {
@@ -367,7 +367,7 @@ $(function(){
 	if(!isAuth){
 		if(!GetQueryString('isauth')){
 			var href = window.location.href
-			location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
+			//location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
 		}else{
 			localStorage.setItem('isauth',1);
 		}
