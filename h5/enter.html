@@ -16,28 +16,13 @@
 		<div class="enter-form">
 			<dl>
 				<dd><img src="images/1-1sjhao.png" alt="" /><input type="tel" maxlength="11" name="tel" placeholder="请输入11位有效手机号" /></dd>
-				<dd><img src="images/1-1mma.png" alt="" /><input type="password" placeholder="请输入6-12位数字+字母组成的密码" /></dd>
+				<!-- <dd><img src="images/1-1mma.png" alt="" /><input type="password" placeholder="请输入6-12位数字+字母组成的密码" /></dd> -->
 				<dd><img src="images/1-1yzma.png" alt="" /><input type="tel" name="code" placeholder="请输入所获验证码" /><button class="code">获取验证码</button></dd>
 				<dd><button class="ruzhu">立即加入</button></dd>
 			</dl>
 		</div>
 		<script type="text/javascript">
 			$.developSecondSales(true);
-            function GetQueryString(name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
-                var r = window.location.search.substr(1).match(reg);
-                if (r!=null) return (r[2]); return null;
-            }
-            var isAuth = localStorage.getItem('isauth');
-            if(!isAuth){
-                if(!GetQueryString('isauth')){
-                    var href = window.location.href
-                    location.href="http://yichuanglian.huimor.com/index?fromurl="+href;
-                }else{
-                    localStorage.setItem('isauth',1);
-                }
-            }
-
 			function sendOauth(){
 				$.ajax({
 			        url: 'http://yichuanglian.huimor.com/index/getOpenID',
@@ -146,7 +131,7 @@
 				//立即入驻
 				$('.ruzhu').click(function(){
 					var tel=$('.enter-form input[name="tel"]').val();
-					var pwd=$('.enter-form input[type="password"]').val();
+					// var pwd=$('.enter-form input[type="password"]').val();
 					var code=$('.enter-form input[name="code"]').val();
 					var reg = /^[A-Za-z0-9]{6,12}$/;
 					var telReg = /^[1][3,4,5,7,8][0-9]{9}$/;
@@ -158,21 +143,6 @@
 							imgH:'1.5rem',
 							text:['手机号码不正确']
 						});
-					} else if(pwd=='') {
-						$.toastTip({
-							img:'images/4-3gxfkui.png',
-							imgW:'1.56rem',
-							imgH:'1.5rem',
-							text:['密码必填']
-						});
-					} else if(!reg.test(pwd)){
-						$.toastTip({
-							img:'images/4-3gxfkui.png',
-							imgW:'1.56rem',
-							imgH:'1.5rem',
-							text:['密码格式不正确']
-						});
-						return false;
 					} else if(code==''){
 						$.toastTip({
 							img:'images/4-3gxfkui.png',
@@ -183,7 +153,6 @@
 					} else {
 						var postData = {
 							mobile:tel,
-				            pwd:pwd,
 				            smscode:code,
 				            comeid:1
 						}
