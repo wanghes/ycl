@@ -44,6 +44,16 @@
 			<p>很抱歉，您还没有发布任何线索信息</p>
 			<a href="cluesRelease.html">立即发布</a>
 		</div>
+		<div class="nothing nothing_success" style="display: none;">
+			<img src="images/3-10myxxi.png" alt="" />
+			<p>您暂时没有对接成功的线索信息</p>
+			<a href="cluesRelease.html">立即发布</a>
+		</div>
+		<div class="nothing nothing_fail" style="display: none;">
+			<img src="images/3-10myxxi.png" alt="" />
+			<p>您暂时没有对接失败的线索信息</p>
+			<a href="cluesRelease.html">立即发布</a>
+		</div>
 		<script type="text/javascript">
 			$.developSecondSales(true);
 			var myScroll,
@@ -146,9 +156,15 @@
 
 			function joinHtml(total,data,status,up){
 				var thisList = $('#thelistRelease');
-				console.log(total)
 				if(!data.length && !total){
-					$('.nothing').show();
+					if (indexVal==0) {
+						$('.nothing').show();
+					} else if(indexVal==1) {
+						$('.nothing_success').show();
+					} else {
+						$('.nothing_fail').show();
+					}
+					
 					return;
 				}
 				var html ='';
